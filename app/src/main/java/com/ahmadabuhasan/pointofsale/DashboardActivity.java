@@ -91,7 +91,7 @@ public class DashboardActivity extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.local_english:
                 setNewLocale(this, LocaleManager.ENGLISH);
                 Toast.makeText(getApplicationContext(), "English", Toast.LENGTH_SHORT).show();
@@ -100,6 +100,17 @@ public class DashboardActivity extends BaseActivity {
                 setNewLocale(this, LocaleManager.INDONESIAN);
                 Toast.makeText(getApplicationContext(), "Indonesian", Toast.LENGTH_SHORT).show();
                 return true;
+        }*/
+
+        int id = item.getItemId();
+        if (id == R.id.local_english) {
+            setNewLocale(this, LocaleManager.ENGLISH);
+            Toast.makeText(getApplicationContext(), "English", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.local_indonesian) {
+            setNewLocale(this, LocaleManager.INDONESIAN);
+            Toast.makeText(getApplicationContext(), "Indonesian", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -100,7 +100,7 @@ public class SalesReportActivity extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
@@ -121,7 +121,30 @@ public class SalesReportActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }*/
+
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.menu_all_sales) {
+            getReport("all");
+            return true;
+        } else if (id == R.id.menu_daily) {
+            getReport(Constant.DAILY);
+            return true;
+        } else if (id == R.id.menu_monthly) {
+            getReport(Constant.MONTHLY);
+            return true;
+        } else if (id == R.id.menu_yearly) {
+            getReport(Constant.YEARLY);
+            return true;
+        } else if (id == R.id.menu_export_data) {
+            folderChooser();
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void getReport(String type) {
