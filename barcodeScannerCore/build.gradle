@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace "me.dm7.barcodescanner.core"
+    compileSdkVersion 28
+    defaultConfig {
+
+    }
+}
+
+ext {
+    isLibrary = true
+    pomPackaging = "aar"
+    pomArtifactId = "core"
+    pomName = "Barcode Scanner View"
+    pomDescription = 'An android library project which contains the core barcode scanner view'
+}
+
+dependencies {
+    //implementation libraries.support_v4
+    implementation 'androidx.core:core-ktx:1.13.1'
+}
