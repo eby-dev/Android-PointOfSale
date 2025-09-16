@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat"/>
+
+
+    <style name="MonthPickerDialogStyle" >
+        <!-- Customize month picker theme here. -->
+       <!-- <item name="monthBgColor">#FFFFFF</item>
+        <item name="monthBgSelectedColor">#FF4081</item>
+        <item name="monthFontColorSelected">#ffffff</item>
+        <item name="monthFontColorNormal">#000000</item>
+        <item name="monthFontColorDisabled">#33000000</item>
+
+        <item name="headerBgColor">#FF4081</item>
+        <item name="headerFontColorSelected">#ffffff</item>
+        <item name="headerFontColorNormal">#85ffffff</item>
+        <item name="headerTitleColor">#ffffff</item>-->
+    </style>
+
+
+</resources>
