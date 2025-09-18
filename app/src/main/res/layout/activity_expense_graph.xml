@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".report.ExpenseGraphActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.report.ExpenseGraphActivity">
 
     <LinearLayout
         android:id="@+id/layout_year"

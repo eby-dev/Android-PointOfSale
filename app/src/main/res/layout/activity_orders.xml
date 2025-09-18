@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".orders.OrdersActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.orders.OrdersActivity">
 
     <EditText
         android:id="@+id/et_search_order"

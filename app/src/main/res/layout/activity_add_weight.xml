@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".settings.weight.AddWeightActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.settings.weight.AddWeightActivity">
 
     <ScrollView
         android:layout_width="match_parent"

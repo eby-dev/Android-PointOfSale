@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="16dp"
-    tools:context=".settings.weight.WeightActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.settings.weight.WeightActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

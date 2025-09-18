@@ -16,13 +16,13 @@ android {
         }
     }
 
-    namespace "com.ahmadabuhasan.pointofsale"
+    namespace "com.ahmadabuhasan.pointofsales"
     buildToolsVersion "34.0.0"
     compileSdk 35
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.ahmadabuhasan.pointofsale"
+        applicationId "com.ahmadabuhasan.pointofsales"
         minSdk 21
         targetSdk 35
         versionCode 1

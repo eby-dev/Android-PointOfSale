@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pdf_report.ViewPDFActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.pdf_report.ViewPDFActivity">
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"

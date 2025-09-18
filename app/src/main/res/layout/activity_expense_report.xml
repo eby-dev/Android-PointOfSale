@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/anti_FlashWhite"
     android:orientation="vertical"
-    tools:context=".report.ExpenseReportActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.report.ExpenseReportActivity">
 
     <ScrollView
         android:layout_width="match_parent"

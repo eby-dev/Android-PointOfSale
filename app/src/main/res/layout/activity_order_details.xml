@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/anti_FlashWhite"
     android:orientation="vertical"
-    tools:context=".orders.OrderDetailsActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.orders.OrderDetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"

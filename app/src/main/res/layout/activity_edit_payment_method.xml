@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".settings.payment_method.EditPaymentMethodActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.settings.payment_method.EditPaymentMethodActivity">
 
     <ScrollView
         android:layout_width="match_parent"

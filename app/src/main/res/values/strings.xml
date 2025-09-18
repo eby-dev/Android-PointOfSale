@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Point Of Sale</string>
     <string name="admob_application_id" translatable="false">ca-app-pub-8638037215789792~9492303485</string>
-    <string name="admob_banner_ads_id" translatable="false">ca-app-pub-8638037215789792/9766802475</string>
-    <string name="admob_interstitial_ads_id" translatable="false">ca-app-pub-8638037215789792/7238627897</string>
+    <string name="admob_banner_ads_id" translatable="false">ca-app-pub-8638037215789792/6598632431</string>
+    <string name="admob_interstitial_ads_id" translatable="false">ca-app-pub-8638037215789792/6971550417</string>
 
     <string name="welcome">Welcome to App \nPoint Of Sale</string>
     <string name="text_english">English</string>

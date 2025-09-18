@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".settings.order_type.AddDeliveryActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.settings.order_type.AddDeliveryActivity">
 
     <TextView
         android:layout_width="match_parent"

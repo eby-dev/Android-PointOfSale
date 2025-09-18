@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/anti_FlashWhite"
     android:orientation="vertical"
-    tools:context=".pos.PosActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.pos.PosActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

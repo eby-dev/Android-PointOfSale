@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".orders.DeviceListActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.orders.DeviceListActivity">
 
     <TextView
         android:id="@+id/title_paired_devices"

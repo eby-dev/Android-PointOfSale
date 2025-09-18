@@ -2,30 +2,17 @@
   "project_info": {
     "project_number": "793609262266",
     "project_id": "point-of-sale-pos",
-    "storage_bucket": "point-of-sale-pos.appspot.com"
+    "storage_bucket": "point-of-sale-pos.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:793609262266:android:ac3495d43bc3140bcd9e83",
+        "mobilesdk_app_id": "1:793609262266:android:9ad0f0e00230b491cd9e83",
         "android_client_info": {
-          "package_name": "com.ahmadabuhasan.pointofsale"
+          "package_name": "com.ahmadabuhasan.pointofsales"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "793609262266-ieht479r51itf899mt8u76jem0jvbivi.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ahmadabuhasan.pointofsale",
-            "certificate_hash": "e41d47321f0017ff4efde520f35c68b2bc4eda11"
-          }
-        },
-        {
-          "client_id": "793609262266-93l1abb5b28h49juatpdcgfr1vnkpake.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyDmZ5Z0Xwn-TUQ2Hs5u-JeYkjrgbei-s1M"
@@ -33,87 +20,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "793609262266-93l1abb5b28h49juatpdcgfr1vnkpake.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      },
-      "admob_app_id": "ca-app-pub-8638037215789792~9492303485"
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:793609262266:android:746ddb1ce6d69c21cd9e83",
-        "android_client_info": {
-          "package_name": "com.ahmadabuhasan.pointofsale.free"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "793609262266-n2smhouec6h9qb7vmcppihd5vd4b43oe.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ahmadabuhasan.pointofsale.free",
-            "certificate_hash": "e41d47321f0017ff4efde520f35c68b2bc4eda11"
-          }
-        },
-        {
-          "client_id": "793609262266-93l1abb5b28h49juatpdcgfr1vnkpake.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDmZ5Z0Xwn-TUQ2Hs5u-JeYkjrgbei-s1M"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "793609262266-93l1abb5b28h49juatpdcgfr1vnkpake.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:793609262266:android:c06ec39f054dff3acd9e83",
-        "android_client_info": {
-          "package_name": "com.ahmadabuhasan.pointofsale.pro"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "793609262266-r4lpfvd41kufkh5pudc21p0vnd106r80.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ahmadabuhasan.pointofsale.pro",
-            "certificate_hash": "e41d47321f0017ff4efde520f35c68b2bc4eda11"
-          }
-        },
-        {
-          "client_id": "793609262266-93l1abb5b28h49juatpdcgfr1vnkpake.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDmZ5Z0Xwn-TUQ2Hs5u-JeYkjrgbei-s1M"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "793609262266-93l1abb5b28h49juatpdcgfr1vnkpake.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

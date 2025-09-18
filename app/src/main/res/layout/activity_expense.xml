@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="15dp"
-    tools:context=".expense.ExpenseActivity">
+    tools:context="com.ahmadabuhasan.pointofsales.expense.ExpenseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
