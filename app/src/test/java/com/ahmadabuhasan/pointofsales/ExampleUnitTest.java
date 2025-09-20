@@ -1,4 +1,4 @@
-package com.ahmadabuhasan.pointofsale;
+package com.ahmadabuhasan.pointofsales;
 
 import org.junit.Test;
 
