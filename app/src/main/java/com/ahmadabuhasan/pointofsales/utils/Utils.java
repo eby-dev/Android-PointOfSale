@@ -1,13 +1,18 @@
 package com.ahmadabuhasan.pointofsales.utils;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.ahmadabuhasan.pointofsales.R;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +23,31 @@ import java.util.List;
 
 public class Utils {
 
+    private InterstitialAd mInterstitialAd;
+
     public void interstitialAdsShow(Context context) {
-        final InterstitialAd interstitialAd = new InterstitialAd(context);
-        interstitialAd.setAdUnitId(context.getString(R.string.admob_interstitial_ads_id));
-        interstitialAd.loadAd(new AdRequest.Builder().build());
-        interstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                if (interstitialAd.isLoaded()) {
-                    interstitialAd.show();
+        @SuppressLint("VisibleForTests") AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(
+                context,
+                context.getString(R.string.admob_interstitial_ads_id),
+                adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        mInterstitialAd = interstitialAd;
+
+                        mInterstitialAd.show((Activity) context);
+                        mInterstitialAd = null;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        mInterstitialAd = null;
+                        Log.d("Ads", "Interstitial failed to load: " + loadAdError.getMessage());
+                    }
                 }
-            }
-        });
+        );
     }
 
     // UNICODE 0x23 = #
