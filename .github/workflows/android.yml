@@ -1,0 +1,300 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - development
+      - master
+      - internal-testing/**
+  workflow_dispatch:
+
+env:
+  KEYSTORE_FILE: PointOfSale.jks
+  GOOGLE_PLAY_JSON: point-of-sale-pos-f219d5611b9d.json
+  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+  KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+jobs:
+  setup:
+    name: Setup Environment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Ruby & Dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Cache Ruby Gems
+        uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - name: Install Ruby Dependencies
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Decode Keystore File
+        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ${{ env.KEYSTORE_FILE }}
+
+      - name: Create Google Service Account JSON
+        run: echo "${{ secrets.GOOGLE_PLAY_JSON }}" | base64 -d > app/${{ env.GOOGLE_PLAY_JSON }}
+
+      - name: Debug directory
+        run: |
+          ls -l
+          echo ""
+          ls -l app/
+
+      - name: Upload Secrets
+        uses: actions/upload-artifact@v4
+        with:
+          name: secrets
+          path: |
+            ${{ env.KEYSTORE_FILE }}
+            app/${{ env.GOOGLE_PLAY_JSON }}
+
+  build:
+    name: Build AAB
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Ruby & Dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - name: Install Ruby Dependencies
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Download Secrets
+        uses: actions/download-artifact@v4
+        with:
+          name: secrets
+
+      - name: Debug directory
+        run: |
+          ls -l
+          echo ""
+          ls -l app/
+
+      - name: Write local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          echo "KEYSTORE_FILE=${{ github.workspace }}/${{ env.KEYSTORE_FILE }}" >> local.properties
+          echo "KEYSTORE_PASSWORD=${{ env.KEYSTORE_PASSWORD }}" >> local.properties
+          echo "KEY_ALIAS=${{ env.KEY_ALIAS }}" >> local.properties
+          echo "KEY_PASSWORD=${{ env.KEY_PASSWORD }}" >> local.properties
+
+      - name: Grant gradlew permission
+        run: chmod +x ./gradlew
+
+      - name: Build AAB via Fastlane
+        run: bundle exec fastlane buildBundle
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release/*.aab
+
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+          bundle update fastlane
+
+      - name: Grant gradlew permission
+        run: chmod +x ./gradlew
+
+      - run: bundle exec fastlane test
+
+  code-analysis:
+    name: Lint & Check
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant gradlew permission
+        run: chmod +x ./gradlew
+
+      - run: ./gradlew clean check
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lint-reports
+          path: |
+            app/build/reports/**/*.html
+            app/build/intermediates/lint_intermediate_text_report/debug/*.txt
+            app/build/reports/lint-baseline.xml
+
+  deploy-release:
+    name: Deploy to Play Store (Production)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Download Secrets
+        uses: actions/download-artifact@v4
+        with:
+          name: secrets
+
+      - name: Download built AAB
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release
+
+      - name: Debug directory
+        run: |
+          ls -l
+          echo ""
+          ls -l app/
+
+      - run: bundle exec fastlane deployRelease
+
+  deploy-beta:
+    name: Deploy to Play Store (Beta)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/development'
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Download built AAB
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release
+
+      - run: bundle exec fastlane deployBeta
+
+  deploy-firebase-internal:
+    name: Distribute via Firebase (Internal)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/internal-testing/')
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Download built AAB
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release
+
+      - run: bundle exec fastlane deployFirebase --verbose
