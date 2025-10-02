@@ -56,7 +56,7 @@ jobs:
           bundle install
 
       - name: Decode Keystore File
-        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > ${{ env.KEYSTORE_FILE }}
+        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/${{ env.KEYSTORE_FILE }}
 
       - name: Create Google Service Account JSON
         run: echo "${{ secrets.GOOGLE_PLAY_JSON }}" | base64 -d > app/${{ env.GOOGLE_PLAY_JSON }}
