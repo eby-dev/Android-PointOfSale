@@ -118,7 +118,7 @@ jobs:
           echo ""
           ls -l app/
 
-      - name: Write keystore.properties
+      - name: Write local.properties
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "KEYSTORE_FILE=${{ github.workspace }}/${{ env.KEYSTORE_FILE }}" >> local.properties
