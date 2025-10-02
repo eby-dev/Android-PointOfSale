@@ -2,17 +2,24 @@ plugins {
     id 'com.android.application'
 }
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties.setProperty("KEYSTORE_FILE", System.getenv("KEYSTORE_FILE"))
+    keystoreProperties.setProperty("KEYSTORE_PASSWORD", System.getenv("KEYSTORE_PASSWORD"))
+    keystoreProperties.setProperty("KEY_ALIAS", System.getenv("KEY_ALIAS"))
+    keystoreProperties.setProperty("KEY_PASSWORD", System.getenv("KEY_PASSWORD"))
+}
 
 android {
     signingConfigs {
         config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            storeFile file(keystoreProperties['KEYSTORE_FILE'])
+            storePassword keystoreProperties['KEYSTORE_PASSWORD']
+            keyAlias keystoreProperties['KEY_ALIAS']
+            keyPassword keystoreProperties['KEY_PASSWORD']
         }
     }
 
