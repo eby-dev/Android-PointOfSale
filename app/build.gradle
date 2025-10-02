@@ -2,24 +2,24 @@ plugins {
     id 'com.android.application'
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
 } else {
-    keystoreProperties.setProperty("KEYSTORE_FILE", System.getenv("KEYSTORE_FILE"))
-    keystoreProperties.setProperty("KEYSTORE_PASSWORD", System.getenv("KEYSTORE_PASSWORD"))
-    keystoreProperties.setProperty("KEY_ALIAS", System.getenv("KEY_ALIAS"))
-    keystoreProperties.setProperty("KEY_PASSWORD", System.getenv("KEY_PASSWORD"))
+    localProperties.setProperty("KEYSTORE_FILE", System.getenv("KEYSTORE_FILE"))
+    localProperties.setProperty("KEYSTORE_PASSWORD", System.getenv("KEYSTORE_PASSWORD"))
+    localProperties.setProperty("KEY_ALIAS", System.getenv("KEY_ALIAS"))
+    localProperties.setProperty("KEY_PASSWORD", System.getenv("KEY_PASSWORD"))
 }
 
 android {
     signingConfigs {
-        config {
-            storeFile file(keystoreProperties['KEYSTORE_FILE'])
-            storePassword keystoreProperties['KEYSTORE_PASSWORD']
-            keyAlias keystoreProperties['KEY_ALIAS']
-            keyPassword keystoreProperties['KEY_PASSWORD']
+        release {
+            storeFile file(localProperties.getProperty("KEYSTORE_FILE"))
+            storePassword localProperties.getProperty("KEYSTORE_PASSWORD")
+            keyAlias localProperties.getProperty("KEY_ALIAS")
+            keyPassword localProperties.getProperty("KEY_PASSWORD")
         }
     }
 
@@ -43,7 +43,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             shrinkResources true
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.release
         }
         debug {
             debuggable true
