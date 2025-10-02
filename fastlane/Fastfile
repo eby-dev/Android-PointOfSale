@@ -1,0 +1,122 @@
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: ":app:test")
+  end
+
+  desc "Build Debug App"
+  lane :buildDebug do
+    gradle(
+      task: ":app:assemble",
+      build_type: "Debug"
+    )
+  end
+
+  desc "Build Release App"
+  lane :buildRelease do
+    gradle(
+      task: "clean :app:assemble",
+      build_type: "Release"
+    )
+  end
+
+  desc "Build Bundle Release App"
+  lane :buildBundle do
+    gradle(
+      task: "clean :app:bundle",
+      build_type: "Release"
+    )
+  end
+
+  lane :increment_version do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: ENV['FIREBASE_APP_ID']
+    )
+    increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+  end
+
+    desc "Deploy latest version Beta Test to Google Play"
+    lane :deployBeta do
+      upload_to_play_store(
+            track: 'beta',
+            aab: "app/build/outputs/bundle/release/app-release.aab"
+          )
+    end
+
+    desc "Deploy latest version to Google Play"
+    lane :deployRelease do
+      upload_to_play_store(
+           track: 'production',
+           aab: "app/build/outputs/bundle/release/app-release.aab",
+           json_key: "app/#{ENV['GOOGLE_PLAY_JSON']}"
+      )
+    end
+
+    desc "Deploy latest version Beta Test to Google Play"
+        lane :deployFirebaseBeta do
+          release_notes = "BETA Release"
+
+          firebase_app_distribution(
+            app: ENV['FIREBASE_APP_ID'],
+            firebase_cli_token: ENV['FIREBASE_TOKEN'],
+            groups: "internal-test",
+            release_notes: release_notes,
+            android_artifact_path: "app/build/outputs/bundle/release/app-release.aab"
+          )
+        end
+
+  desc "Update version name in build.gradle"
+  lane :update_version_name do
+    branch_name = sh("git branch --show-current").strip
+    UI.message("Current branch: #{branch_name}")
+
+    version_name = sh("grep 'versionName' ../app/build.gradle | awk '{print $2}' | tr -d '\"'").strip
+    UI.message("Current version name: #{version_name}")
+
+    new_version_name = "#{version_name}+#{branch_name}"
+    UI.message("New version name: #{new_version_name}")
+
+    # Using sed command correctly for different OS (macOS and Linux)
+    if OS.mac?
+      sh("sed -i '' 's/versionName \".*\"/versionName \"#{new_version_name}\"/' ../app/build.gradle")
+    else
+      sh("sed -i 's/versionName \".*\"/versionName \"#{new_version_name}\"/' ../app/build.gradle")
+    end
+  end
+
+  desc "Generate release notes from commits"
+    lane :generate_release_notes do
+      last_version_commit = sh("git log --grep='^v[0-9]*\.[0-9]*\.[0-9]*' -n 1 --pretty=format:'%H'").strip
+      UI.message("Last version commit: #{last_version_commit}")
+      branch_name = sh("git rev-parse --abbrev-ref HEAD").strip
+
+      if last_version_commit.empty?
+        UI.message("No previous version commit found, using all commit messages.")
+        release_notes = sh("git log --pretty=format:'%s'").strip
+      else
+        release_notes = sh("git log --pretty=format:'%s' #{last_version_commit}..HEAD").strip
+      end
+
+      release_notes_with_branch = "Branch: #{branch_name}\n\n#{release_notes}"
+      UI.message("Release notes:\n#{release_notes_with_branch}")
+      File.write('release_notes.txt', release_notes_with_branch)
+    end
+
+  desc "Deploy a new version to Firebase"
+  lane :deployFirebase do
+    generate_release_notes
+    release_notes = File.read('release_notes.txt')
+
+    firebase_app_distribution(
+      app: ENV['FIREBASE_APP_ID'],
+      firebase_cli_token: ENV['FIREBASE_TOKEN'],
+      groups: "internal-test",
+      release_notes: release_notes,
+      android_artifact_type: "AAB",
+      android_artifact_path: "app/build/outputs/bundle/release/app-release.aab",
+      debug: true
+    )
+  end
+end
