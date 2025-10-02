@@ -32,8 +32,8 @@ dependencies {
 def siteUrl = 'https://github.com/androidmads/SQLite2XL'      // Homepage URL of the library
 def gitUrl = 'https://github.com/androidmads/SQLite2XL.git'   // Git URL
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+/*Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())*/
 
 /*bintray {
     user = properties.getProperty("bintray.user")
