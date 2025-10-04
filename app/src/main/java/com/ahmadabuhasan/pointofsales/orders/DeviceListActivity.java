@@ -1,5 +1,7 @@
 package com.ahmadabuhasan.pointofsales.orders;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,8 +18,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.ahmadabuhasan.pointofsales.R;
 import com.ahmadabuhasan.pointofsales.databinding.ActivityDeviceListBinding;
@@ -34,6 +42,7 @@ import java.util.Set;
  * Activity in the result Intent.
  */
 
+@SuppressLint("MissingPermission")
 public class DeviceListActivity extends BaseActivity {
 
     private ActivityDeviceListBinding binding;
@@ -64,6 +73,19 @@ public class DeviceListActivity extends BaseActivity {
             br.setHomeAsUpIndicator(R.drawable.back);
         }
 
+        if (!bluetoothPermissions()) {
+            Toast.makeText(
+                    this,
+                    R.string.permission_bluetooth_denied,
+                    Toast.LENGTH_LONG
+            ).show();
+            return;
+        }
+
+        initializeBluetoothUI();
+    }
+
+    private void initializeBluetoothUI() {
         // Set result CANCELED in case the user backs out
         setResult(Activity.RESULT_CANCELED);
 
@@ -205,4 +227,44 @@ public class DeviceListActivity extends BaseActivity {
             }
         }
     };
+
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 1001;
+
+    private boolean bluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            boolean hasScanPermission = ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED;
+            boolean hasConnectPermission = ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
+
+            if (!hasScanPermission || !hasConnectPermission) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                Manifest.permission.BLUETOOTH_SCAN,
+                                Manifest.permission.BLUETOOTH_CONNECT
+                        },
+                        REQUEST_BLUETOOTH_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, R.string.permission_bluetooth_granted, Toast.LENGTH_SHORT).show();
+                initializeBluetoothUI();
+            } else {
+                Toast.makeText(
+                        this,
+                        R.string.permission_bluetooth_denied,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        }
+    }
+
 }
