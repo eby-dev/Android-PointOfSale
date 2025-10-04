@@ -271,4 +271,8 @@
     <string name="yes">Ya</string>
     <string name="zero_zero">00</string>
     <string name="zeroDecimal">0,00</string>
+    <string name="alert_please_allow_bluetooth">Silakan izinkan akses Bluetooth di pengaturan aplikasi dan coba lagi.</string>
+    <string name="alert_bluetooth_not_enabled">Izin Bluetooth ditolak. Tidak dapat terhubung ke perangkat.</string>
+    <string name="permission_bluetooth_denied">Izin Bluetooth ditolak. Tidak dapat memindai perangkat.\nSilakan izinkan akses Bluetooth di pengaturan aplikasi dan coba lagi.</string>
+    <string name="permission_bluetooth_granted">Izin Bluetooth diberikan. Anda sekarang dapat memindai perangkat.</string>
 </resources>
