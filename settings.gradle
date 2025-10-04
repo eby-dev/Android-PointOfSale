@@ -1,8 +1,18 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://jitpack.io" }
+    }
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
         jcenter() // Warning: this repository is going to shut down soon
         maven { url "https://jitpack.io" }
     }
@@ -15,10 +25,3 @@ include ':monthAndYearPicker'
 include ':imagePicker'
 include ':zxing'
 include ':barcodeScannerCore'
-
-project(':sqlite2excel').projectDir = new File(rootDir, 'sqlite2excel')
-project(':pdfViewer').projectDir = new File(rootDir, 'pdfViewer')
-project(':monthAndYearPicker').projectDir = new File(rootDir, 'monthAndYearPicker')
-project(':imagePicker').projectDir = new File(rootDir, 'imagePicker')
-project(':zxing').projectDir = new File(rootDir, 'zxing')
-project(':barcodeScannerCore').projectDir = new File(rootDir, 'barcodeScannerCore')
