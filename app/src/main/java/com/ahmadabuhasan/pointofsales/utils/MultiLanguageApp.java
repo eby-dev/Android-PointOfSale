@@ -1,5 +1,7 @@
 package com.ahmadabuhasan.pointofsales.utils;
 
+import static com.ahmadabuhasan.pointofsales.utils.AppConfig.initializeCustomValue;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -19,5 +21,12 @@ public class MultiLanguageApp extends Application {
     public void onConfigurationChanged(Configuration configuration) {
         super.onConfigurationChanged(configuration);
         LocaleManager.setLocale(this);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        initializeCustomValue();
     }
 }
