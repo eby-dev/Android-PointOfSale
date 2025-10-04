@@ -1,0 +1,26 @@
+android {
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release_Release/out/lib'
+                strippedNativeLibsDir 'build/intermediates/stripped_native_libs/release_Release/out/lib'
+            }
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "SERVER_KEY", "\"prod\"")
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/debug_Debug/out/lib'
+                strippedNativeLibsDir 'build/intermediates/stripped_native_libs/debug_Debug/out/lib'
+            }
+            buildConfigField("String", "SERVER_KEY", "\"dev\"")
+        }
+    }
+}
