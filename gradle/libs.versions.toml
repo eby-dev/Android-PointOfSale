@@ -1,0 +1,113 @@
+[versions]
+appcompat = "1.6.1"
+material = "1.9.0"
+constraintlayout = "2.1.4"
+junit = "4.13.2"
+androidxJunit = "1.1.3"
+espresso = "3.4.0"
+
+recyclerview = "1.2.1"
+cardview = "1.0.0"
+
+lottie = "5.0.2"
+
+materialRipple = "1.0.2"
+mpandroidchart = "v3.1.0"
+niftyDialog = "v1.0.3"
+itextpdf = "5.5.10"
+dexter = "6.2.3"
+fileChooser = "v1.2.0-final"
+fileChooserSnapshot = "devel-SNAPSHOT"
+sqliteAssetHelper = "2.0.1"
+pdfium = "1.9.0"
+toasty = "1.5.2"
+zxing = "3.5.3"
+poi = "3.16"
+
+playServicesAds = "21.0.0"
+playServicesAuthApiPhone = "17.0.0"
+playServicesAuth = "18.1.0"
+playServicesDrive = "17.0.0"
+firebaseBom = "30.1.0"
+
+glide = "4.13.0"
+
+workRuntimeKtx = "2.10.2"
+
+# Module :app
+buildTools= "34.0.0"
+compileSdk = "35"
+minSdk = "21"
+targetSdk = "35"
+version-code = "3"
+version-name = "1.0.2"
+
+jvmTarget = "17"
+
+# top level gradle
+gradle = "8.7.3"
+google-services = "4.4.2"
+firebase-crashlytics-gradle = "2.9.2"
+kotlin-gradle-plugin = "1.9.25"
+
+[libraries]
+# testing
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+
+# core ui
+appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+recyclerView = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+
+# ui libs
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+materialRipple = { module = "com.balysv:material-ripple", version.ref = "materialRipple" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
+niftyDialog = { module = "com.github.sd6352051:NiftyDialogEffects", version.ref = "niftyDialog" }
+toasty = { module = "com.github.GrenderG:Toasty", version.ref = "toasty" }
+
+# pdf & doc
+itextpdf = { module = "com.itextpdf:itextpdf", version.ref = "itextpdf" }
+pdfium = { module = "com.github.barteksc:pdfium-android", version.ref = "pdfium" }
+poi = { module = "org.apache.poi:poi", version.ref = "poi" }
+
+# permissions
+dexter = { module = "com.karumi:dexter", version.ref = "dexter" }
+
+# file
+fileChooser = { module = "com.github.hedzr:android-file-chooser", version.ref = "fileChooser" }
+fileChooserSnapshot = { module = "com.github.hedzr:android-file-chooser", version.ref = "fileChooserSnapshot" }
+sqliteassethelper = { module = "com.readystatesoftware.sqliteasset:sqliteassethelper", version.ref = "sqliteAssetHelper" }
+
+# barcode & zxing
+zxing = { module = "com.google.zxing:core", version.ref = "zxing" }
+
+# play services
+playServicesAds = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+playServicesAuthApiPhone = { module = "com.google.android.gms:play-services-auth-api-phone", version.ref = "playServicesAuthApiPhone" }
+playServicesAuth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+playServicesDrive = { module = "com.google.android.gms:play-services-drive", version.ref = "playServicesDrive" }
+
+# firebase
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+
+# glide
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+
+# workmanager
+workRuntimeKtx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+
+# Top Level Gradle
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+
+[plugins]
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-gradle-plugin" }
