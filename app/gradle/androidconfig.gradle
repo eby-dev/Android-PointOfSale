@@ -1,0 +1,50 @@
+def collectKeysFromLocalProperties() {
+    def localProperties = new Properties()
+    def localPropertiesFile = rootProject.file('local.properties')
+    def flags = []
+
+    if (localPropertiesFile.exists()) {
+        localProperties.load(new FileInputStream(localPropertiesFile))
+
+        localProperties.each { key, value ->
+            if (!key.contains('.')) {
+                flags.add("-D${key}=${value}")
+            }
+        }
+    }
+
+    return flags
+}
+
+android {
+    ndkVersion "28.2.13676358"
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.ahmadabuhasan.pointofsales"
+        minSdkVersion libs.versions.minSdk.get().toInteger()
+        targetSdkVersion libs.versions.targetSdk.get().toInteger()
+        versionCode libs.versions.version.code.get().toInteger()
+        versionName libs.versions.version.name.get()
+
+        multiDexEnabled true
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        externalNativeBuild{
+            cmake {
+                cppFlags(collectKeysFromLocalProperties().join(" "))
+            }
+        }
+    }
+}
