@@ -17,6 +17,7 @@ local.properties
 # Keystore files
 *.jks
 /keystore.properties
+/secret.properties
 
 # GOOGLE_PLAY_JSON
 /app/point-of-sale-pos-f219d5611b9d.json
