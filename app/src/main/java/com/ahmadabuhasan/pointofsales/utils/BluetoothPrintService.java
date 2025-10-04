@@ -1,13 +1,19 @@
 package com.ahmadabuhasan.pointofsales.utils;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 import com.ahmadabuhasan.pointofsales.R;
 
@@ -16,6 +22,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.UUID;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * This class does all the work for setting up and managing Bluetooth connections with printers.
@@ -42,6 +50,8 @@ public class BluetoothPrintService {
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
+    private final Context mContext;
+
 
     /**
      * Constructor. Prepares a new Bluetooth session.
@@ -53,6 +63,7 @@ public class BluetoothPrintService {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mHandler = handler;
+        mContext = context;
     }
 
     /**
@@ -102,6 +113,14 @@ public class BluetoothPrintService {
     public synchronized void connect(BluetoothDevice device, boolean secure) {
         if (D) Log.d(TAG, "connect to: " + device);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.BLUETOOTH_CONNECT)
+                    != PackageManager.PERMISSION_GRANTED) {
+                Toasty.warning(mContext, R.string.alert_please_allow_bluetooth).show();
+                return;
+            }
+        }
+
         // Cancel any thread attempting to make a connection
         if (mState == STATE_CONNECTING) {
             if (mConnectThread != null) {
@@ -116,10 +135,14 @@ public class BluetoothPrintService {
             mConnectedThread = null;
         }
 
+        try {
         // Start the thread to connect with the given device
         mConnectThread = new ConnectThread(device, secure);
         mConnectThread.start();
         setState(STATE_CONNECTING);
+        } catch (SecurityException e) {
+            Toasty.error(mContext, R.string.alert_bluetooth_not_enabled).show();
+        }
     }
 
     /**
@@ -128,6 +151,7 @@ public class BluetoothPrintService {
      * @param socket The BluetoothSocket on which the connection was made
      * @param device The BluetoothDevice that has been connected
      */
+    @SuppressLint("MissingPermission")
     public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, final String socketType) {
         if (D) Log.d(TAG, "connected, Socket Type:" + socketType);
 
@@ -236,6 +260,7 @@ public class BluetoothPrintService {
      * with a device. It runs straight through; the connection either
      * succeeds or fails.
      */
+    @SuppressLint("MissingPermission")
     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
