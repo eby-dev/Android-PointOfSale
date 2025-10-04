@@ -1,0 +1,22 @@
+def secretsPropertiesFile = rootProject.file("secret.properties")
+def secretProperties = new Properties()
+
+if (secretsPropertiesFile.exists()) {
+    secretProperties.load(new FileInputStream(secretsPropertiesFile))
+} else {
+    secretProperties.setProperty("KEYSTORE_FILE", System.getenv("KEYSTORE_FILE"))
+    secretProperties.setProperty("KEYSTORE_PASSWORD", System.getenv("KEYSTORE_PASSWORD"))
+    secretProperties.setProperty("KEY_ALIAS", System.getenv("KEY_ALIAS"))
+    secretProperties.setProperty("KEY_PASSWORD", System.getenv("KEY_PASSWORD"))
+}
+
+android {
+    signingConfigs {
+        release {
+            storeFile file(secretProperties['KEYSTORE_FILE'])
+            storePassword secretProperties['KEYSTORE_PASSWORD']
+            keyAlias secretProperties['KEY_ALIAS']
+            keyPassword secretProperties['KEY_PASSWORD']
+        }
+    }
+}
