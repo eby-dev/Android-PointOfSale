@@ -2,9 +2,9 @@ apply plugin: 'com.android.library'
 
 android {
     namespace "me.dm7.barcodescanner.zxing"
-    compileSdkVersion 28
+    compileSdkVersion 35
     defaultConfig {
-
+        minSdkVersion 21
     }
 }
 
