@@ -3,6 +3,7 @@ package com.ahmadabuhasan.pointofsales;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SyncStats;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -22,6 +23,7 @@ import com.ahmadabuhasan.pointofsales.product.ProductActivity;
 import com.ahmadabuhasan.pointofsales.report.ReportActivity;
 import com.ahmadabuhasan.pointofsales.settings.SettingsActivity;
 import com.ahmadabuhasan.pointofsales.suppliers.SuppliersActivity;
+import com.ahmadabuhasan.pointofsales.utils.AppConfig;
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity;
 import com.ahmadabuhasan.pointofsales.utils.LocaleManager;
 import com.google.android.gms.ads.AdRequest;
@@ -60,6 +62,9 @@ public class DashboardActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             requestPermission();
         }
+
+        System.out.println(AppConfig.baseUrl());
+        System.out.println(AppConfig.apiKey());
 
         MobileAds.initialize(this, initializationStatus -> {
 
