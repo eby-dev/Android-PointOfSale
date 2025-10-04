@@ -1,0 +1,62 @@
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // project local modules
+    implementation project(':sqlite2excel')
+    implementation project(':pdfViewer')
+    implementation project(':monthAndYearPicker')
+    implementation project(':imagePicker')
+    implementation project(':zxing')
+    implementation project(':barcodeScannerCore')
+    implementation files('libs/WoosimLib231.jar')
+
+    // core
+    implementation libs.appCompat
+    implementation libs.material
+    implementation libs.constraintLayout
+
+    // testing
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.espresso.core
+
+    // ui
+    implementation libs.recyclerView
+    implementation libs.cardview
+    implementation libs.lottie
+    implementation libs.materialRipple
+    implementation libs.mpandroidchart
+    implementation libs.niftyDialog
+    implementation libs.toasty
+
+    // pdf & doc
+    implementation libs.itextpdf
+    implementation libs.pdfium
+    implementation libs.poi
+
+    // permissions & file
+    implementation libs.dexter
+    implementation libs.fileChooser
+    implementation libs.fileChooserSnapshot
+    implementation libs.sqliteassethelper
+
+    // barcode
+    implementation libs.zxing
+
+    // google services
+    implementation libs.playServicesAds
+    implementation libs.playServicesAuthApiPhone
+    implementation libs.playServicesAuth
+    implementation libs.playServicesDrive
+
+    // firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.analytics
+
+    // glide
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
+
+    // workmanager
+    implementation libs.workRuntimeKtx
+}
