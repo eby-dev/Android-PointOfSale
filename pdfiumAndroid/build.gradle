@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace "com.shockwave.pdfium"
+    compileSdkVersion 35
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 35
+        versionCode 1
+        versionName "1.9.2"
+        buildConfigField 'String', 'VERSION_NAME', "\"${defaultConfig.versionName}\""
+
+        defaultConfig {
+            externalNativeBuild {
+                cmake {
+                    arguments "-DANDROID_ARM_NEON=TRUE"
+                    cFlags "-Wl,-z,max-page-size=16384"
+                    cppFlags "-Wl,-z,max-page-size=16384"
+                }
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets{
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDir 'src/main/libs'
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
