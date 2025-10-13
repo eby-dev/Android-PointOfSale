@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 
 android {
     compileSdk 35
@@ -22,12 +21,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 
 }
 
@@ -38,19 +31,4 @@ dependencies {
     //testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-}
-
-
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'in.mayanknagwanshi.imagepicker'
-            artifactId = 'ImagePicker'
-            version = '1.2.1'
-
-            afterEvaluate {
-                from components.release
-            }
-        }
-    }
 }
