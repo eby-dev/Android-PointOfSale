@@ -66,9 +66,12 @@ public class DashboardActivity extends BaseActivity {
         System.out.println(AppConfig.baseUrl());
         System.out.println(AppConfig.apiKey());
 
-        MobileAds.initialize(this, initializationStatus -> {
-
-        });
+        new Thread(
+                () -> {
+                    // Initialize the Google Mobile Ads SDK on a background thread.
+                    MobileAds.initialize(this, initializationStatus -> {});
+                })
+                .start();
         this.binding.adView.loadAd(new AdRequest.Builder().build());
 
         this.binding.cardCustomers.setOnClickListener(view -> this.startActivity(new Intent(DashboardActivity.this, CustomersActivity.class)));
