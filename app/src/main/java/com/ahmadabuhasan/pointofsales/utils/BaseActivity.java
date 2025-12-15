@@ -7,9 +7,14 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Locale;
 
@@ -22,6 +27,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        applyEdgeToEdge();
         resetTitles();
     }
 
@@ -48,4 +55,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         overrideConfiguration.setLocale(locale);
         super.applyOverrideConfiguration(overrideConfiguration);
     }
+
+    private void applyEdgeToEdge() {
+        View content = findViewById(android.R.id.content);
+
+        ViewCompat.setOnApplyWindowInsetsListener(content, (view, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            view.setPadding(
+                    view.getPaddingLeft(),
+                    systemBars.top,
+                    view.getPaddingRight(),
+                    systemBars.bottom
+            );
+
+            return insets;
+        });
+    }
+
 }
