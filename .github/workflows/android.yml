@@ -212,7 +212,7 @@ jobs:
   deploy-release:
     name: Deploy to Play Store (Production)
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master-test'
     needs: build
 
     steps:
