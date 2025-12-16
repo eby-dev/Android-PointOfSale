@@ -1,11 +1,11 @@
 name: Android CI
 
 on:
-  push:
-    branches:
-      - development
-      - master
-      - internal-testing/**
+  # push:
+  #   branches:
+  #     - development
+  #     - master
+  #     - internal-testing/**
   workflow_dispatch:
 
 env:
@@ -299,7 +299,7 @@ jobs:
   deploy-firebase-internal:
     name: Distribute via Firebase (Internal)
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/internal-testing/')
+    if: startsWith(github.ref, 'refs/heads/internal-testing-lint/')
     needs: build
 
     steps:
