@@ -1,0 +1,1574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.7.3" type="baseline" client="gradle" dependencies="false" name="AGP (8.7.3)" variant="all" version="8.7.3">
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="            c.startActivity(enableIntent);"
+        errorLine2="                            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/Tools.java"
+            line="21"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="ScopedStorage"
+        message="READ_EXTERNAL_STORAGE is deprecated (and is not granted) when targeting Android 13+. If you need to query or interact with MediaStore or media files on the shared storage, you should instead use one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`."
+        errorLine1="    &lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot; />"
+        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="8"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background"
+        errorLine1="        editor.commit();"
+        errorLine2="               ~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/PrefMng.java"
+            line="27"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background"
+        errorLine1="        editor.commit();"
+        errorLine2="               ~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/PrefMng.java"
+            line="34"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            hexString = hexString.toUpperCase();"
+        errorLine2="                                  ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/BixolonPrnMng.java"
+            line="202"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="        hexString = hexString.toUpperCase();"
+        errorLine2="                              ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/Utils.java"
+            line="179"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="NotificationPermission"
+        message="When targeting Android 13 or higher, posting a permission requires holding the `POST_NOTIFICATIONS` permission (usage from com.bumptech.glide.request.target.NotificationTarget)">
+        <location
+            file="src/main/AndroidManifest.xml"/>
+    </issue>
+
+    <issue
+        id="AppBundleLocaleChanges"
+        message="Found dynamic locale changes, but did not find corresponding Play Core library calls for downloading languages and splitting by language is not disabled in the `bundle` configuration"
+        errorLine1="        overrideConfiguration.setLocale(locale);"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/BaseActivity.java"
+            line="48"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SelectedPhotoAccess"
+        message="Your app is currently not handling Selected Photos Access introduced in Android 14+"
+        errorLine1="    &lt;uses-permission android:name=&quot;android.permission.READ_MEDIA_IMAGES&quot;/>"
+        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="24"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.7.3 is available: 8.13.0"
+        errorLine1="gradle = &quot;8.7.3&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="48"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.7.3 is available: 8.13.0"
+        errorLine1="gradle = &quot;8.7.3&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="48"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.7.3 is available: 8.13.0"
+        errorLine1="gradle = &quot;8.7.3&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="48"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.9.0 is available: 1.13.0"
+        errorLine1="material = &quot;1.9.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.9.0 is available: 1.13.0"
+        errorLine1="material = &quot;1.9.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.9.0 is available: 1.13.0"
+        errorLine1="material = &quot;1.9.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.constraintlayout:constraintlayout than 2.1.4 is available: 2.2.1"
+        errorLine1="constraintlayout = &quot;2.1.4&quot;"
+        errorLine2="                   ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="4"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.constraintlayout:constraintlayout than 2.1.4 is available: 2.2.1"
+        errorLine1="constraintlayout = &quot;2.1.4&quot;"
+        errorLine2="                   ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="4"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.constraintlayout:constraintlayout than 2.1.4 is available: 2.2.1"
+        errorLine1="constraintlayout = &quot;2.1.4&quot;"
+        errorLine2="                   ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="4"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.1.3 is available: 1.3.0"
+        errorLine1="androidxJunit = &quot;1.1.3&quot;"
+        errorLine2="                ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="6"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.1.3 is available: 1.3.0"
+        errorLine1="androidxJunit = &quot;1.1.3&quot;"
+        errorLine2="                ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="6"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.1.3 is available: 1.3.0"
+        errorLine1="androidxJunit = &quot;1.1.3&quot;"
+        errorLine2="                ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="6"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.4.0 is available: 3.7.0"
+        errorLine1="espresso = &quot;3.4.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.4.0 is available: 3.7.0"
+        errorLine1="espresso = &quot;3.4.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.4.0 is available: 3.7.0"
+        errorLine1="espresso = &quot;3.4.0&quot;"
+        errorLine2="           ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.recyclerview:recyclerview than 1.2.1 is available: 1.4.0"
+        errorLine1="recyclerview = &quot;1.2.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="9"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.recyclerview:recyclerview than 1.2.1 is available: 1.4.0"
+        errorLine1="recyclerview = &quot;1.2.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="9"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.recyclerview:recyclerview than 1.2.1 is available: 1.4.0"
+        errorLine1="recyclerview = &quot;1.2.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="9"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-ads than 21.0.0 is available: 24.6.0"
+        errorLine1="playServicesAds = &quot;21.0.0&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="27"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-ads than 21.0.0 is available: 24.6.0"
+        errorLine1="playServicesAds = &quot;21.0.0&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="27"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-ads than 21.0.0 is available: 24.6.0"
+        errorLine1="playServicesAds = &quot;21.0.0&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="27"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-auth-api-phone than 17.0.0 is available: 18.3.0"
+        errorLine1="playServicesAuthApiPhone = &quot;17.0.0&quot;"
+        errorLine2="                           ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-auth-api-phone than 17.0.0 is available: 18.3.0"
+        errorLine1="playServicesAuthApiPhone = &quot;17.0.0&quot;"
+        errorLine2="                           ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-auth-api-phone than 17.0.0 is available: 18.3.0"
+        errorLine1="playServicesAuthApiPhone = &quot;17.0.0&quot;"
+        errorLine2="                           ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="28"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-auth than 18.1.0 is available: 21.4.0"
+        errorLine1="playServicesAuth = &quot;18.1.0&quot;"
+        errorLine2="                   ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="29"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-auth than 18.1.0 is available: 21.4.0"
+        errorLine1="playServicesAuth = &quot;18.1.0&quot;"
+        errorLine2="                   ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="29"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-auth than 18.1.0 is available: 21.4.0"
+        errorLine1="playServicesAuth = &quot;18.1.0&quot;"
+        errorLine2="                   ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="29"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-bom than 30.1.0 is available: 34.3.0"
+        errorLine1="firebaseBom = &quot;30.1.0&quot;"
+        errorLine2="              ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="31"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-bom than 30.1.0 is available: 34.3.0"
+        errorLine1="firebaseBom = &quot;30.1.0&quot;"
+        errorLine2="              ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="31"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-bom than 30.1.0 is available: 34.3.0"
+        errorLine1="firebaseBom = &quot;30.1.0&quot;"
+        errorLine2="              ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="31"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.github.bumptech.glide:glide than 4.13.0 is available: 4.14.2"
+        errorLine1="glide = &quot;4.13.0&quot;"
+        errorLine2="        ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="33"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.github.bumptech.glide:glide than 4.13.0 is available: 4.14.2"
+        errorLine1="glide = &quot;4.13.0&quot;"
+        errorLine2="        ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="33"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.github.bumptech.glide:glide than 4.13.0 is available: 4.14.2"
+        errorLine1="glide = &quot;4.13.0&quot;"
+        errorLine2="        ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="33"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.10.2 is available: 2.10.5"
+        errorLine1="workRuntimeKtx = &quot;2.10.2&quot;"
+        errorLine2="                 ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="35"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.10.2 is available: 2.10.5"
+        errorLine1="workRuntimeKtx = &quot;2.10.2&quot;"
+        errorLine2="                 ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="35"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.10.2 is available: 2.10.5"
+        errorLine1="workRuntimeKtx = &quot;2.10.2&quot;"
+        errorLine2="                 ~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="35"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.gms:google-services than 4.4.2 is available: 4.4.3"
+        errorLine1="google-services = &quot;4.4.2&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="49"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.gms:google-services than 4.4.2 is available: 4.4.3"
+        errorLine1="google-services = &quot;4.4.2&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="49"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.gms:google-services than 4.4.2 is available: 4.4.3"
+        errorLine1="google-services = &quot;4.4.2&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="49"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-crashlytics-gradle than 2.9.2 is available: 3.0.6"
+        errorLine1="firebase-crashlytics-gradle = &quot;2.9.2&quot;"
+        errorLine2="                              ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="50"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-crashlytics-gradle than 2.9.2 is available: 3.0.6"
+        errorLine1="firebase-crashlytics-gradle = &quot;2.9.2&quot;"
+        errorLine2="                              ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="50"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-crashlytics-gradle than 2.9.2 is available: 3.0.6"
+        errorLine1="firebase-crashlytics-gradle = &quot;2.9.2&quot;"
+        errorLine2="                              ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="50"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etCategoryName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                 ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/categories/EditCategoryActivity.java"
+            line="47"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etDeliveryName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                 ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/order_type/EditDeliveryActivity.java"
+            line="47"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etPaymentMethodName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                      ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/payment_method/EditPaymentMethodActivity.java"
+            line="47"
+            column="71"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="112"
+            column="65"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            etProductCode.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                   ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="113"
+            column="52"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductCategory.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                    ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="114"
+            column="69"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductDescription.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                       ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="115"
+            column="72"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductBuyPrice.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                    ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="116"
+            column="69"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductSellPrice.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                     ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="117"
+            column="70"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductStock.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                 ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="118"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductWeight.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                  ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="119"
+            column="67"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etProductWeightUnit.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                      ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="120"
+            column="71"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etSupplier.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                             ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/EditProductActivity.java"
+            line="121"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etSupplierName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                 ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/suppliers/EditSuppliersActivity.java"
+            line="61"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etSupplierContactName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                        ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/suppliers/EditSuppliersActivity.java"
+            line="62"
+            column="73"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etSupplierCell.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                 ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/suppliers/EditSuppliersActivity.java"
+            line="63"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etSupplierEmail.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                  ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/suppliers/EditSuppliersActivity.java"
+            line="64"
+            column="67"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etSupplierAddress.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                    ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/suppliers/EditSuppliersActivity.java"
+            line="65"
+            column="69"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            EditWeightActivity.this.binding.etWeUnNameName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                                    ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/weight/EditWeightActivity.java"
+            line="47"
+            column="85"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etShopName.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                             ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/shop/ShopInformationActivity.java"
+            line="69"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etShopContact.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/shop/ShopInformationActivity.java"
+            line="70"
+            column="65"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etShopEmail.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                              ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/shop/ShopInformationActivity.java"
+            line="71"
+            column="63"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etShopAddress.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/shop/ShopInformationActivity.java"
+            line="72"
+            column="65"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etShopCurrency.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                                 ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/shop/ShopInformationActivity.java"
+            line="73"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="RestrictedApi"
+        message="SupportMenu.CATEGORY_MASK can only be accessed from within the same library group prefix (referenced groupId=`androidx.core` with prefix androidx from groupId=`Point Of Sale`)"
+        errorLine1="            this.binding.etTax.setTextColor(SupportMenu.CATEGORY_MASK);"
+        errorLine2="                                                        ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/settings/shop/ShopInformationActivity.java"
+            line="74"
+            column="57"/>
+    </issue>
+
+    <issue
+        id="SimilarGradleDependency"
+        message="There are multiple dependencies com.github.hedzr:android-file-chooser but with different version"
+        errorLine1="fileChooser = { module = &quot;com.github.hedzr:android-file-chooser&quot;, version.ref = &quot;fileChooser&quot; }"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="82"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SimilarGradleDependency"
+        message="There are multiple dependencies com.github.hedzr:android-file-chooser but with different version"
+        errorLine1="fileChooser = { module = &quot;com.github.hedzr:android-file-chooser&quot;, version.ref = &quot;fileChooser&quot; }"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="82"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SimilarGradleDependency"
+        message="There are multiple dependencies com.github.hedzr:android-file-chooser but with different version"
+        errorLine1="fileChooser = { module = &quot;com.github.hedzr:android-file-chooser&quot;, version.ref = &quot;fileChooser&quot; }"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="82"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SimilarGradleDependency"
+        message="There are multiple dependencies com.github.hedzr:android-file-chooser but with different version"
+        errorLine1="fileChooserSnapshot = { module = &quot;com.github.hedzr:android-file-chooser&quot;, version.ref = &quot;fileChooserSnapshot&quot; }"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="83"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="SimilarGradleDependency"
+        message="There are multiple dependencies com.github.hedzr:android-file-chooser but with different version"
+        errorLine1="fileChooserSnapshot = { module = &quot;com.github.hedzr:android-file-chooser&quot;, version.ref = &quot;fileChooserSnapshot&quot; }"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="83"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="SimilarGradleDependency"
+        message="There are multiple dependencies com.github.hedzr:android-file-chooser but with different version"
+        errorLine1="fileChooserSnapshot = { module = &quot;com.github.hedzr:android-file-chooser&quot;, version.ref = &quot;fileChooserSnapshot&quot; }"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="83"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        this.binding.adView.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/DashboardActivity.java"
+            line="72"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        this.binding.adView.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                                           ~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/DashboardActivity.java"
+            line="72"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adView.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/DashboardActivity.java"
+            line="87"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adView.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                                      ~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/DashboardActivity.java"
+            line="87"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adViewOrders.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/orders/OrdersActivity.java"
+            line="43"
+            column="37"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adViewOrders.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                                            ~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/orders/OrdersActivity.java"
+            line="43"
+            column="61"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adViewPos.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/pos/PosActivity.java"
+            line="53"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adViewPos.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                                         ~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/pos/PosActivity.java"
+            line="53"
+            column="58"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adViewProduct.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/ProductActivity.java"
+            line="53"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="VisibleForTests"
+        message="This method should only be accessed from tests or within private scope"
+        errorLine1="        binding.adViewProduct.loadAd(new AdRequest.Builder().build());"
+        errorLine2="                                                             ~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/product/ProductActivity.java"
+            line="53"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 21"
+        errorLine1="        if (Build.VERSION.SDK_INT >= 17) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/LocaleManager.java"
+            line="81"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields; this is a memory leak"
+        errorLine1="    public static TextView tvCount;"
+        errorLine2="           ~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/pos/PosActivity.java"
+            line="39"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields; this is a memory leak"
+        errorLine1="    public static EditText etSearch;"
+        errorLine2="           ~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/pos/PosActivity.java"
+            line="40"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields (static reference to `BluetoothPrintService` which has field `mContext` pointing to `Context`); this is a memory leak"
+        errorLine1="    private static BluetoothPrintService mPrintService = null;"
+        errorLine2="            ~~~~~~">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/WoosimPrnMng.java"
+            line="34"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="        &lt;LinearLayout"
+        errorLine2="         ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="23"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="90"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="131"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="172"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="213"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="254"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="295"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="337"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        errorLine1="                    &lt;LinearLayout"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="378"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="HandlerLeak"
+        message="This `Handler` class should be static or leaks might occur (anonymous android.os.Handler)"
+        errorLine1="    private final Handler mHandler = new Handler() {"
+        errorLine2="                                     ^">
+        <location
+            file="src/main/java/com/ahmadabuhasan/pointofsales/utils/WoosimPrnMng.java"
+            line="161"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_categories.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_customers.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/cultured` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/cultured&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_dashboard.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_delivery.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_expense.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/anti_FlashWhite` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/anti_FlashWhite&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_expense_report.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/anti_FlashWhite` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/anti_FlashWhite&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_details.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_orders.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_payment_method.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/anti_FlashWhite` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/anti_FlashWhite&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pos.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_product.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_product_cart.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/anti_FlashWhite` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/anti_FlashWhite&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_report.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_suppliers.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_weight.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.PointOfSale`)"
+        errorLine1="    android:background=&quot;@color/white&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_payment.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.caribbean_green` appears to be unused"
+        errorLine1="    &lt;color name=&quot;caribbean_green&quot;>#17D57E&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="8"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.deep_sky_blue` appears to be unused"
+        errorLine1="    &lt;color name=&quot;deep_sky_blue&quot;>#01BAEF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="10"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.shop_information_updated_successfully` appears to be unused"
+        errorLine1="    &lt;string name=&quot;shop_information_updated_successfully&quot;>Shop Information Updated Successfully&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="216"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MonochromeLauncherIcon"
+        message="The application adaptive icon is missing a monochrome tag"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_pos.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="MonochromeLauncherIcon"
+        message="The application adaptive roundIcon is missing a monochrome tag"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_pos_round.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/backup.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/backup.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/barcode.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/barcode.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/data_backup.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/data_backup.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/data_import.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/data_import.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/empty_cart.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/empty_cart.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/en.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/en.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/expense_graph.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/expense_graph.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/expense_report.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/expense_report.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/google_drive.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/google_drive.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/icon_minus.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/icon_minus.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/id.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/id.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/image_placeholder.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/image_placeholder.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/no_data.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/no_data.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/not_found.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/not_found.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/pos.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/pos.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/sales_graph.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/sales_graph.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/sales_report.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/sales_report.webp"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/translation.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/translation.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/xls.webp` in densityless folder">
+        <location
+            file="src/main/res/drawable/xls.webp"/>
+    </issue>
+
+    <issue
+        id="UnnecessaryRequiredFeature"
+        message="Consider whether this feature (`android.hardware.camera.autofocus`) really is required for the app to function; you can set `android:required=&quot;false&quot;` to indicate that the feature is used but not required"
+        errorLine1="    &lt;uses-feature android:name=&quot;android.hardware.camera.autofocus&quot; />"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="12"
+            column="33"/>
+    </issue>
+
+</issues>
