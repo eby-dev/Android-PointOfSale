@@ -34,7 +34,7 @@
                 android:contentDescription="@string/expense"
                 android:padding="10dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_question" />
+                android:src="@drawable/expense" />
 
         </LinearLayout>
 

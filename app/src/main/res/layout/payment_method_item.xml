@@ -39,7 +39,7 @@
                     android:contentDescription="@string/payment_method"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_question"
+                    android:src="@drawable/payment_method"
                     tools:ignore="InefficientWeight" />
             </LinearLayout>
 

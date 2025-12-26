@@ -27,7 +27,7 @@
             android:contentDescription="@string/category_name"
             android:padding="10dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_question" />
+            android:src="@drawable/category" />
 
         <TextView
             android:id="@+id/tv_category_name"

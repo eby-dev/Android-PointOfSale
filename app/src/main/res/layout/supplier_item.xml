@@ -40,7 +40,7 @@
                     android:contentDescription="@string/suppliers"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_question"
+                    android:src="@drawable/supplier"
                     tools:ignore="InefficientWeight" />
             </LinearLayout>
 

@@ -66,7 +66,7 @@ public class SalesReportAdapter extends RecyclerView.Adapter<SalesReportAdapter.
         if (base64Image.isEmpty() || base64Image.length() < 6) {
             Glide.with(holder.itemView.getContext())
                     .load(base64Image)
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_question))
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.expense))
                     .into(holder.binding.ivSalesReport);
             return;
         }

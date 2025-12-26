@@ -98,7 +98,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/customers"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/customer" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/suppliers"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/supplier" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -180,7 +180,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/products"
-                            android:src="@drawable/ic_question" />
+                            android:src="@drawable/products" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -221,7 +221,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/pos"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/pos_terminal" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -262,7 +262,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/expense"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/expense" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -303,7 +303,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/all_orders"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/order" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -345,7 +345,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/report"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/report" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -386,7 +386,7 @@
                             android:layout_height="70dp"
                             android:layout_marginTop="25dp"
                             android:contentDescription="@string/action_settings"
-                            app:srcCompat="@drawable/ic_question" />
+                            app:srcCompat="@drawable/stock" />
 
                         <TextView
                             android:layout_width="wrap_content"

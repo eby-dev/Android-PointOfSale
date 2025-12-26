@@ -39,7 +39,7 @@
                     android:contentDescription="@string/order_type"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_question"
+                    android:src="@drawable/category"
                     tools:ignore="InefficientWeight" />
             </LinearLayout>
 

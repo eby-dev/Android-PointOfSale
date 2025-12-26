@@ -131,7 +131,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="25dp"
                                     android:contentDescription="@string/categories"
-                                    android:src="@drawable/ic_question" />
+                                    android:src="@drawable/category" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -197,7 +197,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="25dp"
                                     android:contentDescription="@string/weight"
-                                    android:src="@drawable/ic_question" />
+                                    android:src="@drawable/category" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -263,7 +263,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="25dp"
                                     android:contentDescription="@string/order_type"
-                                    android:src="@drawable/ic_question" />
+                                    android:src="@drawable/category" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -329,7 +329,7 @@
                                     android:layout_height="70dp"
                                     android:layout_marginTop="25dp"
                                     android:contentDescription="@string/payment_method"
-                                    android:src="@drawable/ic_question" />
+                                    android:src="@drawable/payment_method" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

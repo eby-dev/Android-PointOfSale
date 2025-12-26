@@ -34,7 +34,7 @@
                 android:contentDescription="@string/customers"
                 android:padding="10dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_question" />
+                android:src="@drawable/customer" />
 
         </LinearLayout>
 

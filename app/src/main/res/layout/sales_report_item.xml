@@ -39,7 +39,7 @@
                     android:layout_weight="1"
                     android:contentDescription="@string/all_sales"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_question" />
+                    android:src="@drawable/expense" />
             </LinearLayout>
 
             <LinearLayout

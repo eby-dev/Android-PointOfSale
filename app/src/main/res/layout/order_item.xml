@@ -38,7 +38,7 @@
                     android:layout_weight="1"
                     android:contentDescription="@string/product_cart"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_question"
+                    app:srcCompat="@drawable/order"
                     tools:ignore="InefficientWeight" />
             </LinearLayout>
 
