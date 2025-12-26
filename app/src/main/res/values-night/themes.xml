@@ -2,19 +2,19 @@
     <!-- Base application theme. -->
     <style name="Theme.PointOfSale" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryVariant">@color/yellow</item>
-        <item name="colorOnPrimary">@color/red</item>
+        <item name="colorPrimary">@color/deep_sky_blue</item>
+        <item name="colorPrimaryVariant">@color/deep_sky_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/green</item>
-        <item name="colorSecondaryVariant">@color/yellow</item>
-        <item name="colorOnSecondary">@color/red</item>
+        <item name="colorSecondary">@color/deep_sky_blue</item>
+        <item name="colorSecondaryVariant">@color/deep_sky_blue</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorSecondaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
-        <item name="colorAccent">@color/red</item>
+        <item name="colorAccent">@color/deep_sky_blue</item>
     </style>
 </resources>
