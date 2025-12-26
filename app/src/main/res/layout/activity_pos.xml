@@ -165,7 +165,10 @@
                 android:id="@+id/category_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/product_category_item" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -184,7 +187,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:background="?android:attr/selectableItemBackground" />
+                android:background="?android:attr/selectableItemBackground"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/pos_product_item" />
 
             <ImageView
                 android:id="@+id/iv_no_product"
