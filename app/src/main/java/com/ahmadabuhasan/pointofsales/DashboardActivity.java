@@ -3,15 +3,18 @@ package com.ahmadabuhasan.pointofsales;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.ahmadabuhasan.pointofsales.customers.CustomersActivity;
 import com.ahmadabuhasan.pointofsales.databinding.ActivityDashboardBinding;
@@ -22,11 +25,19 @@ import com.ahmadabuhasan.pointofsales.product.ProductActivity;
 import com.ahmadabuhasan.pointofsales.report.ReportActivity;
 import com.ahmadabuhasan.pointofsales.settings.SettingsActivity;
 import com.ahmadabuhasan.pointofsales.suppliers.SuppliersActivity;
-import com.ahmadabuhasan.pointofsales.utils.AppConfig;
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity;
 import com.ahmadabuhasan.pointofsales.utils.LocaleManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -44,8 +55,13 @@ import es.dmoral.toasty.Toasty;
 
 public class DashboardActivity extends BaseActivity {
 
+    private static final int FLEXIBLE_APP_UPDATE_REQ_CODE = 123;
+
     private ActivityDashboardBinding binding;
     private static long backPressed;
+
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -62,13 +78,13 @@ public class DashboardActivity extends BaseActivity {
             requestPermission();
         }
 
-        System.out.println(AppConfig.baseUrl());
-        System.out.println(AppConfig.apiKey());
+        appUpdate();
 
         new Thread(
                 () -> {
                     // Initialize the Google Mobile Ads SDK on a background thread.
-                    MobileAds.initialize(this, initializationStatus -> {});
+                    MobileAds.initialize(this, initializationStatus -> {
+                    });
                 })
                 .start();
         this.binding.adView.loadAd(new AdRequest.Builder().build());
@@ -158,5 +174,59 @@ public class DashboardActivity extends BaseActivity {
                         permissionToken.continuePermissionRequest();
                     }
                 }).withErrorListener(dexterError -> Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show()).onSameThread().check();
+    }
+
+    private void appUpdate() {
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        checkUpdate();
+        installStateUpdatedListener = state -> {
+            if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                popupSnackBarForCompleteUpdate();
+            } else if (state.installStatus() == InstallStatus.INSTALLED) {
+                removeInstallStateUpdateListener();
+            } else {
+                Toast.makeText(getApplicationContext(), "InstallStateUpdatedListener: state: " + state.installStatus(), Toast.LENGTH_LONG).show();
+            }
+        };
+    }
+
+    private void checkUpdate() {
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                startUpdateFlow(appUpdateInfo);
+            } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                popupSnackBarForCompleteUpdate();
+            }
+
+        });
+    }
+
+    @SuppressWarnings("deprecation")
+    private void startUpdateFlow(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE, this, FLEXIBLE_APP_UPDATE_REQ_CODE);
+        } catch (IntentSender.SendIntentException e) {
+            Log.e("Update Error", Objects.requireNonNull(e.getMessage()));
+        }
+    }
+
+    private void popupSnackBarForCompleteUpdate() {
+        Snackbar snackbar =
+                Snackbar.make(
+                        findViewById(R.id.activity_dashboard),
+                        "An update has just been downloaded.",
+                        Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("RESTART", view -> appUpdateManager.completeUpdate());
+        snackbar.setActionTextColor(
+                ContextCompat.getColor(this, R.color.red));
+        snackbar.show();
+    }
+
+    private void removeInstallStateUpdateListener() {
+        if (appUpdateManager != null) {
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+        }
     }
 }
