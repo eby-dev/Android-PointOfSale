@@ -45,6 +45,7 @@ dependencies {
     implementation libs.zxing
 
     // google services
+    implementation libs.playAppUpdateKtx
     implementation libs.playServicesAds
     implementation libs.playServicesAuthApiPhone
     implementation libs.playServicesAuth

@@ -24,6 +24,7 @@ toasty = "1.5.2"
 zxing = "3.5.3"
 poi = "3.16"
 
+playAppUpdateKtx = "2.1.0"
 playServicesAds = "23.0.0"
 playServicesAuthApiPhone = "17.0.0"
 playServicesAuth = "18.1.0"
@@ -87,6 +88,7 @@ sqliteassethelper = { module = "com.readystatesoftware.sqliteasset:sqliteassethe
 zxing = { module = "com.google.zxing:core", version.ref = "zxing" }
 
 # play services
+playAppUpdateKtx = { module = "com.google.android.play:app-update-ktx", version.ref = "playAppUpdateKtx"}
 playServicesAds = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 playServicesAuthApiPhone = { module = "com.google.android.gms:play-services-auth-api-phone", version.ref = "playServicesAuthApiPhone" }
 playServicesAuth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
