@@ -279,4 +279,8 @@
     <string name="alert_bluetooth_not_enabled">Bluetooth permission denied. Unable to connect to the device.</string>
     <string name="permission_bluetooth_denied">Bluetooth permission denied. Unable to scan for devices.\nPlease allow Bluetooth access in your app settings and try again.</string>
     <string name="permission_bluetooth_granted">Bluetooth permission granted. You can now scan for devices.</string>
+
+    <string name="confirmation">Confirmation</string>
+    <string name="are_you_sure_you_want_to_delete_all_data">Are you sure you want to delete all data?</string>
+    <string name="all_data_deleted_successfully">All data deleted successfully</string>
 </resources>

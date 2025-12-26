@@ -275,4 +275,8 @@
     <string name="alert_bluetooth_not_enabled">Izin Bluetooth ditolak. Tidak dapat terhubung ke perangkat.</string>
     <string name="permission_bluetooth_denied">Izin Bluetooth ditolak. Tidak dapat memindai perangkat.\nSilakan izinkan akses Bluetooth di pengaturan aplikasi dan coba lagi.</string>
     <string name="permission_bluetooth_granted">Izin Bluetooth diberikan. Anda sekarang dapat memindai perangkat.</string>
+
+    <string name="confirmation">Konfirmasi</string>
+    <string name="are_you_sure_you_want_to_delete_all_data">Apakah kamu yakin ingin menghapus semua data?</string>
+    <string name="all_data_deleted_successfully">Semua data berhasil dihapus</string>
 </resources>
