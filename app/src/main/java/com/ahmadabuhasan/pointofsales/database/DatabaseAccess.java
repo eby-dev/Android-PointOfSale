@@ -1387,4 +1387,44 @@ public class DatabaseAccess {
         close();
         return check == 1;
     }
+
+    public void clearAllData() {
+        SQLiteDatabase db = this.database;
+        db.beginTransaction();
+        try {
+            db.execSQL("DELETE FROM customers");
+            db.execSQL("DELETE FROM expense");
+            db.execSQL("DELETE FROM order_details");
+            db.execSQL("DELETE FROM order_list");
+            db.execSQL("DELETE FROM order_type");
+            db.execSQL("DELETE FROM payment_method");
+            db.execSQL("DELETE FROM product_cart");
+            db.execSQL("DELETE FROM product_category");
+            db.execSQL("DELETE FROM product_weight");
+            db.execSQL("DELETE FROM products");
+            db.execSQL("DELETE FROM suppliers");
+
+            // Reset AUTOINCREMENT
+            db.execSQL("DELETE FROM sqlite_sequence WHERE name IN (" +
+                    "'customers'," +
+                    "'expense'," +
+                    "'order_details'," +
+                    "'order_list'," +
+                    "'order_type'," +
+                    "'payment_method'," +
+                    "'product_cart'," +
+                    "'product_category'," +
+                    "'product_weight'," +
+                    "'products'," +
+                    "'suppliers'" +
+                    ")");
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        db.close();
+    }
+
 }

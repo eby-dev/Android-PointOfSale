@@ -1,6 +1,7 @@
 package com.ahmadabuhasan.pointofsales.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ahmadabuhasan.pointofsales.R;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -50,7 +52,7 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
             Toasty.success(context, R.string.backup_completed_successfully, Toasty.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toasty.error(context, R.string.unable_to_backup_database_retry, Toasty.LENGTH_SHORT).show();
-            e.printStackTrace();
+            Log.e("backupDB", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -80,7 +82,7 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
             Toasty.success(context, R.string.database_Import_completed, Toasty.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toasty.error(context, R.string.unable_to_import_database_retry, Toasty.LENGTH_SHORT).show();
-            e.printStackTrace();
+            Log.e("importDB", Objects.requireNonNull(e.getMessage()));
         }
     }
 }
