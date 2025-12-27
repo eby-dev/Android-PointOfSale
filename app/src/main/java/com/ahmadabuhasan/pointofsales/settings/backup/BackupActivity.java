@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 
 import com.ahmadabuhasan.pointofsales.R;
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper;
@@ -31,6 +33,9 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,6 +53,7 @@ public class BackupActivity extends BaseActivity {
     public static final int REQUEST_CODE_OPENING = 1;
     public static final int REQUEST_CODE_CREATION = 2;
     public static final int REQUEST_CODE_PERMISSIONS = 2;
+    private static final int REQUEST_CHOOSE_FOLDER = 3;
 
     private ActivityBackupBinding binding;
     ProgressDialog loading;
@@ -84,7 +90,7 @@ public class BackupActivity extends BaseActivity {
 
         this.binding.cvLocalBackup.setOnClickListener(view -> {
             String outFileName = Environment.getExternalStorageDirectory() + File.separator + getResources().getString(R.string.app_name) + File.separator;
-            BackupActivity.this.localBackup.performBackup(db, outFileName);
+            BackupActivity.this.localBackup.performBackup(db, null);
         });
 
         this.binding.cvLocalDbImport.setOnClickListener(view -> BackupActivity.this.localBackup.performRestore(db));
@@ -123,20 +129,25 @@ public class BackupActivity extends BaseActivity {
                 }).withErrorListener(dexterError -> Toast.makeText(BackupActivity.this.getApplicationContext(), "Error Occurred! ", Toast.LENGTH_SHORT).show()).onSameThread();
     }
 
-    public void folderChooser() {
+    public void folderChooserOld() {
         new ChooserDialog((Activity) this)
                 .displayPath(true)
                 .withFilter(true, false, new String[0])
                 .withChosenListener(new ChooserDialog.Result() {
                     @Override
                     public void onChoosePath(String dir, File dirFile) {
-                        BackupActivity.this.onExport(dir);
+                        BackupActivity.this.onExport(dir, null);
                         Log.d("path", dir);
                     }
                 }).build().show();
     }
 
-    public void onExport(String path) {
+    public void folderChooser() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        startActivityForResult(intent, REQUEST_CHOOSE_FOLDER);
+    }
+
+    public void onExport(String path, Uri folderUri) {
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
@@ -160,6 +171,7 @@ public class BackupActivity extends BaseActivity {
                     public void run() {
                         BackupActivity.this.loading.dismiss();
                         Toasty.success(BackupActivity.this, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show();
+                        copyExportToChosenFolder(folderUri);
                     }
                 }, 5000L);
             }
@@ -201,6 +213,20 @@ public class BackupActivity extends BaseActivity {
                 } else {
                     remoteBackup.mOpenItemTaskSource.setException(new RuntimeException("Unable to open file"));
                 }
+                break;
+
+            case REQUEST_CHOOSE_FOLDER:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        Uri folderUri = data.getData();
+                        getContentResolver().takePersistableUriPermission(
+                                folderUri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        );
+                        exportWithChosenFolder(folderUri);
+                    }
+                }
 
         }
     }
@@ -213,4 +239,48 @@ public class BackupActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void exportWithChosenFolder(Uri folderUri) {
+        File tempDir = new File(getExternalFilesDir(null), getString(R.string.app_name));
+        onExport(tempDir.getAbsolutePath(), folderUri);
+    }
+
+    private void copyExportToChosenFolder(Uri folderUri) {
+        try {
+            String fileName = "POS_AllData.xls";
+
+            File sourceFile = new File(
+                    getExternalFilesDir(null),
+                    getString(R.string.app_name) + "/" + fileName
+            );
+
+            if (!sourceFile.exists()) return;
+
+            DocumentFile pickedDir = DocumentFile.fromTreeUri(this, folderUri);
+            if (pickedDir == null || !pickedDir.isDirectory()) return;
+
+            DocumentFile targetFile =
+                    pickedDir.createFile(
+                            "application/vnd.ms-excel",
+                            fileName
+                    );
+
+            if (targetFile == null) return;
+
+            InputStream in = new FileInputStream(sourceFile);
+            OutputStream out = getContentResolver().openOutputStream(targetFile.getUri());
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            Log.e("EXPORT", e.getMessage(), e);
+        }
+    }
+
 }
