@@ -45,7 +45,7 @@ public class CustomersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCustomersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        new Utils().interstitialAdsShow(this);
+        //new Utils().interstitialAdsShow(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

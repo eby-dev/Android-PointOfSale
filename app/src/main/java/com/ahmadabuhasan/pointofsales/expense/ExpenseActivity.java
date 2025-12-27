@@ -36,7 +36,7 @@ public class ExpenseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityExpenseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        new Utils().interstitialAdsShow(this);
+        //new Utils().interstitialAdsShow(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
