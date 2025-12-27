@@ -19,6 +19,8 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="colorAccent">@color/deep_sky_blue</item>
+
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="RippleStyleWhite">
