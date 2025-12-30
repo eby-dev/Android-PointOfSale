@@ -39,7 +39,6 @@ public class OrdersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityOrdersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        MobileAds.initialize(this);
         binding.adViewOrders.loadAd(new AdRequest.Builder().build());
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);

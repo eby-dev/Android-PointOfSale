@@ -49,7 +49,6 @@ public class PosActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPosBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        MobileAds.initialize(this);
         binding.adViewPos.loadAd(new AdRequest.Builder().build());
 
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
