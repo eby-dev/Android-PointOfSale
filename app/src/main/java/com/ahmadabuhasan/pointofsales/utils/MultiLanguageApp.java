@@ -6,6 +6,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.ads.MobileAds;
+
 /*
  * Created by Ahmad Abu Hasan (C) 2022
  */
@@ -18,7 +22,7 @@ public class MultiLanguageApp extends Application {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration configuration) {
+    public void onConfigurationChanged(@NonNull Configuration configuration) {
         super.onConfigurationChanged(configuration);
         LocaleManager.setLocale(this);
     }
@@ -28,5 +32,6 @@ public class MultiLanguageApp extends Application {
         super.onCreate();
 
         initializeCustomValue();
+        MobileAds.initialize(this);
     }
 }
