@@ -84,7 +84,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
-          bundler-cache: true
+          bundler-cache: false
+
+      - name: Update xcodeproj
+        run: bundle update xcodeproj
 
       - uses: actions/cache@v4
         with:
