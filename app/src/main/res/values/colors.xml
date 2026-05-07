@@ -20,4 +20,14 @@
     <color name="red">#FFFF0000</color>
     <color name="yellow">#FFFFFF00</color>
     <color name="green">#FF00FF00</color>
+
+    <!-- Semantic adaptive colors - override in values-night/colors.xml -->
+    <color name="bg_screen">#FFFFFFFF</color>
+    <color name="bg_surface">#FFFFFFFF</color>
+    <color name="bg_secondary">#FFF2F2F2</color>
+    <color name="bg_tertiary">#FFF7F7F7</color>
+    <color name="text_primary">#FF000000</color>
+    <color name="text_secondary">#FFBCBCBC</color>
+    <color name="text_tertiary">#FF666666</color>
+    <color name="color_divider">#FFE6E6E6</color>
 </resources>

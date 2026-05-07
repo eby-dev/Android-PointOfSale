@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
 

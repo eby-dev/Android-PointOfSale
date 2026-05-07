@@ -40,10 +40,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -74,7 +73,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/database_backup"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp"
                                     tools:ignore="InefficientWeight" />
                             </LinearLayout>
@@ -107,10 +106,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -141,7 +139,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/database_import"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp"
                                     tools:ignore="InefficientWeight" />
                             </LinearLayout>
@@ -174,10 +172,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -208,7 +205,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/export_all_data_to_excel"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp"
                                     tools:ignore="InefficientWeight" />
                             </LinearLayout>
@@ -241,10 +238,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -275,7 +271,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/backup_to_google_drive"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp"
                                     tools:ignore="InefficientWeight" />
                             </LinearLayout>
@@ -302,10 +298,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -336,7 +331,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sailec_regular"
                                 android:text="@string/import_from_google_drive"
-                                android:textColor="@color/light_gray"
+                                android:textColor="@color/text_secondary"
                                 android:textSize="18sp"
                                 tools:ignore="InefficientWeight" />
                         </LinearLayout>

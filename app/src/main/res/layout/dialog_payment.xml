@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_screen"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -62,7 +62,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/platinum" />
+                android:background="@color/color_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:paddingRight="15dp"
                     android:text="@string/walk_in_customer"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/granite_gray" />
+                    android:textColor="@color/text_tertiary" />
 
                 <ImageButton
                     android:id="@+id/ib_dialog_customer"
@@ -97,7 +97,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/platinum" />
+                android:background="@color/color_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                     android:paddingRight="15dp"
                     android:text="@string/pick_up"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/granite_gray" />
+                    android:textColor="@color/text_tertiary" />
 
                 <ImageButton
                     android:id="@+id/ib_dialog_order_type"
@@ -132,7 +132,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/platinum" />
+                android:background="@color/color_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -151,7 +151,7 @@
                     android:paddingRight="15dp"
                     android:text="@string/cash"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/granite_gray" />
+                    android:textColor="@color/text_tertiary" />
 
                 <ImageButton
                     android:id="@+id/ib_dialog_payment_method"
@@ -167,7 +167,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/platinum" />
+                android:background="@color/color_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -200,7 +200,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/platinum" />
+                android:background="@color/color_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"

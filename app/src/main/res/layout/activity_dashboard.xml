@@ -5,7 +5,7 @@
     android:id="@+id/activity_dashboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cultured"
+    android:background="@color/bg_secondary"
     android:orientation="vertical"
     tools:context="com.ahmadabuhasan.pointofsales.DashboardActivity">
 
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:text="@string/welcome"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/user_photo"
@@ -80,10 +80,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -109,7 +108,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/customers"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -121,10 +120,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -150,7 +148,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/suppliers"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -162,10 +160,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -191,7 +188,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/products"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -203,10 +200,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -232,7 +228,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/pos"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -244,10 +240,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -273,7 +268,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/expense"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -285,10 +280,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -315,7 +309,7 @@
                             android:gravity="center"
                             android:text="@string/all_orders"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -327,10 +321,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -356,7 +349,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/report"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -368,10 +361,9 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@color/white"
+                    android:background="@color/bg_screen"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:cardBackgroundColor="@android:color/white"
+                    app:cardBackgroundColor="@color/bg_surface"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:layout_collapseMode="parallax">
@@ -397,7 +389,7 @@
                             android:fontFamily="@font/sailec_regular"
                             android:text="@string/action_settings"
                             android:textAllCaps="true"
-                            android:textColor="@color/light_gray"
+                            android:textColor="@color/text_secondary"
                             android:textSize="18sp" />
                     </LinearLayout>
 

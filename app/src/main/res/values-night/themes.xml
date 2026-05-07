@@ -8,12 +8,12 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/deep_sky_blue</item>
         <item name="colorSecondaryVariant">@color/deep_sky_blue</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorSecondaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
         <item name="colorAccent">@color/deep_sky_blue</item>
 

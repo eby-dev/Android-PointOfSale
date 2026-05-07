@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/anti_FlashWhite"
+    android:background="@color/bg_tertiary"
     android:orientation="vertical"
     tools:context="com.ahmadabuhasan.pointofsales.report.SalesReportActivity">
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode overrides for semantic adaptive colors -->
+    <color name="bg_screen">#FF121212</color>
+    <color name="bg_surface">#FF1E1E1E</color>
+    <color name="bg_secondary">#FF1A1A1A</color>
+    <color name="bg_tertiary">#FF1C1C1C</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FF9E9E9E</color>
+    <color name="text_tertiary">#FFAAAAAA</color>
+    <color name="color_divider">#FF2C2C2C</color>
+</resources>

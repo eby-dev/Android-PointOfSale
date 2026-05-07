@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/bg_screen"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,7 +41,7 @@
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
             android:padding="5dp"
-            android:textColor="@color/granite_gray"
+            android:textColor="@color/text_tertiary"
             android:textColorHint="@color/sonic_silver"
             android:textSize="16sp" />
 
@@ -59,7 +59,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/bg_screen"
         android:orientation="vertical"
         android:padding="10dp">
 

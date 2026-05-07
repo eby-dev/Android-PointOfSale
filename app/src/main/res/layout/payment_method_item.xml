@@ -14,7 +14,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/bg_surface"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
         app:cardPreventCornerOverlap="false">
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sailec_regular"
                     android:text="@string/payment_method"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_primary"
                     android:textSize="20sp" />
             </LinearLayout>
 

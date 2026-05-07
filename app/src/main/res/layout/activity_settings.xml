@@ -40,10 +40,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/txt_message"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -74,7 +73,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/shop_information"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -106,10 +105,9 @@
                         android:id="@+id/cv_category"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -140,7 +138,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/categories"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -172,10 +170,9 @@
                         android:id="@+id/cv_weight"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -206,7 +203,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/weight"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -238,10 +235,9 @@
                         android:id="@+id/cv_delivery"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -272,7 +268,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/order_type"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -304,10 +300,9 @@
                         android:id="@+id/cv_payment_method"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -338,7 +333,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/payment_methods"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -370,10 +365,9 @@
                         android:id="@+id/cv_backup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:background="@color/bg_screen"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        app:cardBackgroundColor="@android:color/white"
+                        app:cardBackgroundColor="@color/bg_surface"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_collapseMode="parallax">
@@ -404,7 +398,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/sailec_regular"
                                     android:text="@string/data_backup"
-                                    android:textColor="@color/light_gray"
+                                    android:textColor="@color/text_secondary"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
