@@ -28,9 +28,11 @@ class DeliveryActivity : BaseActivity() {
         binding = ActivityDeliveryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle("All Delivery")
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.all_delivery)
+        }
 
         binding.deliveryRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.deliveryRecyclerview.setHasFixedSize(true)
@@ -39,7 +41,7 @@ class DeliveryActivity : BaseActivity() {
         databaseAccess.open()
         val deliveryData = databaseAccess.orderType
         Log.d("data", "" + deliveryData.size)
-        if (deliveryData.size <= 0) {
+        if (deliveryData.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.ivNoDelivery.setImageResource(R.drawable.no_data)
         } else {
@@ -52,7 +54,7 @@ class DeliveryActivity : BaseActivity() {
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchDeliveryList = databaseAccess.searchOrderType(charSequence.toString())
-                if (searchDeliveryList.size <= 0) {
+                if (searchDeliveryList.isEmpty()) {
                     binding.deliveryRecyclerview.visibility = View.GONE
                     binding.ivNoDelivery.visibility = View.VISIBLE
                     binding.ivNoDelivery.setImageResource(R.drawable.no_data)

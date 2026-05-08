@@ -28,7 +28,7 @@ class DeliveryAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val delivery_id = deliveryData[position][Constant.ORDER_TYPE_ID]
+        val deliveryId = deliveryData[position][Constant.ORDER_TYPE_ID]
 
         holder.binding.tvDeliveryName.text = deliveryData[position][Constant.ORDER_TYPE_NAME]
         holder.binding.ivDelete.setOnClickListener {
@@ -38,7 +38,7 @@ class DeliveryAdapter(
                 .setPositiveButton(R.string.yes) { dialogInterface, _ ->
                     val databaseAccess = DatabaseAccess.getInstance(context)
                     databaseAccess.open()
-                    if (databaseAccess.deleteOrderType(delivery_id)) {
+                    if (databaseAccess.deleteOrderType(deliveryId)) {
                         Toasty.success(context, R.string.delivery_deleted, Toasty.LENGTH_SHORT).show()
                         deliveryData.removeAt(holder.adapterPosition)
                         notifyItemRemoved(holder.adapterPosition)

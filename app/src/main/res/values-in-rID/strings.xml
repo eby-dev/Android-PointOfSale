@@ -8,6 +8,8 @@
     <string name="add_category">Tambahkan Kategori</string>
     <string name="add_customer">Tambahkan Pelanggan</string>
     <string name="add_delivery">Tambahkan Pengiriman</string>
+    <string name="all_delivery">Semua Pengiriman</string>
+    <string name="edit_delivery">Edit Pengiriman</string>
     <string name="add_expense">Tambahkan Biaya</string>
     <string name="add_payment_method">Tambahkan Metode Pembayaran</string>
     <string name="add_product">Tambahkan Produk</string>

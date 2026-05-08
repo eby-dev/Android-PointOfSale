@@ -22,19 +22,21 @@ class AddDeliveryActivity : BaseActivity() {
         binding = ActivityAddDeliveryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle("Add Delivery")
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.add_delivery)
+        }
 
         binding.tvAddDelivery.setOnClickListener {
-            val delivery_name = binding.etDeliveryName.text.toString().trim()
-            if (delivery_name.isEmpty()) {
+            val deliveryName = binding.etDeliveryName.text.toString().trim()
+            if (deliveryName.isEmpty()) {
                 binding.etDeliveryName.error = getString(R.string.enter_delivery_name)
                 binding.etDeliveryName.requestFocus()
             } else {
                 val databaseAccess = DatabaseAccess.getInstance(this)
                 databaseAccess.open()
-                if (databaseAccess.addOrderType(delivery_name)) {
+                if (databaseAccess.addOrderType(deliveryName)) {
                     Toasty.success(this, R.string.successfully_added, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this, DeliveryActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

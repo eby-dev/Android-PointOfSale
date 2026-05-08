@@ -12,6 +12,8 @@
     <string name="add_category">Add Category</string>
     <string name="add_customer">Add Customer</string>
     <string name="add_delivery">Add Delivery</string>
+    <string name="all_delivery">All Delivery</string>
+    <string name="edit_delivery">Edit Delivery</string>
     <string name="add_expense">Add Expense</string>
     <string name="add_payment_method">Add Payment Method</string>
     <string name="add_product">Add Product</string>
