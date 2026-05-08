@@ -37,9 +37,11 @@ class GraphReportActivity : BaseActivity() {
         binding = ActivityGraphReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.monthly_sales_graph)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.monthly_sales_graph)
+        }
 
         binding.barChart.setDrawBarShadow(false)
         binding.barChart.setDrawValueAboveBar(true)
@@ -88,19 +90,19 @@ class GraphReportActivity : BaseActivity() {
         databaseAccess.open()
         val currency = databaseAccess.currency
         databaseAccess.open()
-        val sub_total = databaseAccess.getTotalOrderPriceForGraph(Constant.YEARLY, mYear)
-        binding.tvTotalSales.text = String.format("%s%s%s", getString(R.string.total_sales), currency, decimalFormat.format(sub_total))
+        val subTotal = databaseAccess.getTotalOrderPriceForGraph(Constant.YEARLY, mYear)
+        binding.tvTotalSales.text = String.format("%s%s%s", getString(R.string.total_sales), currency, decimalFormat.format(subTotal))
 
         databaseAccess.open()
-        val get_tax = databaseAccess.getTotalTaxForGraph(Constant.YEARLY, mYear)
-        binding.tvTotalTax.text = String.format("%s(+) : %s%s", getString(R.string.total_tax), currency, decimalFormat.format(get_tax))
+        val getTax = databaseAccess.getTotalTaxForGraph(Constant.YEARLY, mYear)
+        binding.tvTotalTax.text = String.format("%s(+) : %s%s", getString(R.string.total_tax), currency, decimalFormat.format(getTax))
 
         databaseAccess.open()
-        val get_discount = databaseAccess.getTotalDiscountForGraph(Constant.YEARLY, mYear)
-        binding.tvDiscount.text = String.format("%s(-) : %s%s", getString(R.string.total_discount), currency, decimalFormat.format(get_discount))
+        val getDiscount = databaseAccess.getTotalDiscountForGraph(Constant.YEARLY, mYear)
+        binding.tvDiscount.text = String.format("%s(-) : %s%s", getString(R.string.total_discount), currency, decimalFormat.format(getDiscount))
 
-        val net_sales = (sub_total + get_tax) - get_discount
-        binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(net_sales))
+        val netSales = (subTotal + getTax) - getDiscount
+        binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(netSales))
     }
 
     private fun chooseYearOnly() {

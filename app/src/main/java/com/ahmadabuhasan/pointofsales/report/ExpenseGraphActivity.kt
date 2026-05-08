@@ -37,9 +37,11 @@ class ExpenseGraphActivity : BaseActivity() {
         binding = ActivityExpenseGraphBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.monthly_expense_in_graph)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.monthly_expense_in_graph)
+        }
 
         binding.barChart.setDrawBarShadow(false)
         binding.barChart.setDrawValueAboveBar(true)

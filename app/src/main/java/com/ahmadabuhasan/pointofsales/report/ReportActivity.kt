@@ -22,9 +22,11 @@ class ReportActivity : BaseActivity() {
         setContentView(binding.root)
         Utils().interstitialAdsShow(this)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.report)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.report)
+        }
 
         binding.cvSalesReport.setOnClickListener { startActivity(Intent(this@ReportActivity, SalesReportActivity::class.java)) }
         binding.cvGraphReport.setOnClickListener { startActivity(Intent(this@ReportActivity, GraphReportActivity::class.java)) }

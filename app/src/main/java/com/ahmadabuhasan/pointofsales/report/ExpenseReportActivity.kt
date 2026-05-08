@@ -40,9 +40,11 @@ class ExpenseReportActivity : BaseActivity() {
         binding = ActivityExpenseReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.all_expense)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.all_expense)
+        }
 
         binding.ivNoData.visibility = View.GONE
         binding.tvNoData.visibility = View.GONE
@@ -53,7 +55,7 @@ class ExpenseReportActivity : BaseActivity() {
         databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
         val allExpense = databaseAccess.allExpense
-        if (allExpense.size <= 0) {
+        if (allExpense.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.expenseReportRecyclerview.visibility = View.GONE
             binding.tvTotalPrice.visibility = View.GONE
@@ -69,8 +71,8 @@ class ExpenseReportActivity : BaseActivity() {
         val currency = databaseAccess.currency
 
         databaseAccess.open()
-        val total_price = databaseAccess.getTotalExpense("all")
-        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_expense), currency, decimalFormat.format(total_price))
+        val totalPrice = databaseAccess.getTotalExpense("all")
+        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_expense), currency, decimalFormat.format(totalPrice))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -106,7 +108,7 @@ class ExpenseReportActivity : BaseActivity() {
     fun getReport(type: String) {
         databaseAccess.open()
         val expenseReport = databaseAccess.getExpenseReport(type)
-        if (expenseReport.size <= 0) {
+        if (expenseReport.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.expenseReportRecyclerview.visibility = View.GONE
             binding.tvTotalPrice.visibility = View.GONE
@@ -127,8 +129,8 @@ class ExpenseReportActivity : BaseActivity() {
         val currency = databaseAccess.currency
 
         databaseAccess.open()
-        val total_price = databaseAccess.getTotalExpense(type)
-        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_expense), currency, decimalFormat.format(total_price))
+        val totalPrice = databaseAccess.getTotalExpense(type)
+        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_expense), currency, decimalFormat.format(totalPrice))
     }
 
     fun folderChooser() {
@@ -150,21 +152,21 @@ class ExpenseReportActivity : BaseActivity() {
         sqLiteToExcel.exportSingleTable(Constant.expense, "expense.xls", object : SQLiteToExcel.ExportListener {
             override fun onStart() {
                 loading = ProgressDialog(this@ExpenseReportActivity)
-                loading!!.setMessage(getString(R.string.data_exporting_please_wait))
-                loading!!.setCancelable(false)
-                loading!!.show()
+                loading?.setMessage(getString(R.string.data_exporting_please_wait))
+                loading?.setCancelable(false)
+                loading?.show()
             }
 
             override fun onCompleted(filePath: String) {
                 val mHand = Handler()
                 mHand.postDelayed({
-                    loading!!.dismiss()
+                    loading?.dismiss()
                     Toasty.success(this@ExpenseReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
                 }, 5000L)
             }
 
             override fun onError(e: Exception) {
-                loading!!.dismiss()
+                loading?.dismiss()
                 Toasty.error(this@ExpenseReportActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
             }
         })

@@ -12,7 +12,6 @@ import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.SalesReportItemBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import java.util.Objects
 
 /*
  * Created by Ahmad Abu Hasan (C) 2022
@@ -38,15 +37,14 @@ class SalesReportAdapter(
         holder.binding.tvQty.text = String.format("%s%s", context.getString(R.string.quantity), orderData[position][Constant.PRODUCT_QTY])
         holder.binding.tvWeight.text = String.format("%s%s", context.getString(R.string.weight), orderData[position][Constant.PRODUCT_WEIGHT])
 
-        val unit_price = orderData[position][Constant.PRODUCT_PRICE]
+        val unitPrice = orderData[position][Constant.PRODUCT_PRICE]
         val qty = orderData[position][Constant.PRODUCT_QTY]
-        val price = java.lang.Double.parseDouble(Objects.requireNonNull(unit_price))
-        val quantity = Integer.parseInt(Objects.requireNonNull(qty))
+        val price = unitPrice.orEmpty().toDouble()
+        val quantity = qty.orEmpty().toInt()
         val cost = quantity * price
-        holder.binding.tvTotalCost.text = String.format("%s%s x %s = %s%s", currency, unit_price, qty, currency, cost)
+        holder.binding.tvTotalCost.text = String.format("%s%s x %s = %s%s", currency, unitPrice, qty, currency, cost)
 
-        val base64Image = orderData[position][Constant.PRODUCT_IMAGE]
-        if (base64Image == null) return
+        val base64Image = orderData[position][Constant.PRODUCT_IMAGE] ?: return
         if (base64Image.isEmpty() || base64Image.length < 6) {
             Glide.with(holder.itemView.context)
                 .load(base64Image)

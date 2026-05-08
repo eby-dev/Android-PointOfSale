@@ -39,9 +39,11 @@ class SalesReportActivity : BaseActivity() {
         binding = ActivitySalesReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.all_sales)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.all_sales)
+        }
 
         binding.ivNoData.visibility = View.GONE
         binding.tvNoData.visibility = View.GONE
@@ -52,7 +54,7 @@ class SalesReportActivity : BaseActivity() {
         databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
         val allSalesItems = databaseAccess.allSalesItems
-        if (allSalesItems.size <= 0) {
+        if (allSalesItems.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.salesReportRecyclerview.visibility = View.GONE
             binding.tvTotalPrice.visibility = View.GONE
@@ -67,19 +69,19 @@ class SalesReportActivity : BaseActivity() {
         databaseAccess.open()
         val currency = databaseAccess.currency
         databaseAccess.open()
-        val sub_total = databaseAccess.getTotalOrderPrice("all")
-        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_sales), currency, decimalFormat.format(sub_total))
+        val subTotal = databaseAccess.getTotalOrderPrice("all")
+        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_sales), currency, decimalFormat.format(subTotal))
 
         databaseAccess.open()
-        val get_tax = databaseAccess.getTotalTax("all")
-        binding.tvTotalTax.text = String.format("%s(+) : %s%s", getString(R.string.tax), currency, decimalFormat.format(get_tax))
+        val getTax = databaseAccess.getTotalTax("all")
+        binding.tvTotalTax.text = String.format("%s(+) : %s%s", getString(R.string.tax), currency, decimalFormat.format(getTax))
 
         databaseAccess.open()
-        val get_discount = databaseAccess.getTotalDiscount("all")
-        binding.tvTotalDiscount.text = String.format("%s(-) : %s%s", getString(R.string.total_discount), currency, decimalFormat.format(get_discount))
+        val getDiscount = databaseAccess.getTotalDiscount("all")
+        binding.tvTotalDiscount.text = String.format("%s(-) : %s%s", getString(R.string.total_discount), currency, decimalFormat.format(getDiscount))
 
-        val net_sales = (sub_total + get_tax) - get_discount
-        binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(net_sales))
+        val netSales = (subTotal + getTax) - getDiscount
+        binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(netSales))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -116,7 +118,7 @@ class SalesReportActivity : BaseActivity() {
         databaseAccess.open()
         Log.d("TYPE", type)
         val salesReport = databaseAccess.getSalesReport(type)
-        if (salesReport.size <= 0) {
+        if (salesReport.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.salesReportRecyclerview.visibility = View.GONE
             binding.tvTotalPrice.visibility = View.GONE
@@ -137,19 +139,19 @@ class SalesReportActivity : BaseActivity() {
         val currency = databaseAccess.currency
 
         databaseAccess.open()
-        val sub_total = databaseAccess.getTotalOrderPrice(type)
-        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_sales), currency, decimalFormat.format(sub_total))
+        val subTotal = databaseAccess.getTotalOrderPrice(type)
+        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_sales), currency, decimalFormat.format(subTotal))
 
         databaseAccess.open()
-        val get_tax = databaseAccess.getTotalTax(type)
-        binding.tvTotalTax.text = String.format("%s(+) : %s%s", getString(R.string.tax), currency, decimalFormat.format(get_tax))
+        val getTax = databaseAccess.getTotalTax(type)
+        binding.tvTotalTax.text = String.format("%s(+) : %s%s", getString(R.string.tax), currency, decimalFormat.format(getTax))
 
         databaseAccess.open()
-        val get_discount = databaseAccess.getTotalDiscount(type)
-        binding.tvTotalDiscount.text = String.format("%s(-) : %s%s", getString(R.string.discount), currency, decimalFormat.format(get_discount))
+        val getDiscount = databaseAccess.getTotalDiscount(type)
+        binding.tvTotalDiscount.text = String.format("%s(-) : %s%s", getString(R.string.discount), currency, decimalFormat.format(getDiscount))
 
-        val net_sale = (sub_total + get_tax) - get_discount
-        binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(net_sale))
+        val netSale = (subTotal + getTax) - getDiscount
+        binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(netSale))
     }
 
     fun folderChooser() {
@@ -171,21 +173,21 @@ class SalesReportActivity : BaseActivity() {
         sqLiteToExcel.exportSingleTable(Constant.orderDetails, "order_details.xls", object : SQLiteToExcel.ExportListener {
             override fun onStart() {
                 loading = ProgressDialog(this@SalesReportActivity)
-                loading!!.setMessage(getString(R.string.data_exporting_please_wait))
-                loading!!.setCancelable(false)
-                loading!!.show()
+                loading?.setMessage(getString(R.string.data_exporting_please_wait))
+                loading?.setCancelable(false)
+                loading?.show()
             }
 
             override fun onCompleted(filePath: String) {
                 val mHand = Handler()
                 mHand.postDelayed({
-                    loading!!.dismiss()
+                    loading?.dismiss()
                     Toasty.success(this@SalesReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
                 }, 5000L)
             }
 
             override fun onError(e: Exception) {
-                loading!!.dismiss()
+                loading?.dismiss()
                 Toasty.error(this@SalesReportActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
             }
         })
