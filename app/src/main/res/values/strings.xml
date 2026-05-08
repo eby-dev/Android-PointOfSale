@@ -156,6 +156,7 @@
     <string name="payment_method_deleted">Payment Method Deleted</string>
     <string name="payment_method_name">Payment Method Name</string>
     <string name="payment_methods">Payment Methods</string>
+    <string name="purchase_pro_message"><![CDATA[<small>Please purchase for</small><br> <big><b>Point Of Sale PRO</b></big>.<br> Thank you]]></string>
     <string name="pic_load_error">Error in loading picture</string>
     <string name="pick_up">PICK UP</string>
     <string name="please_change_order_status_to_complete_or_cancel">Please change order status to complete or cancel</string>

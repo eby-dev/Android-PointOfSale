@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
 import android.view.View
-import androidx.core.internal.view.SupportMenu
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -26,9 +25,11 @@ class ShopInformationActivity : BaseActivity() {
         binding = ActivityShopInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.shop_information)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.shop_information)
+        }
 
         databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
@@ -57,45 +58,45 @@ class ShopInformationActivity : BaseActivity() {
             binding.etShopCurrency.isEnabled = true
             binding.etTax.isEnabled = true
 
-            binding.etShopName.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etShopContact.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etShopEmail.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etShopAddress.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etShopCurrency.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etTax.setTextColor(SupportMenu.CATEGORY_MASK)
+            binding.etShopName.setTextColor(0xffff0000.toInt())
+            binding.etShopContact.setTextColor(0xffff0000.toInt())
+            binding.etShopEmail.setTextColor(0xffff0000.toInt())
+            binding.etShopAddress.setTextColor(0xffff0000.toInt())
+            binding.etShopCurrency.setTextColor(0xffff0000.toInt())
+            binding.etTax.setTextColor(0xffff0000.toInt())
 
             binding.tvShopUpdate.visibility = View.VISIBLE
             binding.tvShopEdit.visibility = View.GONE
         }
 
         binding.tvShopUpdate.setOnClickListener {
-            val shop_name = binding.etShopName.text.toString().trim()
-            val shop_contact = binding.etShopContact.text.toString().trim()
-            val shop_email = binding.etShopEmail.text.toString().trim()
-            val shop_address = binding.etShopAddress.text.toString().trim()
-            val shop_currency = binding.etShopCurrency.text.toString().trim()
+            val shopName = binding.etShopName.text.toString().trim()
+            val shopContact = binding.etShopContact.text.toString().trim()
+            val shopEmail = binding.etShopEmail.text.toString().trim()
+            val shopAddress = binding.etShopAddress.text.toString().trim()
+            val shopCurrency = binding.etShopCurrency.text.toString().trim()
             val tax = binding.etTax.text.toString().trim()
 
-            if (shop_name.isEmpty()) {
+            if (shopName.isEmpty()) {
                 binding.etShopName.error = getString(R.string.shop_name_cannot_be_empty)
                 binding.etShopName.requestFocus()
-            } else if (shop_contact.isEmpty()) {
+            } else if (shopContact.isEmpty()) {
                 binding.etShopContact.error = getString(R.string.shop_contact_cannot_be_empty)
                 binding.etShopContact.requestFocus()
-            } else if (shop_email.isEmpty() || !shop_email.contains("@") || !shop_email.contains(".")) {
+            } else if (shopEmail.isEmpty() || !shopEmail.contains("@") || !shopEmail.contains(".")) {
                 binding.etShopEmail.error = getString(R.string.enter_valid_email)
                 binding.etShopEmail.requestFocus()
-            } else if (shop_address.isEmpty()) {
+            } else if (shopAddress.isEmpty()) {
                 binding.etShopAddress.error = getString(R.string.shop_address_cannot_be_empty)
                 binding.etShopAddress.requestFocus()
-            } else if (shop_currency.isEmpty()) {
+            } else if (shopCurrency.isEmpty()) {
                 binding.etShopCurrency.error = getString(R.string.shop_currency_cannot_be_empty)
                 binding.etShopCurrency.requestFocus()
             } else if (tax.isEmpty()) {
                 binding.etTax.error = getString(R.string.tax_in_percentage)
                 binding.etTax.requestFocus()
             } else {
-                Toasty.warning(this, Html.fromHtml("<small>Please purchase for</small><br> <big><b>Point Of Sale PRO</b></big>.<br> Thank you"), Toasty.LENGTH_LONG).show()
+                Toasty.warning(this, Html.fromHtml(getString(R.string.purchase_pro_message)), Toasty.LENGTH_LONG).show()
 
                 /*databaseAccess.open()
                 val check = databaseAccess.updateShopInformation(shop_name, shop_contact, shop_email, shop_address, shop_currency, tax)

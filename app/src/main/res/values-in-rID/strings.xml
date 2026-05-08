@@ -152,6 +152,7 @@
     <string name="payment_method_deleted">Metode Pembayaran Dihapus</string>
     <string name="payment_method_name">Nama Metode Pembayaran</string>
     <string name="payment_methods">Metode Pembayaran</string>
+    <string name="purchase_pro_message"><![CDATA[<small>Silahkan beli</small><br> <big><b>Point Of Sale PRO</b></big>.<br> Terima kasih]]></string>
     <string name="pic_load_error">Kesalahan saat memuat gambar</string>
     <string name="pick_up">Ambil</string>
     <string name="please_change_order_status_to_complete_or_cancel">Harap ubah status pesanan untuk menyelesaikan atau membatalkan</string>
