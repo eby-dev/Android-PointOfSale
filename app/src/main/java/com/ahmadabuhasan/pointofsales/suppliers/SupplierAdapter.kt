@@ -14,6 +14,7 @@ import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.SupplierItemBinding
 import es.dmoral.toasty.Toasty
+import androidx.core.net.toUri
 
 /*
  * Created by Ahmad Abu Hasan (C) 2022
@@ -41,7 +42,7 @@ class SupplierAdapter(
 
         holder.binding.ivSupplierCall.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:$supplierCell")
+                data = "tel:$supplierCell".toUri()
             }
             context.startActivity(callIntent)
         }

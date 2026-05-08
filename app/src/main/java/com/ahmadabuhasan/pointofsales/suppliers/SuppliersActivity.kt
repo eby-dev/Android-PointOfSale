@@ -53,7 +53,7 @@ class SuppliersActivity : BaseActivity() {
         val supplierData = databaseAccess.suppliers
         Log.d("data", "${supplierData.size}")
 
-        if (supplierData.size <= 0) {
+        if (supplierData.isEmpty()) {
             Toasty.info(this, R.string.no_suppliers_found, Toasty.LENGTH_SHORT).show()
             binding.ivNoSupplier.setImageResource(R.drawable.no_data)
         } else {
@@ -67,7 +67,7 @@ class SuppliersActivity : BaseActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchSupplier = databaseAccess.searchSuppliers(s.toString())
-                if (searchSupplier.size <= 0) {
+                if (searchSupplier.isEmpty()) {
                     binding.supplierRecyclerview.visibility = View.GONE
                     binding.ivNoSupplier.visibility = View.VISIBLE
                     binding.ivNoSupplier.setImageResource(R.drawable.no_data)
