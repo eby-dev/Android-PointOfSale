@@ -53,9 +53,11 @@ class ProductCartActivity : BaseActivity() {
         binding = ActivityProductCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.product_cart)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.product_cart)
+        }
 
         binding.cartRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.cartRecyclerview.setHasFixedSize(true)
@@ -95,9 +97,9 @@ class ProductCartActivity : BaseActivity() {
         val databaseAccess1 = DatabaseAccess.getInstance(this)
         databaseAccess1.open()
         val shopData = databaseAccess1.shopInformation
-        val shop_currency = shopData[0][Constant.SHOP_CURRENCY]
+        val shopCurrency = shopData[0][Constant.SHOP_CURRENCY]
         val tax = shopData[0][Constant.TAX]
-        val getTax = tax!!.toDouble()
+        val getTax = tax.orEmpty().toDouble()
 
         val dialog = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_payment, null)
@@ -118,30 +120,30 @@ class ProductCartActivity : BaseActivity() {
         val etDialogDiscount: EditText = dialogView.findViewById(R.id.et_dialog_discount)
         val tvDialogTotalCost: TextView = dialogView.findViewById(R.id.tv_dialog_total_cost)
 
-        val total_cost = CartAdapter.total_price!!
-        val sb = shop_currency + formatIDR.format(total_cost)
+        val totalCost = CartAdapter.totalPrice ?: 0.0
+        val sb = shopCurrency + formatIDR.format(totalCost)
         tvDialogTotal.text = sb
         tvDialogTax.text = String.format("%s( %s%%) : ", getString(R.string.tax), tax)
 
-        val calculated_tax = (total_cost * getTax) / 100.0
-        tvTotalTax.text = String.format("%s%s", shop_currency, formatIDR.format(calculated_tax))
+        val calculatedTax = (totalCost * getTax) / 100.0
+        tvTotalTax.text = String.format("%s%s", shopCurrency, formatIDR.format(calculatedTax))
 
-        val calculated_totalCost = (total_cost + calculated_tax) - Utils.DOUBLE_EPSILON
-        tvDialogTotalCost.text = String.format("%s%s", shop_currency, formatIDR.format(calculated_totalCost))
+        val calculatedTotalCost = (totalCost + calculatedTax) - Utils.DOUBLE_EPSILON
+        tvDialogTotalCost.text = String.format("%s%s", shopCurrency, formatIDR.format(calculatedTotalCost))
 
         etDialogDiscount.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 val getDiscount = charSequence.toString()
                 if (getDiscount.isEmpty() || getDiscount == ".") {
-                    val calculated = (total_cost + calculated_tax) - Utils.DOUBLE_EPSILON
-                    tvDialogTotalCost.text = String.format("%s%s", shop_currency, formatIDR.format(calculated))
+                    val calculated = (totalCost + calculatedTax) - Utils.DOUBLE_EPSILON
+                    tvDialogTotalCost.text = String.format("%s%s", shopCurrency, formatIDR.format(calculated))
                     return
                 }
 
-                val discount_bigger = total_cost + calculated_tax
+                val discountBigger = totalCost + calculatedTax
                 val discount = getDiscount.toDouble()
-                if (discount > discount_bigger) {
+                if (discount > discountBigger) {
                     etDialogDiscount.error = getString(R.string.discount_cant_be_greater_than_total_price)
                     etDialogDiscount.requestFocus()
                     btnSubmit.visibility = View.INVISIBLE
@@ -149,8 +151,8 @@ class ProductCartActivity : BaseActivity() {
                 }
 
                 btnSubmit.visibility = View.VISIBLE
-                val calculated_withDiscount = (total_cost + calculated_tax) - discount
-                tvDialogTotalCost.text = String.format("%s%s", shop_currency, formatIDR.format(calculated_withDiscount))
+                val calculatedWithDiscount = (totalCost + calculatedTax) - discount
+                tvDialogTotalCost.text = String.format("%s%s", shopCurrency, formatIDR.format(calculatedWithDiscount))
             }
             override fun afterTextChanged(editable: Editable) {}
         })
@@ -159,7 +161,7 @@ class ProductCartActivity : BaseActivity() {
         databaseAccess1.open()
         val customer = databaseAccess1.customers
         for (i in customer.indices) {
-            customerNames.add(customer[i][Constant.CUSTOMER_NAME]!!)
+            customerNames.add(customer[i][Constant.CUSTOMER_NAME].orEmpty())
         }
 
         ibCustomer.setOnClickListener {
@@ -198,9 +200,9 @@ class ProductCartActivity : BaseActivity() {
 
         orderTypeNames = ArrayList()
         databaseAccess1.open()
-        val order_type = databaseAccess1.orderType
-        for (i1 in order_type.indices) {
-            orderTypeNames.add(order_type[i1][Constant.ORDER_TYPE_NAME]!!)
+        val orderType = databaseAccess1.orderType
+        for (i1 in orderType.indices) {
+            orderTypeNames.add(orderType[i1][Constant.ORDER_TYPE_NAME].orEmpty())
         }
 
         ibOrderType.setOnClickListener {
@@ -239,9 +241,9 @@ class ProductCartActivity : BaseActivity() {
 
         paymentMethodNames = ArrayList()
         databaseAccess1.open()
-        val payment_method = databaseAccess1.paymentMethod
-        for (i2 in payment_method.indices) {
-            paymentMethodNames.add(payment_method[i2][Constant.PAYMENT_METHOD_NAME]!!)
+        val paymentMethod = databaseAccess1.paymentMethod
+        for (i2 in paymentMethod.indices) {
+            paymentMethodNames.add(paymentMethod[i2][Constant.PAYMENT_METHOD_NAME].orEmpty())
         }
 
         ibPaymentMethod.setOnClickListener {
@@ -282,12 +284,12 @@ class ProductCartActivity : BaseActivity() {
         ibClose.setOnClickListener { closeSubmit.dismiss() }
         btnSubmit.setOnClickListener {
             val discount: String
-            val customer_name = tvDialogCustomer.text.toString().trim()
-            val submit_orderType = tvDialogOrderType.text.toString().trim()
-            val submit_paymentMethod = tvDialogPaymentMethod.text.toString().trim()
+            val customerName = tvDialogCustomer.text.toString().trim()
+            val submitOrderType = tvDialogOrderType.text.toString().trim()
+            val submitPaymentMethod = tvDialogPaymentMethod.text.toString().trim()
             val disc = etDialogDiscount.text.toString().trim()
-            discount = if (disc.isEmpty()) "0.00" else disc
-            proceedOrder(customer_name, submit_orderType, submit_paymentMethod, calculated_tax, discount)
+            discount = disc.ifEmpty { "0.00" }
+            proceedOrder(customerName, submitOrderType, submitPaymentMethod, calculatedTax, discount)
             closeSubmit.dismiss()
         }
         closeSubmit.show()
@@ -321,24 +323,24 @@ class ProductCartActivity : BaseActivity() {
                     val array = JSONArray()
                     for (i in lines.indices) {
                         databaseAccess2.open()
-                        val product_id = lines[i][productID]
-                        val product_name = databaseAccess2.getProductName(product_id)
+                        val productId = lines[i][productID]
+                        val productName = databaseAccess2.getProductName(productId)
 
                         databaseAccess2.open()
-                        val weight_unit_id = lines[i][Constant.PRODUCT_WEIGHT_UNIT]
-                        val weight_unit = databaseAccess2.getWeightUnitName(weight_unit_id)
+                        val weightUnitId = lines[i][Constant.PRODUCT_WEIGHT_UNIT]
+                        val weightUnit = databaseAccess2.getWeightUnitName(weightUnitId)
 
                         databaseAccess2.open()
-                        val product_image = databaseAccess2.getProductImage(product_id)
+                        val productImage = databaseAccess2.getProductImage(productId)
 
                         val obj = JSONObject()
-                        obj.put(productID, product_id)
-                        obj.put(Constant.PRODUCT_NAME, product_name)
-                        obj.put(Constant.PRODUCT_WEIGHT, lines[i][Constant.PRODUCT_WEIGHT] + " " + weight_unit)
+                        obj.put(productID, productId)
+                        obj.put(Constant.PRODUCT_NAME, productName)
+                        obj.put(Constant.PRODUCT_WEIGHT, lines[i][Constant.PRODUCT_WEIGHT] + " " + weightUnit)
                         obj.put(Constant.PRODUCT_QTY, lines[i][Constant.PRODUCT_QTY])
                         obj.put(Constant.STOCK, lines[i][Constant.STOCK])
                         obj.put(Constant.PRODUCT_PRICE, lines[i][Constant.PRODUCT_PRICE])
-                        obj.put(Constant.PRODUCT_IMAGE, product_image)
+                        obj.put(Constant.PRODUCT_IMAGE, productImage)
                         obj.put(Constant.PRODUCT_ORDER_DATE, currentDate)
                         array.put(obj)
                     }
