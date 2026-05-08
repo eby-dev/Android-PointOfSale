@@ -31,9 +31,11 @@ class SettingsActivity : BaseActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.action_settings)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.action_settings)
+        }
 
         Utils().interstitialAdsShow(this)
 
