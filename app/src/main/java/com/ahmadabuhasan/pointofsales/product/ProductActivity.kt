@@ -38,9 +38,11 @@ class ProductActivity : BaseActivity() {
         setContentView(binding.root)
         binding.adViewProduct.loadAd(AdRequest.Builder().build())
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.all_product)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.all_product)
+        }
 
         binding.productRecyclerview.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
         binding.productRecyclerview.setHasFixedSize(true)
@@ -49,7 +51,7 @@ class ProductActivity : BaseActivity() {
         databaseAccess.open()
         val productData = databaseAccess.products
         Log.d("data", "" + productData.size)
-        if (productData.size <= 0) {
+        if (productData.isEmpty()) {
             Toasty.info(this, R.string.no_product_found, Toasty.LENGTH_SHORT).show()
             binding.ivNoProduct.setImageResource(R.drawable.no_data)
         } else {
@@ -64,7 +66,7 @@ class ProductActivity : BaseActivity() {
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchProductList = databaseAccess.getSearchProducts(charSequence.toString())
-                if (searchProductList.size <= 0) {
+                if (searchProductList.isEmpty()) {
                     binding.productRecyclerview.visibility = View.GONE
                     binding.ivNoProduct.visibility = View.VISIBLE
                     binding.ivNoProduct.setImageResource(R.drawable.no_data)
@@ -120,21 +122,21 @@ class ProductActivity : BaseActivity() {
         sqLiteToExcel.exportSingleTable(Constant.products, "products.xls", object : SQLiteToExcel.ExportListener {
             override fun onStart() {
                 dialog = ProgressDialog(this@ProductActivity)
-                dialog!!.setMessage(getString(R.string.data_exporting_please_wait))
-                dialog!!.setCancelable(false)
-                dialog!!.show()
+                dialog?.setMessage(getString(R.string.data_exporting_please_wait))
+                dialog?.setCancelable(false)
+                dialog?.show()
             }
 
             override fun onCompleted(filePath: String) {
                 val mHand = Handler()
                 mHand.postDelayed({
-                    dialog!!.dismiss()
+                    dialog?.dismiss()
                     Toasty.success(this@ProductActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
                 }, 5000L)
             }
 
             override fun onError(e: Exception) {
-                dialog!!.dismiss()
+                dialog?.dismiss()
                 Toasty.error(this@ProductActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
             }
         })

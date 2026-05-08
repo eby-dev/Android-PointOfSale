@@ -19,7 +19,6 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.internal.view.SupportMenu
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -64,12 +63,14 @@ class EditProductActivity : BaseActivity() {
         binding = ActivityEditProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.product_details)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.product_details)
+        }
 
         etProductCode = findViewById(R.id.et_product_code)
-        productID = intent.extras!!.getString(Constant.PRODUCT_ID)
+        productID = intent.getStringExtra(Constant.PRODUCT_ID)
 
         binding.etProductName.isEnabled = false
         etProductCode.isEnabled = false
@@ -101,16 +102,16 @@ class EditProductActivity : BaseActivity() {
             binding.tvChooseImage.isEnabled = true
             binding.ivProduct.isEnabled = true
 
-            binding.etProductName.setTextColor(SupportMenu.CATEGORY_MASK)
-            etProductCode.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductCategory.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductDescription.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductBuyPrice.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductSellPrice.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductStock.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductWeight.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etProductWeightUnit.setTextColor(SupportMenu.CATEGORY_MASK)
-            binding.etSupplier.setTextColor(SupportMenu.CATEGORY_MASK)
+            binding.etProductName.setTextColor(0xffff0000.toInt())
+            etProductCode.setTextColor(0xffff0000.toInt())
+            binding.etProductCategory.setTextColor(0xffff0000.toInt())
+            binding.etProductDescription.setTextColor(0xffff0000.toInt())
+            binding.etProductBuyPrice.setTextColor(0xffff0000.toInt())
+            binding.etProductSellPrice.setTextColor(0xffff0000.toInt())
+            binding.etProductStock.setTextColor(0xffff0000.toInt())
+            binding.etProductWeight.setTextColor(0xffff0000.toInt())
+            binding.etProductWeightUnit.setTextColor(0xffff0000.toInt())
+            binding.etSupplier.setTextColor(0xffff0000.toInt())
 
             binding.tvEditProduct.visibility = View.GONE
             binding.tvUpdateProduct.visibility = View.VISIBLE
@@ -143,60 +144,60 @@ class EditProductActivity : BaseActivity() {
         databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
         val productData = databaseAccess.getProductsInfo(productID)
-        val product_categoryID = productData[0][Constant.PRODUCT_CATEGORY]
-        val product_weightUnitID = productData[0][Constant.PRODUCT_WEIGHT_UNIT_ID]
-        val product_supplierID = productData[0][Constant.PRODUCT_SUPPLIER]
+        val productCategoryId = productData[0][Constant.PRODUCT_CATEGORY]
+        val productWeightUnitId = productData[0][Constant.PRODUCT_WEIGHT_UNIT_ID]
+        val productSupplierId = productData[0][Constant.PRODUCT_SUPPLIER]
 
         binding.etProductName.setText(productData[0][Constant.PRODUCT_NAME])
         binding.etProductCode.setText(productData[0][Constant.PRODUCT_CODE])
         databaseAccess.open()
-        binding.etProductCategory.setText(databaseAccess.getCategoryName(product_categoryID))
+        binding.etProductCategory.setText(databaseAccess.getCategoryName(productCategoryId))
         binding.etProductDescription.setText(productData[0][Constant.PRODUCT_DESCRIPTION])
         binding.etProductBuyPrice.setText(productData[0][Constant.PRODUCT_BUY_PRICE])
         binding.etProductSellPrice.setText(productData[0][Constant.PRODUCT_SELL_PRICE])
         binding.etProductStock.setText(productData[0][Constant.PRODUCT_STOCK])
         binding.etProductWeight.setText(productData[0][Constant.PRODUCT_WEIGHT])
         databaseAccess.open()
-        binding.etProductWeightUnit.setText(databaseAccess.getWeightUnitName(product_weightUnitID))
+        binding.etProductWeightUnit.setText(databaseAccess.getWeightUnitName(productWeightUnitId))
         databaseAccess.open()
-        binding.etSupplier.setText(databaseAccess.getSupplierName(product_supplierID))
+        binding.etSupplier.setText(databaseAccess.getSupplierName(productSupplierId))
 
-        val product_image = productData[0][Constant.PRODUCT_IMAGE]
-        if (product_image != null) {
-            if (product_image.length < 6) {
+        val productImage = productData[0][Constant.PRODUCT_IMAGE]
+        if (productImage != null) {
+            if (productImage.length < 6) {
                 binding.ivProduct.setImageResource(R.drawable.image_placeholder)
             } else {
-                val bytes = Base64.decode(product_image, Base64.DEFAULT)
+                val bytes = Base64.decode(productImage, Base64.DEFAULT)
                 binding.ivProduct.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
             }
         }
-        encodedImage = product_image ?: "N/A"
+        encodedImage = productImage ?: "N/A"
 
-        selectedCategoryID = product_categoryID
-        selectedWeightUnitID = product_weightUnitID
-        selectedSupplierID = product_supplierID
+        selectedCategoryID = productCategoryId
+        selectedWeightUnitID = productWeightUnitId
+        selectedSupplierID = productSupplierId
 
         databaseAccess.open()
         val productCategory = databaseAccess.productCategory
         for (i in productCategory.indices) {
-            categoryNames.add(productCategory[i][Constant.CATEGORY_NAME]!!)
+            categoryNames.add(productCategory[i][Constant.CATEGORY_NAME].orEmpty())
         }
 
         databaseAccess.open()
         val weightUnit = databaseAccess.weightUnit
         for (i1 in weightUnit.indices) {
-            weightUnitNames.add(weightUnit[i1][Constant.WEIGHT_UNIT]!!)
+            weightUnitNames.add(weightUnit[i1][Constant.WEIGHT_UNIT].orEmpty())
         }
 
         databaseAccess.open()
         val productSupplier = databaseAccess.productSupplier
         for (i2 in productSupplier.indices) {
-            supplierNames.add(productSupplier[i2][Constant.SUPPLIERS_NAME]!!)
+            supplierNames.add(productSupplier[i2][Constant.SUPPLIERS_NAME].orEmpty())
         }
 
         binding.etProductCategory.setOnClickListener {
             categoryAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
-            categoryAdapter!!.addAll(categoryNames)
+            categoryAdapter?.addAll(categoryNames)
 
             val dialog = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.dialog_list_search, null)
@@ -214,7 +215,7 @@ class EditProductActivity : BaseActivity() {
             search.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
-                    categoryAdapter!!.filter.filter(charSequence)
+                    categoryAdapter?.filter?.filter(charSequence)
                 }
                 override fun afterTextChanged(editable: Editable) {}
             })
@@ -223,22 +224,22 @@ class EditProductActivity : BaseActivity() {
             alertDialog.show()
             dialogListView.setOnItemClickListener { _, _, i, _ ->
                 alertDialog.dismiss()
-                val selectedItem = categoryAdapter!!.getItem(i)
-                var category_id = "0"
+                val selectedItem = categoryAdapter?.getItem(i)
+                var categoryId = "0"
                 binding.etProductCategory.setText(selectedItem)
                 for (i3 in categoryNames.indices) {
                     if (categoryNames[i3].equals(selectedItem, ignoreCase = true)) {
-                        category_id = (productCategory[i3] as HashMap<*, *>)[Constant.CATEGORY_ID] as String
+                        categoryId = (productCategory[i3] as HashMap<*, *>)[Constant.CATEGORY_ID] as String
                     }
                 }
-                selectedCategoryID = category_id
-                Log.d(Constant.CATEGORY_ID, category_id)
+                selectedCategoryID = categoryId
+                Log.d(Constant.CATEGORY_ID, categoryId)
             }
         }
 
         binding.etProductWeightUnit.setOnClickListener {
             weightUnitAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
-            weightUnitAdapter!!.addAll(weightUnitNames)
+            weightUnitAdapter?.addAll(weightUnitNames)
 
             val dialog = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.dialog_list_search, null)
@@ -256,7 +257,7 @@ class EditProductActivity : BaseActivity() {
             search.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
-                    weightUnitAdapter!!.filter.filter(charSequence)
+                    weightUnitAdapter?.filter?.filter(charSequence)
                 }
                 override fun afterTextChanged(editable: Editable) {}
             })
@@ -265,22 +266,22 @@ class EditProductActivity : BaseActivity() {
             alertDialog.show()
             dialogListView.setOnItemClickListener { _, _, i, _ ->
                 alertDialog.dismiss()
-                val selectedItem = weightUnitAdapter!!.getItem(i)
-                var weight_unit_id = "0"
+                val selectedItem = weightUnitAdapter?.getItem(i)
+                var weightUnitId = "0"
                 binding.etProductWeightUnit.setText(selectedItem)
                 for (i4 in weightUnitNames.indices) {
                     if (weightUnitNames[i4].equals(selectedItem, ignoreCase = true)) {
-                        weight_unit_id = (weightUnit[i4] as HashMap<*, *>)[Constant.WEIGHT_ID] as String
+                        weightUnitId = (weightUnit[i4] as HashMap<*, *>)[Constant.WEIGHT_ID] as String
                     }
                 }
-                selectedWeightUnitID = weight_unit_id
-                Log.d(Constant.WEIGHT_UNIT, selectedWeightUnitID!!)
+                selectedWeightUnitID = weightUnitId
+                Log.d(Constant.WEIGHT_UNIT, selectedWeightUnitID.orEmpty())
             }
         }
 
         binding.etSupplier.setOnClickListener {
             supplierAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
-            supplierAdapter!!.addAll(supplierNames)
+            supplierAdapter?.addAll(supplierNames)
 
             val dialog = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.dialog_list_search, null)
@@ -298,7 +299,7 @@ class EditProductActivity : BaseActivity() {
             search.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
-                    supplierAdapter!!.filter.filter(charSequence)
+                    supplierAdapter?.filter?.filter(charSequence)
                 }
                 override fun afterTextChanged(editable: Editable) {}
             })
@@ -307,52 +308,52 @@ class EditProductActivity : BaseActivity() {
             alertDialog.show()
             dialogListView.setOnItemClickListener { _, _, i, _ ->
                 alertDialog.dismiss()
-                val selectedItem = supplierAdapter!!.getItem(i)
-                var supplier_id = "0"
+                val selectedItem = supplierAdapter?.getItem(i)
+                var supplierId = "0"
                 binding.etSupplier.setText(selectedItem)
                 for (i5 in supplierNames.indices) {
                     if (supplierNames[i5].equals(selectedItem, ignoreCase = true)) {
-                        supplier_id = (productSupplier[i5] as HashMap<*, *>)[Constant.SUPPLIERS_ID] as String
+                        supplierId = (productSupplier[i5] as HashMap<*, *>)[Constant.SUPPLIERS_ID] as String
                     }
                 }
-                selectedSupplierID = supplier_id
-                Log.d(Constant.SUPPLIERS_ID, selectedSupplierID!!)
+                selectedSupplierID = supplierId
+                Log.d(Constant.SUPPLIERS_ID, selectedSupplierID.orEmpty())
             }
         }
 
         binding.tvUpdateProduct.setOnClickListener {
-            val product_name = binding.etProductName.text.toString()
-            val product_code = binding.etProductCode.text.toString()
-            val product_category = selectedCategoryID
-            val product_description = binding.etProductDescription.text.toString()
-            val product_buyPrice = binding.etProductBuyPrice.text.toString()
-            val product_sellPrice = binding.etProductSellPrice.text.toString()
-            val product_stock = binding.etProductStock.text.toString()
-            val product_weight = binding.etProductWeight.text.toString()
-            val product_weightUnit = selectedWeightUnitID
-            val product_supplier = selectedSupplierID
+            val productName = binding.etProductName.text.toString()
+            val productCode = binding.etProductCode.text.toString()
+            val productCategory = selectedCategoryID
+            val productDescription = binding.etProductDescription.text.toString()
+            val productBuyPrice = binding.etProductBuyPrice.text.toString()
+            val productSellPrice = binding.etProductSellPrice.text.toString()
+            val productStock = binding.etProductStock.text.toString()
+            val productWeight = binding.etProductWeight.text.toString()
+            val productWeightUnit = selectedWeightUnitID
+            val productSupplier = selectedSupplierID
 
-            if (product_name.isEmpty()) {
+            if (productName.isEmpty()) {
                 binding.etProductName.error = getString(R.string.product_name_cannot_be_empty)
                 binding.etProductName.requestFocus()
-            } else if (product_category.isNullOrEmpty()) {
+            } else if (productCategory.isNullOrEmpty()) {
                 binding.etProductCategory.error = getString(R.string.product_category_cannot_be_empty)
                 binding.etProductCategory.requestFocus()
-            } else if (product_sellPrice.isEmpty()) {
+            } else if (productSellPrice.isEmpty()) {
                 binding.etProductSellPrice.error = getString(R.string.product_sell_price_cannot_be_empty)
                 binding.etProductSellPrice.requestFocus()
-            } else if (product_stock.isEmpty()) {
+            } else if (productStock.isEmpty()) {
                 binding.etProductStock.error = getString(R.string.product_stock_cannot_be_empty)
                 binding.etProductStock.requestFocus()
-            } else if (product_weight.isEmpty()) {
+            } else if (productWeight.isEmpty()) {
                 binding.etProductWeight.error = getString(R.string.product_weight_cannot_be_empty)
                 binding.etProductWeight.requestFocus()
-            } else if (product_supplier.isNullOrEmpty()) {
+            } else if (productSupplier.isNullOrEmpty()) {
                 binding.etSupplier.error = getString(R.string.product_supplier_cannot_be_empty)
                 binding.etSupplier.requestFocus()
             } else {
                 databaseAccess.open()
-                val check = databaseAccess.updateProduct(product_name, product_code, product_category, product_description, product_buyPrice, product_sellPrice, product_stock, product_supplier, encodedImage, product_weightUnit, product_weight, productID)
+                val check = databaseAccess.updateProduct(productName, productCode, productCategory, productDescription, productBuyPrice, productSellPrice, productStock, productSupplier, encodedImage, productWeightUnit, productWeight, productID)
                 if (check) {
                     Toasty.success(this, R.string.update_successfully, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@EditProductActivity, ProductActivity::class.java)
