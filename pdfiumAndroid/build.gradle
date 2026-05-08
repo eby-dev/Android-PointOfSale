@@ -4,23 +4,26 @@ android {
     namespace "com.shockwave.pdfium"
     compileSdkVersion 35
 
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 35
         versionCode 1
         versionName "1.9.2"
         buildConfigField 'String', 'VERSION_NAME', "\"${defaultConfig.versionName}\""
 
-        defaultConfig {
-            externalNativeBuild {
-                cmake {
-                    arguments "-DANDROID_ARM_NEON=TRUE"
-                    cFlags "-Wl,-z,max-page-size=16384"
-                    cppFlags "-Wl,-z,max-page-size=16384"
-                }
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_ARM_NEON=TRUE"
             }
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,10 +31,10 @@ android {
         }
     }
 
-    sourceSets{
+    sourceSets {
         main {
-            jni.srcDirs = []
-            jniLibs.srcDir 'src/main/libs'
+            // Package pre-built pdfium .so files alongside the compiled jniPdfium.so
+            jniLibs.srcDir 'src/main/jni/lib'
         }
     }
 

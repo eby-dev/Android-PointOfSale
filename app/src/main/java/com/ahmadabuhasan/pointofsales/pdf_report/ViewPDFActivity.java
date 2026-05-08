@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
@@ -25,8 +24,6 @@ import androidx.core.content.FileProvider;
 import com.ahmadabuhasan.pointofsales.R;
 import com.ahmadabuhasan.pointofsales.databinding.ActivityViewPdfBinding;
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity;
-import com.itextpdf.text.pdf.PdfObject;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -127,13 +124,7 @@ public class ViewPDFActivity extends BaseActivity {
                     OutputStream output = null;
 
                     try {
-                        File folder = new File(Environment.getExternalStorageDirectory().toString(), PdfObject.TEXT_PDFDOCENCODING);
-                        if (!folder.exists()) {
-                            folder.mkdir();
-                        }
-
-                        File file1 = new File(folder, "order_receipt.pdf");
-                        input = new FileInputStream(file1);
+                        input = new FileInputStream(file);
                         output = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
                         byte[] buf = new byte[1024];
 

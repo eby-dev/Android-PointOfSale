@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.util.Log;
 
 import com.google.android.gms.drive.DriveFile;
@@ -63,9 +62,12 @@ public class TemplatePDF {
     }
 
     private void createFile() {
-        File folder = new File(Environment.getExternalStorageDirectory().toString(), PdfObject.TEXT_PDFDOCENCODING);
+        // getExternalFilesDir requires no storage permission on any API level (21+).
+        // Environment.getExternalStorageDirectory() is blocked on API 30+ without MANAGE_EXTERNAL_STORAGE.
+        File externalDir = context.getExternalFilesDir("PDF");
+        File folder = externalDir != null ? externalDir : new File(context.getFilesDir(), "PDF");
         if (!folder.exists()) {
-            folder.mkdir();
+            folder.mkdirs();
         }
         this.pdfFile = new File(folder, "order_receipt.pdf");
     }
