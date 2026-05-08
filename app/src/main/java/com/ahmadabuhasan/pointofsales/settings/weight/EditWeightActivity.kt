@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.core.internal.view.SupportMenu
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -25,32 +24,34 @@ class EditWeightActivity : BaseActivity() {
         binding = ActivityEditWeightBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.update_weight)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.update_weight)
+        }
 
-        val weight_id = intent.extras!!.getString(Constant.WEIGHT_ID)
+        val weightId = intent.getStringExtra(Constant.WEIGHT_ID)
 
-        binding.etWeUnNameName.setText(intent.extras!!.getString(Constant.WEIGHT_UNIT))
+        binding.etWeUnNameName.setText(intent.getStringExtra(Constant.WEIGHT_UNIT))
         binding.etWeUnNameName.isEnabled = false
 
         binding.tvUpdateWeight.visibility = View.GONE
         binding.tvEditWeight.setOnClickListener {
             binding.etWeUnNameName.isEnabled = true
-            binding.etWeUnNameName.setTextColor(SupportMenu.CATEGORY_MASK)
+            binding.etWeUnNameName.setTextColor(0xffff0000.toInt())
             binding.tvEditWeight.visibility = View.GONE
             binding.tvUpdateWeight.visibility = View.VISIBLE
         }
 
         binding.tvUpdateWeight.setOnClickListener {
-            val weight_name = binding.etWeUnNameName.text.toString().trim()
-            if (weight_name.isEmpty()) {
+            val weightName = binding.etWeUnNameName.text.toString().trim()
+            if (weightName.isEmpty()) {
                 binding.etWeUnNameName.error = getString(R.string.enter_weight_name)
                 binding.etWeUnNameName.requestFocus()
             } else {
                 val databaseAccess = DatabaseAccess.getInstance(this@EditWeightActivity)
                 databaseAccess.open()
-                if (databaseAccess.updateWeight(weight_id, weight_name)) {
+                if (databaseAccess.updateWeight(weightId, weightName)) {
                     Toasty.success(this@EditWeightActivity, R.string.successfully_updated, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@EditWeightActivity, WeightActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

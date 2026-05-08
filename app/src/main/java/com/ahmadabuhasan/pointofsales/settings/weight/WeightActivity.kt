@@ -28,9 +28,11 @@ class WeightActivity : BaseActivity() {
         binding = ActivityWeightBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.weight)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.weight)
+        }
 
         binding.weightRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.weightRecyclerview.setHasFixedSize(true)
@@ -39,7 +41,7 @@ class WeightActivity : BaseActivity() {
         databaseAccess.open()
         val weightData = databaseAccess.productWeight
         Log.d("data", "" + weightData.size)
-        if (weightData.size <= 0) {
+        if (weightData.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.ivNoWeight.setImageResource(R.drawable.no_data)
         } else {
@@ -52,7 +54,7 @@ class WeightActivity : BaseActivity() {
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchWeightList = databaseAccess.searchProductWeight(charSequence.toString())
-                if (searchWeightList.size <= 0) {
+                if (searchWeightList.isEmpty()) {
                     binding.weightRecyclerview.visibility = View.GONE
                     binding.ivNoWeight.visibility = View.VISIBLE
                     binding.ivNoWeight.setImageResource(R.drawable.no_data)

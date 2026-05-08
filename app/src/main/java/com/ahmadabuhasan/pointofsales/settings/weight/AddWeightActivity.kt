@@ -22,19 +22,21 @@ class AddWeightActivity : BaseActivity() {
         binding = ActivityAddWeightBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.add_weight)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.add_weight)
+        }
 
         binding.tvAddWeight.setOnClickListener {
-            val weight_name = binding.etWeUnNameName.text.toString().trim()
-            if (weight_name.isEmpty()) {
+            val weightName = binding.etWeUnNameName.text.toString().trim()
+            if (weightName.isEmpty()) {
                 binding.etWeUnNameName.error = getString(R.string.enter_weight_name)
                 binding.etWeUnNameName.requestFocus()
             } else {
                 val databaseAccess = DatabaseAccess.getInstance(this@AddWeightActivity)
                 databaseAccess.open()
-                if (databaseAccess.addWeight(weight_name)) {
+                if (databaseAccess.addWeight(weightName)) {
                     Toasty.success(this@AddWeightActivity, R.string.successfully_added, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@AddWeightActivity, WeightActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

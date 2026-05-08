@@ -28,7 +28,7 @@ class WeightAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val weight_id = weightData[position][Constant.WEIGHT_ID]
+        val weightId = weightData[position][Constant.WEIGHT_ID]
 
         holder.binding.tvWeightName.text = weightData[position][Constant.WEIGHT_UNIT]
         holder.binding.ivDelete.setOnClickListener {
@@ -38,7 +38,7 @@ class WeightAdapter(
                 .setPositiveButton(R.string.yes) { dialogInterface, _ ->
                     val databaseAccess = DatabaseAccess.getInstance(context)
                     databaseAccess.open()
-                    if (databaseAccess.deleteWeight(weight_id)) {
+                    if (databaseAccess.deleteWeight(weightId)) {
                         Toasty.success(context, R.string.weight_unit_deleted, Toasty.LENGTH_SHORT).show()
                         weightData.removeAt(holder.adapterPosition)
                         notifyItemRemoved(holder.adapterPosition)
@@ -57,8 +57,8 @@ class WeightAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditWeightActivity::class.java)
-            i.putExtra(Constant.WEIGHT_ID, weightData[adapterPosition][Constant.WEIGHT_ID] as String)
-            i.putExtra(Constant.WEIGHT_UNIT, weightData[adapterPosition][Constant.WEIGHT_UNIT] as String)
+            i.putExtra(Constant.WEIGHT_ID, weightData[adapterPosition][Constant.WEIGHT_ID].orEmpty())
+            i.putExtra(Constant.WEIGHT_UNIT, weightData[adapterPosition][Constant.WEIGHT_UNIT].orEmpty())
             context.startActivity(i)
         }
     }
