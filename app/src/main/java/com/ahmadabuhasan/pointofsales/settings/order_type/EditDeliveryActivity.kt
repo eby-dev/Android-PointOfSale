@@ -27,7 +27,7 @@ class EditDeliveryActivity : BaseActivity() {
         supportActionBar?.apply {
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
-            setTitle("Edit Delivery")
+            setTitle(R.string.edit_delivery)
         }
 
         val deliveryId = intent.getStringExtra(Constant.ORDER_TYPE_ID)
