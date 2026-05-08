@@ -46,10 +46,12 @@ class PosActivity : BaseActivity() {
         setContentView(binding.root)
         binding.adViewPos.loadAd(AdRequest.Builder().build())
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.all_product)
-        supportActionBar!!.hide()
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.all_product)
+            hide()
+        }
 
         binding.ivNoProduct.visibility = View.GONE
         binding.tvNoProduct.visibility = View.GONE

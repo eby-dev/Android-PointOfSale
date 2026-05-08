@@ -43,29 +43,29 @@ class PosProductAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val databaseAccess = DatabaseAccess.getInstance(context)
 
-        val product_id = productData[position][Constant.PRODUCT_ID]
-        val product_name = productData[position][Constant.PRODUCT_NAME]
-        val product_stock = productData[position][Constant.PRODUCT_STOCK]
-        val product_weight = productData[position][Constant.PRODUCT_WEIGHT]
-        val product_weightUnitID = productData[position][Constant.PRODUCT_WEIGHT_UNIT_ID]
-        val product_price = productData[position][Constant.PRODUCT_SELL_PRICE]
+        val productId = productData[position][Constant.PRODUCT_ID]
+        val productName = productData[position][Constant.PRODUCT_NAME]
+        val productStock = productData[position][Constant.PRODUCT_STOCK]
+        val productWeight = productData[position][Constant.PRODUCT_WEIGHT]
+        val productWeightUnitId = productData[position][Constant.PRODUCT_WEIGHT_UNIT_ID]
+        val productPrice = productData[position][Constant.PRODUCT_SELL_PRICE]
         val base64Image = productData[position][Constant.PRODUCT_IMAGE]
 
-        holder.binding.tvProductName.text = product_name
+        holder.binding.tvProductName.text = productName
 
-        val getStock = product_stock!!.toInt()
-        holder.binding.tvStock.text = String.format("%s: %s", context.getString(R.string.stock), product_stock)
+        val getStock = productStock.orEmpty().toInt()
+        holder.binding.tvStock.text = String.format("%s: %s", context.getString(R.string.stock), productStock)
         if (getStock <= 5) {
             holder.binding.tvStock.setTextColor(Color.RED)
         }
 
         databaseAccess.open()
-        val weightUnit_name = databaseAccess.getWeightUnitName(product_weightUnitID)
-        holder.binding.tvWeight.text = String.format("%s %s", product_weight, weightUnit_name)
+        val weightUnitName = databaseAccess.getWeightUnitName(productWeightUnitId)
+        holder.binding.tvWeight.text = String.format("%s %s", productWeight, weightUnitName)
 
         databaseAccess.open()
         val currency = databaseAccess.currency
-        val convert = product_price!!.toDouble()
+        val convert = productPrice.orEmpty().toDouble()
         holder.binding.tvPrice.text = String.format("%s%s", currency, formatIDR.format(convert))
 
         if (base64Image != null) {
@@ -85,7 +85,7 @@ class PosProductAdapter(
         holder.binding.cvProduct.setOnClickListener {
             sound.start()
             val i = Intent(context, EditProductActivity::class.java)
-            i.putExtra(Constant.PRODUCT_ID, product_id)
+            i.putExtra(Constant.PRODUCT_ID, productId)
             context.startActivity(i)
         }
 
@@ -94,10 +94,10 @@ class PosProductAdapter(
                 Toasty.warning(context, R.string.stock_is_low_please_update_stock, Toasty.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            Log.d("weightUnitID", product_weightUnitID.orEmpty())
+            Log.d("weightUnitID", productWeightUnitId.orEmpty())
 
             databaseAccess.open()
-            val check = databaseAccess.addToCart(product_id, product_weight, product_weightUnitID, product_price, 1, product_stock)
+            val check = databaseAccess.addToCart(productId, productWeight, productWeightUnitId, productPrice, 1, productStock)
             if (check == 1) {
                 Toasty.success(context, R.string.product_added_to_cart, Toasty.LENGTH_SHORT).show()
                 sound.start()

@@ -29,9 +29,11 @@ class ScannerActivity : BaseActivity(), ZXingScannerView.ResultHandler {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.qr_barcode_scanner)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.qr_barcode_scanner)
+        }
 
         if (Build.VERSION.SDK_INT >= 23) {
             requestCameraPermission()

@@ -39,16 +39,16 @@ class ProductCategoryAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val databaseAccess = DatabaseAccess.getInstance(context)
 
-        val category_id = categoryData[position][Constant.CATEGORY_ID]
-        val category_name = categoryData[position][Constant.CATEGORY_NAME]
+        val categoryId = categoryData[position][Constant.CATEGORY_ID]
+        val categoryName = categoryData[position][Constant.CATEGORY_NAME]
 
-        holder.binding.tvCategoryName.text = category_name
+        holder.binding.tvCategoryName.text = categoryName
         holder.binding.cvCategory.setOnClickListener {
             sound.start()
 
             databaseAccess.open()
-            val fromCategoryList = databaseAccess.getTabProducts(category_id)
-            if (fromCategoryList.size <= 0) {
+            val fromCategoryList = databaseAccess.getTabProducts(categoryId)
+            if (fromCategoryList.isEmpty()) {
                 recyclerView.visibility = View.GONE
                 tvNoData.visibility = View.VISIBLE
                 ivNoData.visibility = View.VISIBLE

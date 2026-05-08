@@ -37,7 +37,7 @@ import java.util.Locale
 
 class ProductCartActivity : BaseActivity() {
 
-    private var binding: ActivityProductCartBinding? = null
+    private lateinit var binding: ActivityProductCartBinding
     private val locale = Locale("in", "ID")
     private val formatIDR = NumberFormat.getInstance(locale)
 
@@ -51,45 +51,44 @@ class ProductCartActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductCartBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+        setContentView(binding.root)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setTitle(R.string.product_cart)
 
-        binding!!.cartRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-        binding!!.cartRecyclerview.setHasFixedSize(true)
+        binding.cartRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+        binding.cartRecyclerview.setHasFixedSize(true)
 
         val databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
         val cartProductList = databaseAccess.cartProduct as MutableList<HashMap<String, String>>
         if (cartProductList.isEmpty()) {
-            binding!!.tvTotalPrice.visibility = View.GONE
-            binding!!.btnSubmitOrder.visibility = View.GONE
-            binding!!.cartRecyclerview.visibility = View.GONE
-            binding!!.linearLayout.visibility = View.GONE
+            binding.tvTotalPrice.visibility = View.GONE
+            binding.btnSubmitOrder.visibility = View.GONE
+            binding.cartRecyclerview.visibility = View.GONE
+            binding.linearLayout.visibility = View.GONE
 
-            binding!!.tvNoProduct.visibility = View.VISIBLE
-            binding!!.ivNoProduct.visibility = View.VISIBLE
-            binding!!.ivNoProduct.setImageResource(R.drawable.empty_cart)
+            binding.tvNoProduct.visibility = View.VISIBLE
+            binding.ivNoProduct.visibility = View.VISIBLE
+            binding.ivNoProduct.setImageResource(R.drawable.empty_cart)
         } else {
-            binding!!.tvNoProduct.visibility = View.GONE
-            binding!!.ivNoProduct.visibility = View.GONE
+            binding.tvNoProduct.visibility = View.GONE
+            binding.ivNoProduct.visibility = View.GONE
 
             val adapter = CartAdapter(this, cartProductList,
-                binding!!.ivNoProduct,
-                binding!!.tvNoProduct,
-                binding!!.tvTotalPrice,
-                binding!!.btnSubmitOrder)
-            binding!!.cartRecyclerview.adapter = adapter
+                binding.ivNoProduct,
+                binding.tvNoProduct,
+                binding.tvTotalPrice,
+                binding.btnSubmitOrder)
+            binding.cartRecyclerview.adapter = adapter
         }
 
-        binding!!.btnSubmitOrder.setOnClickListener { dialog() }
+        binding.btnSubmitOrder.setOnClickListener { dialog() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        binding = null
     }
 
     private fun dialog() {

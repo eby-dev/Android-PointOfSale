@@ -37,7 +37,7 @@ class CartAdapter(
 ) : RecyclerView.Adapter<CartAdapter.MyViewHolder>() {
 
     companion object {
-        var total_price: Double? = null
+        var totalPrice: Double? = null
     }
 
     private val sound: MediaPlayer = MediaPlayer.create(context, R.raw.delete_sound)
@@ -52,30 +52,30 @@ class CartAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val databaseAccess = DatabaseAccess.getInstance(context)
 
-        val cart_id = cartProduct[position][Constant.CART_ID]
-        val product_id = cartProduct[position][Constant.PRODUCT_ID]
+        val cartId = cartProduct[position][Constant.CART_ID]
+        val productId = cartProduct[position][Constant.PRODUCT_ID]
         databaseAccess.open()
-        val product_name = databaseAccess.getProductName(product_id)
+        val productName = databaseAccess.getProductName(productId)
         val weight = cartProduct[position][Constant.PRODUCT_WEIGHT]
-        val weight_UnitID = cartProduct[position][Constant.PRODUCT_WEIGHT_UNIT]
+        val weightUnitId = cartProduct[position][Constant.PRODUCT_WEIGHT_UNIT]
         val price = cartProduct[position][Constant.PRODUCT_PRICE]
         val qty = cartProduct[position][Constant.PRODUCT_QTY]
         val stock = cartProduct[position][Constant.STOCK]
 
-        val getStock = stock!!.toInt()
+        val getStock = stock.orEmpty().toInt()
 
         databaseAccess.open()
-        val base64Image = databaseAccess.getProductImage(product_id)
+        val base64Image = databaseAccess.getProductImage(productId)
 
         databaseAccess.open()
-        val weight_UnitName = databaseAccess.getWeightUnitName(weight_UnitID)
+        val weightUnitName = databaseAccess.getWeightUnitName(weightUnitId)
 
         databaseAccess.open()
         val currency = databaseAccess.currency
 
         databaseAccess.open()
-        total_price = databaseAccess.totalPrice
-        tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(total_price))
+        totalPrice = databaseAccess.totalPrice
+        tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(totalPrice))
 
         if (base64Image != null) {
             if (base64Image.isEmpty() || base64Image.length < 6) {
@@ -89,10 +89,10 @@ class CartAdapter(
             }
         }
 
-        val getPrice = price!!.toDouble() * qty!!.toInt()
+        val getPrice = price.orEmpty().toDouble() * qty.orEmpty().toInt()
 
-        holder.binding.tvItemName.text = product_name
-        holder.binding.tvWeight.text = String.format("%s %s", weight, weight_UnitName)
+        holder.binding.tvItemName.text = productName
+        holder.binding.tvWeight.text = String.format("%s %s", weight, weightUnitName)
         holder.binding.tvQtyNumber.text = qty
         holder.binding.tvPrice.text = String.format("%s%s", currency, formatIDR.format(getPrice))
 
@@ -101,15 +101,15 @@ class CartAdapter(
             var getQty = qtyMinus.toInt()
             if (getQty >= 2) {
                 getQty--
-                val cost = price.toDouble() * getQty
+                val cost = (price?.toDouble() ?: 0.0) * getQty
 
                 holder.binding.tvPrice.text = String.format("%s%s", currency, formatIDR.format(cost))
                 holder.binding.tvQtyNumber.text = MessageFormat.format("{0}", getQty)
 
                 databaseAccess.open()
-                databaseAccess.updateProductQty(cart_id, "" + getQty)
-                total_price = total_price!! - price.toDouble()
-                tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(total_price))
+                databaseAccess.updateProductQty(cartId, "" + getQty)
+                totalPrice = (totalPrice ?: 0.0) - (price?.toDouble() ?: 0.0)
+                tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(totalPrice))
             }
         }
 
@@ -120,29 +120,29 @@ class CartAdapter(
                 Toasty.error(context, R.string.available_stock, Toasty.LENGTH_SHORT).show()
             } else {
                 getQty++
-                val cost = price.toDouble() * getQty
+                val cost = (price?.toDouble() ?: 0.0) * getQty
 
                 holder.binding.tvPrice.text = String.format("%s%s", currency, formatIDR.format(cost))
                 holder.binding.tvQtyNumber.text = MessageFormat.format("{0}", getQty)
 
                 databaseAccess.open()
-                databaseAccess.updateProductQty(cart_id, "" + getQty)
-                total_price = total_price!! + price.toDouble()
-                tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(total_price))
+                databaseAccess.updateProductQty(cartId, "" + getQty)
+                totalPrice = (totalPrice ?: 0.0) + (price?.toDouble() ?: 0.0)
+                tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(totalPrice))
             }
         }
 
         holder.binding.ivDelete.setOnClickListener {
             databaseAccess.open()
-            if (databaseAccess.deleteProductFromCart(cart_id)) {
+            if (databaseAccess.deleteProductFromCart(cartId)) {
                 Toasty.success(context, R.string.product_removed_from_cart, Toasty.LENGTH_SHORT).show()
                 sound.start()
                 cartProduct.removeAt(holder.bindingAdapterPosition)
                 notifyItemRemoved(holder.bindingAdapterPosition)
 
                 databaseAccess.open()
-                total_price = databaseAccess.totalPrice
-                tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(total_price))
+                totalPrice = databaseAccess.totalPrice
+                tvTotalPrice.text = String.format("%s %s%s", context.getString(R.string.total_price), currency, formatIDR.format(totalPrice))
             } else {
                 Toasty.error(context, R.string.failed, Toasty.LENGTH_SHORT).show()
             }
