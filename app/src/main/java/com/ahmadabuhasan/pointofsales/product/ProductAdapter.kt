@@ -38,15 +38,15 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val databaseAccess = DatabaseAccess.getInstance(context)
 
-        val product_id = productData[position][Constant.PRODUCT_ID]
+        val productId = productData[position][Constant.PRODUCT_ID]
         val base64Image = productData[position][Constant.PRODUCT_IMAGE]
         databaseAccess.open()
         val currency = databaseAccess.currency
         databaseAccess.open()
-        val supplier_name = databaseAccess.getSupplierName(productData[position][Constant.PRODUCT_SUPPLIER])
+        val supplierName = databaseAccess.getSupplierName(productData[position][Constant.PRODUCT_SUPPLIER])
 
         holder.binding.tvProductName.text = productData[position][Constant.PRODUCT_NAME]
-        holder.binding.tvProductSupplier.text = context.getString(R.string.supplier) + supplier_name
+        holder.binding.tvProductSupplier.text = context.getString(R.string.supplier) + supplierName
         holder.binding.tvProductBuyPrice.text = context.getString(R.string.buy_price) + currency + productData[position][Constant.PRODUCT_BUY_PRICE]
         holder.binding.tvProductSellPrice.text = context.getString(R.string.sell_price) + currency + productData[position][Constant.PRODUCT_SELL_PRICE]
 
@@ -69,7 +69,7 @@ class ProductAdapter(
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes) { dialogInterface, _ ->
                     databaseAccess.open()
-                    if (databaseAccess.deleteProduct(product_id)) {
+                    if (databaseAccess.deleteProduct(productId)) {
                         Toasty.error(context, R.string.product_deleted, Toasty.LENGTH_SHORT).show()
                         productData.removeAt(holder.adapterPosition)
                         notifyItemRemoved(holder.adapterPosition)
@@ -92,7 +92,7 @@ class ProductAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(this@ProductAdapter.context, EditProductActivity::class.java)
-            i.putExtra(Constant.PRODUCT_ID, productData[adapterPosition][Constant.PRODUCT_ID] as String)
+            i.putExtra(Constant.PRODUCT_ID, productData[adapterPosition][Constant.PRODUCT_ID].orEmpty())
             context.startActivity(i)
         }
     }
