@@ -97,7 +97,7 @@ class DeviceListActivity : BaseActivity() {
         mBtAdapter = BluetoothAdapter.getDefaultAdapter()
         val pairedDevices = mBtAdapter.bondedDevices
 
-        if (pairedDevices.size > 0) {
+        if (pairedDevices.isNotEmpty()) {
             findViewById<View>(R.id.title_paired_devices).visibility = View.VISIBLE
             for (device in pairedDevices) {
                 mPairedDevicesArrayAdapter.add(device.name + "\n" + device.address)
@@ -158,7 +158,7 @@ class DeviceListActivity : BaseActivity() {
             val action = intent.action
 
             if (BluetoothDevice.ACTION_FOUND == action) {
-                val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)!!
+                val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) ?: return
                 if (device.bondState != BluetoothDevice.BOND_BONDED) {
                     mNewDevicesArrayAdapter.add(device.name + "\n" + device.address)
                 }

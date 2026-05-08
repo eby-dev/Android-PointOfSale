@@ -31,9 +31,11 @@ class OrdersActivity : BaseActivity() {
         setContentView(binding.root)
         binding.adViewOrders.loadAd(AdRequest.Builder().build())
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.order_history)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.order_history)
+        }
 
         binding.ivNoOrder.visibility = View.GONE
         binding.tvNoOrder.visibility = View.GONE
@@ -44,7 +46,7 @@ class OrdersActivity : BaseActivity() {
         databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
         val orderList = databaseAccess.orderList
-        if (orderList.size <= 0) {
+        if (orderList.isEmpty()) {
             Toasty.info(this, R.string.no_order_found, Toasty.LENGTH_SHORT).show()
             binding.ordersRecyclerview.visibility = View.GONE
             binding.tvNoOrder.visibility = View.VISIBLE
@@ -60,7 +62,7 @@ class OrdersActivity : BaseActivity() {
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchOrder = databaseAccess.searchOrderList(charSequence.toString())
-                if (searchOrder.size <= 0) {
+                if (searchOrder.isEmpty()) {
                     binding.ordersRecyclerview.visibility = View.GONE
                     binding.ivNoOrder.visibility = View.VISIBLE
                     binding.ivNoOrder.setImageResource(R.drawable.no_data)

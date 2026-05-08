@@ -39,23 +39,23 @@ class OrderDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityOrderDetailsBinding
 
-    lateinit var order_id: String
-    lateinit var customer_name: String
-    lateinit var order_date: String
-    lateinit var order_time: String
+    lateinit var orderId: String
+    lateinit var customerName: String
+    lateinit var orderDate: String
+    lateinit var orderTime: String
     lateinit var tax: String
     lateinit var discount: String
-    lateinit var shop_name: String
-    lateinit var shop_contact: String
-    lateinit var shop_email: String
-    lateinit var shop_address: String
-    lateinit var shop_currency: String
+    lateinit var shopName: String
+    lateinit var shopContact: String
+    lateinit var shopEmail: String
+    lateinit var shopAddress: String
+    lateinit var shopCurrency: String
     lateinit var receiptCustomerName: String
     lateinit var receiptThanks: String
-    var getTax: Double = 0.0
-    var getDiscount: Double = 0.0
-    var total_price: Double = 0.0
-    var calculated_TotalPrice: Double = 0.0
+    var taxAmount: Double = 0.0
+    var discountAmount: Double = 0.0
+    var totalPrice: Double = 0.0
+    var calculatedTotalPrice: Double = 0.0
 
     private var mPrnMng: WoosimPrnMng? = null
     var bm: Bitmap? = null
@@ -67,26 +67,28 @@ class OrderDetailsActivity : BaseActivity() {
         binding = ActivityOrderDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.order_details)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.order_details)
+        }
 
         binding.ivNoOrder.visibility = View.GONE
         binding.tvNoOrder.visibility = View.GONE
 
-        order_id = intent.extras!!.getString(Constant.ORDER_ID)!!
-        customer_name = intent.extras!!.getString(Constant.CUSTOMER_NAME)!!
-        order_date = intent.extras!!.getString(Constant.ORDER_DATE)!!
-        order_time = intent.extras!!.getString(Constant.ORDER_TIME)!!
-        tax = intent.extras!!.getString(Constant.TAX)!!
-        discount = intent.extras!!.getString(Constant.DISCOUNT)!!
+        orderId = intent.getStringExtra(Constant.ORDER_ID).orEmpty()
+        customerName = intent.getStringExtra(Constant.CUSTOMER_NAME).orEmpty()
+        orderDate = intent.getStringExtra(Constant.ORDER_DATE).orEmpty()
+        orderTime = intent.getStringExtra(Constant.ORDER_TIME).orEmpty()
+        tax = intent.getStringExtra(Constant.TAX).orEmpty()
+        discount = intent.getStringExtra(Constant.DISCOUNT).orEmpty()
 
         binding.orderDetailsRecyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.orderDetailsRecyclerview.setHasFixedSize(true)
 
         databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
-        val orderDetailsList = databaseAccess.getOrderDetailsList(order_id)
+        val orderDetailsList = databaseAccess.getOrderDetailsList(orderId)
         if (orderDetailsList.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
         } else {
@@ -96,41 +98,41 @@ class OrderDetailsActivity : BaseActivity() {
 
         databaseAccess.open()
         val shopData = databaseAccess.shopInformation
-        shop_name = shopData[0][Constant.SHOP_NAME]!!
-        shop_contact = shopData[0][Constant.SHOP_CONTACT]!!
-        shop_email = shopData[0][Constant.SHOP_EMAIL]!!
-        shop_address = shopData[0][Constant.SHOP_ADDRESS]!!
-        shop_currency = shopData[0][Constant.SHOP_CURRENCY]!!
+        shopName = shopData[0][Constant.SHOP_NAME].orEmpty()
+        shopContact = shopData[0][Constant.SHOP_CONTACT].orEmpty()
+        shopEmail = shopData[0][Constant.SHOP_EMAIL].orEmpty()
+        shopAddress = shopData[0][Constant.SHOP_ADDRESS].orEmpty()
+        shopCurrency = shopData[0][Constant.SHOP_CURRENCY].orEmpty()
 
         databaseAccess.open()
-        total_price = databaseAccess.totalOrderPrice(order_id)
-        getTax = tax.toDouble()
-        getDiscount = discount.toDouble()
-        calculated_TotalPrice = (total_price + getTax) - getDiscount
+        totalPrice = databaseAccess.totalOrderPrice(orderId)
+        taxAmount = tax.toDouble()
+        discountAmount = discount.toDouble()
+        calculatedTotalPrice = (totalPrice + taxAmount) - discountAmount
 
-        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.sub_total), shop_currency, decimalFormat.format(total_price))
-        binding.tvTax.text = String.format("%s : %s%s", getString(R.string.total_tax), shop_currency, decimalFormat.format(getTax))
-        binding.tvDiscount.text = String.format("%s : %s%s", getString(R.string.discount), shop_currency, decimalFormat.format(getDiscount))
-        binding.tvTotalCost.text = String.format("%s%s%s", getString(R.string.total_price), shop_currency, decimalFormat.format(calculated_TotalPrice))
+        binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.sub_total), shopCurrency, decimalFormat.format(totalPrice))
+        binding.tvTax.text = String.format("%s : %s%s", getString(R.string.total_tax), shopCurrency, decimalFormat.format(taxAmount))
+        binding.tvDiscount.text = String.format("%s : %s%s", getString(R.string.discount), shopCurrency, decimalFormat.format(discountAmount))
+        binding.tvTotalCost.text = String.format("%s%s%s", getString(R.string.total_price), shopCurrency, decimalFormat.format(calculatedTotalPrice))
 
-        receiptCustomerName = "Customer Name: Mr/Mrs. $customer_name"
+        receiptCustomerName = "Customer Name: Mr/Mrs. $customerName"
         receiptThanks = "Thanks for purchase. Visit again"
         val templatePDF = TemplatePDF(application)
         templatePDF.openDocument()
         templatePDF.addMetaData("Order Receipt", "Order Receipt", "Point Of Sale")
         templatePDF.addTitle(
-            shop_name,
-            shop_address
-                    + "\n Email: " + shop_email
-                    + "\n Contact: " + shop_contact
-                    + "\n Invoice ID: " + order_id,
-            "$order_time $order_date"
+            shopName,
+            shopAddress
+                    + "\n Email: " + shopEmail
+                    + "\n Contact: " + shopContact
+                    + "\n Invoice ID: " + orderId,
+            "$orderTime $orderDate"
         )
         templatePDF.addParagraph(receiptCustomerName)
 
         val barCodeEncoder = BarCodeEncoder()
         try {
-            bm = barCodeEncoder.encodeAsBitmap(order_id, BarcodeFormat.CODE_128, 600, 300)
+            bm = barCodeEncoder.encodeAsBitmap(orderId, BarcodeFormat.CODE_128, 600, 300)
         } catch (e: WriterException) {
             Log.d("Data", e.toString())
         }
@@ -157,29 +159,29 @@ class OrderDetailsActivity : BaseActivity() {
         get() {
             val rows = ArrayList<Array<String>>()
             databaseAccess.open()
-            val orderDetailsList = databaseAccess.getOrderDetailsList(order_id)
+            val orderDetailsList = databaseAccess.getOrderDetailsList(orderId)
             for (i in orderDetailsList.indices) {
                 val name = orderDetailsList[i][Constant.PRODUCT_NAME]
                 val weight = orderDetailsList[i][Constant.PRODUCT_WEIGHT]
                 val price = orderDetailsList[i][Constant.PRODUCT_PRICE]
                 val qty = orderDetailsList[i][Constant.PRODUCT_QTY]
 
-                val cost_total = price!!.toDouble() * qty!!.toInt()
+                val costTotal = price.orEmpty().toDouble() * qty.orEmpty().toInt()
 
                 rows.add(arrayOf(
                     name + "\n" +
                             weight + "\n(" +
                             qty + "x" +
-                            shop_currency + price + ")",
-                    shop_currency + decimalFormat.format(cost_total)
+                            shopCurrency + price + ")",
+                    shopCurrency + decimalFormat.format(costTotal)
                 ))
             }
             rows.add(arrayOf("..........................................", ".................................."))
-            rows.add(arrayOf("Sub Total: ", shop_currency + decimalFormat.format(total_price)))
-            rows.add(arrayOf("Total Tax: ", shop_currency + decimalFormat.format(getTax)))
-            rows.add(arrayOf("Discount: ", shop_currency + decimalFormat.format(getDiscount)))
+            rows.add(arrayOf("Sub Total: ", shopCurrency + decimalFormat.format(totalPrice)))
+            rows.add(arrayOf("Total Tax: ", shopCurrency + decimalFormat.format(taxAmount)))
+            rows.add(arrayOf("Discount: ", shopCurrency + decimalFormat.format(discountAmount)))
             rows.add(arrayOf("..........................................", ".................................."))
-            rows.add(arrayOf("Total Price: ", shop_currency + decimalFormat.format(calculated_TotalPrice)))
+            rows.add(arrayOf("Total Price: ", shopCurrency + decimalFormat.format(calculatedTotalPrice)))
             return rows
         }
 
@@ -194,10 +196,10 @@ class OrderDetailsActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CONNECT && resultCode == RESULT_OK) {
             try {
-                val blutoothAddr = data!!.extras!!.getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS)
-                val testPrinter: IPrintToPrinter = TestPrinter(this, shop_name, shop_address, shop_email, shop_contact,
-                    order_id, order_date, order_time, receiptCustomerName, receiptThanks,
-                    total_price, calculated_TotalPrice, tax, discount, shop_currency)
+                val blutoothAddr = data?.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS).orEmpty()
+                val testPrinter: IPrintToPrinter = TestPrinter(this, shopName, shopAddress, shopEmail, shopContact,
+                    orderId, orderDate, orderTime, receiptCustomerName, receiptThanks,
+                    totalPrice, calculatedTotalPrice, tax, discount, shopCurrency)
                 mPrnMng = printerFactory.createPrnMng(this, blutoothAddr, testPrinter)
             } catch (e: Exception) {
                 Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
@@ -208,7 +210,7 @@ class OrderDetailsActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        if (mPrnMng != null) mPrnMng!!.releaseAllocatoins()
+        mPrnMng?.releaseAllocatoins()
         super.onDestroy()
     }
 }

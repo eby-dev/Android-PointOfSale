@@ -36,14 +36,14 @@ class OrderDetailsAdapter(
         holder.binding.tvWeight.text = String.format("%s:%s", context.getString(R.string.weight), orderData[position][Constant.PRODUCT_WEIGHT])
 
         val base64Image = orderData[position][Constant.PRODUCT_IMAGE]
-        val unit_price = orderData[position][Constant.PRODUCT_PRICE]
+        val unitPrice = orderData[position][Constant.PRODUCT_PRICE]
         val qty = orderData[position][Constant.PRODUCT_QTY]
 
-        val cost = unit_price!!.toDouble() * qty!!.toInt()
+        val cost = unitPrice.orEmpty().toDouble() * qty.orEmpty().toInt()
 
         databaseAccess.open()
         val currency = databaseAccess.currency
-        holder.binding.tvTotalCost.text = String.format("%s%s x %s = %s%s", currency, unit_price, qty, currency, decimalFormat.format(cost))
+        holder.binding.tvTotalCost.text = String.format("%s%s x %s = %s%s", currency, unitPrice, qty, currency, decimalFormat.format(cost))
 
         if (base64Image == null) {
             return
