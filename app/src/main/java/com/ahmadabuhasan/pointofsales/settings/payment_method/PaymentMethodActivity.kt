@@ -28,9 +28,11 @@ class PaymentMethodActivity : BaseActivity() {
         binding = ActivityPaymentMethodBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.all_payment_method)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.all_payment_method)
+        }
 
         binding.paymentMethodRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.paymentMethodRecyclerview.setHasFixedSize(true)
@@ -39,7 +41,7 @@ class PaymentMethodActivity : BaseActivity() {
         databaseAccess.open()
         val paymentMethodData = databaseAccess.paymentMethod
         Log.d("data", "" + paymentMethodData.size)
-        if (paymentMethodData.size <= 0) {
+        if (paymentMethodData.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.ivNoPaymentMethod.setImageResource(R.drawable.no_data)
         } else {
@@ -53,7 +55,7 @@ class PaymentMethodActivity : BaseActivity() {
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchPaymentMethodList = databaseAccess.searchPaymentMethod(charSequence.toString())
-                if (searchPaymentMethodList.size <= 0) {
+                if (searchPaymentMethodList.isEmpty()) {
                     binding.paymentMethodRecyclerview.visibility = View.GONE
                     binding.ivNoPaymentMethod.visibility = View.VISIBLE
                     binding.ivNoPaymentMethod.setImageResource(R.drawable.no_data)

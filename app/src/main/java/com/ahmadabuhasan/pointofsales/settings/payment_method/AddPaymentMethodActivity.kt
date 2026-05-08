@@ -22,19 +22,21 @@ class AddPaymentMethodActivity : BaseActivity() {
         binding = ActivityAddPaymentMethodBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.add_payment_method)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.add_payment_method)
+        }
 
         binding.tvAddPaymentMethod.setOnClickListener {
-            val payment_method_name = binding.etPaymentMethodName.text.toString().trim()
-            if (payment_method_name.isEmpty()) {
+            val paymentMethodName = binding.etPaymentMethodName.text.toString().trim()
+            if (paymentMethodName.isEmpty()) {
                 binding.etPaymentMethodName.error = getString(R.string.enter_payment_method_name)
                 binding.etPaymentMethodName.requestFocus()
             } else {
                 val databaseAccess = DatabaseAccess.getInstance(this)
                 databaseAccess.open()
-                if (databaseAccess.addPaymentMethod(payment_method_name)) {
+                if (databaseAccess.addPaymentMethod(paymentMethodName)) {
                     Toasty.success(this, R.string.successfully_added, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@AddPaymentMethodActivity, PaymentMethodActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

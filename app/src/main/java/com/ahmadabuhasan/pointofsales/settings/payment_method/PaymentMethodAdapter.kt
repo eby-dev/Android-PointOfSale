@@ -28,7 +28,7 @@ class PaymentMethodAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val payment_method_id = paymentMethodData[position][Constant.PAYMENT_METHOD_ID]
+        val paymentMethodId = paymentMethodData[position][Constant.PAYMENT_METHOD_ID]
 
         holder.binding.tvPaymentMethodName.text = paymentMethodData[position][Constant.PAYMENT_METHOD_NAME]
         holder.binding.ivDelete.setOnClickListener {
@@ -38,7 +38,7 @@ class PaymentMethodAdapter(
                 .setPositiveButton(R.string.yes) { dialogInterface, _ ->
                     val databaseAccess = DatabaseAccess.getInstance(context)
                     databaseAccess.open()
-                    if (databaseAccess.deletePaymentMethod(payment_method_id)) {
+                    if (databaseAccess.deletePaymentMethod(paymentMethodId)) {
                         Toasty.success(context, R.string.payment_method_deleted, Toasty.LENGTH_SHORT).show()
                         paymentMethodData.removeAt(holder.adapterPosition)
                         notifyItemRemoved(holder.adapterPosition)
@@ -57,8 +57,8 @@ class PaymentMethodAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditPaymentMethodActivity::class.java)
-            i.putExtra(Constant.PAYMENT_METHOD_ID, paymentMethodData[adapterPosition][Constant.PAYMENT_METHOD_ID] as String)
-            i.putExtra(Constant.PAYMENT_METHOD_NAME, paymentMethodData[adapterPosition][Constant.PAYMENT_METHOD_NAME] as String)
+            i.putExtra(Constant.PAYMENT_METHOD_ID, paymentMethodData[adapterPosition][Constant.PAYMENT_METHOD_ID].orEmpty())
+            i.putExtra(Constant.PAYMENT_METHOD_NAME, paymentMethodData[adapterPosition][Constant.PAYMENT_METHOD_NAME].orEmpty())
             context.startActivity(i)
         }
     }
