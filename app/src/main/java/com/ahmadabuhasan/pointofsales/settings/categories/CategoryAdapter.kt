@@ -28,7 +28,7 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val category_id = categoryData[position][Constant.CATEGORY_ID]
+        val categoryId = categoryData[position][Constant.CATEGORY_ID]
 
         holder.binding.tvCategoryName.text = categoryData[position][Constant.CATEGORY_NAME]
         holder.binding.ivDelete.setOnClickListener {
@@ -38,7 +38,7 @@ class CategoryAdapter(
                 .setPositiveButton(R.string.yes) { dialogInterface, _ ->
                     val databaseAccess = DatabaseAccess.getInstance(context)
                     databaseAccess.open()
-                    if (databaseAccess.deleteCategory(category_id)) {
+                    if (databaseAccess.deleteCategory(categoryId)) {
                         Toasty.success(context, R.string.category_deleted, Toasty.LENGTH_SHORT).show()
                         categoryData.removeAt(holder.adapterPosition)
                         notifyItemRemoved(holder.adapterPosition)
@@ -57,8 +57,8 @@ class CategoryAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditCategoryActivity::class.java)
-            i.putExtra(Constant.CATEGORY_ID, categoryData[adapterPosition][Constant.CATEGORY_ID] as String)
-            i.putExtra(Constant.CATEGORY_NAME, categoryData[adapterPosition][Constant.CATEGORY_NAME] as String)
+            i.putExtra(Constant.CATEGORY_ID, categoryData[adapterPosition][Constant.CATEGORY_ID].orEmpty())
+            i.putExtra(Constant.CATEGORY_NAME, categoryData[adapterPosition][Constant.CATEGORY_NAME].orEmpty())
             context.startActivity(i)
         }
     }

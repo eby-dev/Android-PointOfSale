@@ -22,19 +22,21 @@ class AddCategoryActivity : BaseActivity() {
         binding = ActivityAddCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.add_category)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.add_category)
+        }
 
         binding.tvAddCategory.setOnClickListener {
-            val category_name = binding.etCategoryName.text.toString().trim()
-            if (category_name.isEmpty()) {
+            val categoryName = binding.etCategoryName.text.toString().trim()
+            if (categoryName.isEmpty()) {
                 binding.etCategoryName.error = getString(R.string.enter_category_name)
                 binding.etCategoryName.requestFocus()
             } else {
                 val databaseAccess = DatabaseAccess.getInstance(this)
                 databaseAccess.open()
-                if (databaseAccess.addCategory(category_name)) {
+                if (databaseAccess.addCategory(categoryName)) {
                     Toasty.success(this, R.string.category_added_successfully, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@AddCategoryActivity, CategoriesActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

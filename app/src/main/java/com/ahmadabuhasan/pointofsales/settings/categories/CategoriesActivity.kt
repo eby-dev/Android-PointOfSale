@@ -28,9 +28,11 @@ class CategoriesActivity : BaseActivity() {
         binding = ActivityCategoriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle(R.string.categories)
+        supportActionBar?.apply {
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setTitle(R.string.categories)
+        }
 
         binding.categoryRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.categoryRecyclerview.setHasFixedSize(true)
@@ -39,7 +41,7 @@ class CategoriesActivity : BaseActivity() {
         databaseAccess.open()
         val categoryData = databaseAccess.productCategory
         Log.d("data", "" + categoryData.size)
-        if (categoryData.size <= 0) {
+        if (categoryData.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toasty.LENGTH_SHORT).show()
             binding.ivNoCategory.setImageResource(R.drawable.no_data)
         } else {
@@ -52,7 +54,7 @@ class CategoriesActivity : BaseActivity() {
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 databaseAccess.open()
                 val searchCategoryList = databaseAccess.searchProductCategory(charSequence.toString())
-                if (searchCategoryList.size <= 0) {
+                if (searchCategoryList.isEmpty()) {
                     binding.categoryRecyclerview.visibility = View.GONE
                     binding.ivNoCategory.visibility = View.VISIBLE
                     binding.ivNoCategory.setImageResource(R.drawable.no_data)
