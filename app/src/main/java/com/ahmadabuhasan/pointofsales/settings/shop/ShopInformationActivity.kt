@@ -96,9 +96,9 @@ class ShopInformationActivity : BaseActivity() {
                 binding.etTax.error = getString(R.string.tax_in_percentage)
                 binding.etTax.requestFocus()
             } else {
-                Toasty.warning(this, Html.fromHtml(getString(R.string.purchase_pro_message)), Toasty.LENGTH_LONG).show()
+                //Toasty.warning(this, Html.fromHtml(getString(R.string.purchase_pro_message)), Toasty.LENGTH_LONG).show()
 
-                /*databaseAccess.open()
+                databaseAccess.open()
                 val check = databaseAccess.updateShopInformation(shop_name, shop_contact, shop_email, shop_address, shop_currency, tax)
                 if (check) {
                     Toasty.success(this, R.string.shop_information_updated_successfully, Toasty.LENGTH_SHORT).show()
@@ -107,7 +107,7 @@ class ShopInformationActivity : BaseActivity() {
                     startActivity(i)
                 } else {
                     Toasty.error(this, R.string.failed, Toasty.LENGTH_SHORT).show()
-                }*/
+                }
             }
         }
     }
