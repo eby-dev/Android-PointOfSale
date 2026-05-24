@@ -134,6 +134,19 @@ public class DatabaseAccess {
         return check != -1;
     }
 
+    public boolean updateShopInformation(String shop_name, String shop_contact, String shop_email, String shop_address, String shop_currency, String tax) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constant.SHOP_NAME, shop_name);
+        contentValues.put(Constant.SHOP_CONTACT, shop_contact);
+        contentValues.put(Constant.SHOP_EMAIL, shop_email);
+        contentValues.put(Constant.SHOP_ADDRESS, shop_address);
+        contentValues.put(Constant.SHOP_CURRENCY, shop_currency);
+        contentValues.put(Constant.TAX, tax);
+        long check = this.database.update(Constant.SHOP, contentValues, "shop_id=? ", new String[]{"1"});
+        close();
+        return check != -1;
+    }
+
     public boolean addProduct(String product_name, String product_code, String product_category, String product_description, String product_buy_price, String product_sell_price, String product_stock, String product_supplier, String product_image, String weight_unit_id, String product_weight) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constant.PRODUCT_NAME, product_name);

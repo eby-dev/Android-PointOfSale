@@ -1,5 +1,6 @@
 package com.ahmadabuhasan.pointofsales.settings.shop
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
@@ -8,6 +9,7 @@ import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.ActivityShopInformationBinding
+import com.ahmadabuhasan.pointofsales.settings.SettingsActivity
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
 import es.dmoral.toasty.Toasty
 
@@ -99,7 +101,7 @@ class ShopInformationActivity : BaseActivity() {
                 //Toasty.warning(this, Html.fromHtml(getString(R.string.purchase_pro_message)), Toasty.LENGTH_LONG).show()
 
                 databaseAccess.open()
-                val check = databaseAccess.updateShopInformation(shop_name, shop_contact, shop_email, shop_address, shop_currency, tax)
+                val check = databaseAccess.updateShopInformation(shopName, shopContact, shopEmail, shopAddress, shopCurrency, tax)
                 if (check) {
                     Toasty.success(this, R.string.shop_information_updated_successfully, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@ShopInformationActivity, SettingsActivity::class.java)
