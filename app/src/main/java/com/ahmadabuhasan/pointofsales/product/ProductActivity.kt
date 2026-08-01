@@ -36,7 +36,9 @@ class ProductActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.adViewProduct.loadAd(AdRequest.Builder().build())
+        // AdMob suspended (see MultiLanguageApp). Hide banner + skip loadAd.
+        binding.adViewProduct.visibility = View.GONE
+        // binding.adViewProduct.loadAd(AdRequest.Builder().build())
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)

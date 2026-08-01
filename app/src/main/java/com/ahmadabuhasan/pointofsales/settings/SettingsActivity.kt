@@ -37,7 +37,8 @@ class SettingsActivity : BaseActivity() {
             setTitle(R.string.action_settings)
         }
 
-        Utils().interstitialAdsShow(this)
+        // AdMob suspended (see MultiLanguageApp). Skip interstitial.
+        // Utils().interstitialAdsShow(this)
 
         binding.cvShopInfo.setOnClickListener { startActivity(Intent(this@SettingsActivity, ShopInformationActivity::class.java)) }
         binding.cvCategory.setOnClickListener { startActivity(Intent(this@SettingsActivity, CategoriesActivity::class.java)) }
