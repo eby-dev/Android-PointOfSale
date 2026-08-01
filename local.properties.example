@@ -1,1 +1,10 @@
 api_key=
+
+# AdMob production IDs - consumed by app/gradle/buildtypes.gradle for the
+# `release` build. Leave blank in development; the build will fall back to
+# Google's test IDs with a warning. Set the real values here (locally) or
+# in CI via the ADMOB_APPLICATION_ID / ADMOB_BANNER_AD_ID /
+# ADMOB_INTERSTITIAL_AD_ID secrets before shipping to production.
+ADMOB_APPLICATION_ID=
+ADMOB_BANNER_AD_ID=
+ADMOB_INTERSTITIAL_AD_ID=

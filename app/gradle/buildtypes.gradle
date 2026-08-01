@@ -1,3 +1,40 @@
+// AdMob IDs are injected per build variant via `resValue` so that debug
+// builds always use Google's official test IDs (safe to click on) and
+// release builds pick up the real IDs from `local.properties` or CI env
+// vars. This keeps the real IDs out of the public repo and prevents the
+// self-click invalid-traffic pattern that historically caused publisher
+// account suspensions.
+def admobProps = new Properties()
+def admobPropsFile = rootProject.file('local.properties')
+if (admobPropsFile.exists()) {
+    admobPropsFile.withInputStream { admobProps.load(it) }
+}
+def readAdmobSecret = { String propKey, String envKey ->
+    def value = admobProps.getProperty(propKey) ?: System.getenv(envKey)
+    return (value == null || value.trim().isEmpty()) ? null : value.trim()
+}
+
+// Google's official AdMob test IDs — public, safe to hardcode.
+// https://developers.google.com/admob/android/test-ads
+def testAdMobAppId = 'ca-app-pub-3940256099942544~3347511713'
+def testAdMobBannerId = 'ca-app-pub-3940256099942544/6300978111'
+def testAdMobInterstitialId = 'ca-app-pub-3940256099942544/1033173712'
+
+// Release secrets — fall back to test IDs when missing (with a warning)
+// so CI keeps building while the real AdMob account is suspended.
+// Tighten back to a hard failure once the account is reinstated.
+def releaseAdMobAppId = readAdmobSecret('ADMOB_APPLICATION_ID', 'ADMOB_APPLICATION_ID')
+def releaseAdMobBannerId = readAdmobSecret('ADMOB_BANNER_AD_ID', 'ADMOB_BANNER_AD_ID')
+def releaseAdMobInterstitialId = readAdmobSecret('ADMOB_INTERSTITIAL_AD_ID', 'ADMOB_INTERSTITIAL_AD_ID')
+
+def usingReleaseFallback = []
+if (!releaseAdMobAppId) { releaseAdMobAppId = testAdMobAppId; usingReleaseFallback << 'ADMOB_APPLICATION_ID' }
+if (!releaseAdMobBannerId) { releaseAdMobBannerId = testAdMobBannerId; usingReleaseFallback << 'ADMOB_BANNER_AD_ID' }
+if (!releaseAdMobInterstitialId) { releaseAdMobInterstitialId = testAdMobInterstitialId; usingReleaseFallback << 'ADMOB_INTERSTITIAL_AD_ID' }
+if (!usingReleaseFallback.isEmpty()) {
+    logger.warn("[AdMob] Using Google test IDs for release secret(s) ${usingReleaseFallback.join(', ')} — do NOT ship this to production users")
+}
+
 android {
     buildTypes {
         release {
@@ -11,6 +48,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "SERVER_KEY", "\"prod\"")
             signingConfig signingConfigs.release
+
+            resValue "string", "admob_application_id", releaseAdMobAppId
+            resValue "string", "admob_banner_ads_id", releaseAdMobBannerId
+            resValue "string", "admob_interstitial_ads_id", releaseAdMobInterstitialId
         }
         debug {
             debuggable true
@@ -21,6 +62,10 @@ android {
                 strippedNativeLibsDir 'build/intermediates/stripped_native_libs/debug_Debug/out/lib'
             }
             buildConfigField("String", "SERVER_KEY", "\"dev\"")
+
+            resValue "string", "admob_application_id", testAdMobAppId
+            resValue "string", "admob_banner_ads_id", testAdMobBannerId
+            resValue "string", "admob_interstitial_ads_id", testAdMobInterstitialId
         }
     }
 }

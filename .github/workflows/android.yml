@@ -118,6 +118,15 @@ jobs:
           echo "KEY_ALIAS=${{ env.KEY_ALIAS }}" >> secret.properties
           echo "KEY_PASSWORD=${{ env.KEY_PASSWORD }}" >> secret.properties
 
+      # Real AdMob IDs live in GitHub Secrets, not the repo. The gradle
+      # buildtypes.gradle reads them from local.properties (or env vars) for
+      # release builds; debug builds ignore these and use Google test IDs.
+      - name: Write AdMob IDs to local.properties
+        run: |
+          echo "ADMOB_APPLICATION_ID=${{ secrets.ADMOB_APPLICATION_ID }}" >> local.properties
+          echo "ADMOB_BANNER_AD_ID=${{ secrets.ADMOB_BANNER_AD_ID }}" >> local.properties
+          echo "ADMOB_INTERSTITIAL_AD_ID=${{ secrets.ADMOB_INTERSTITIAL_AD_ID }}" >> local.properties
+
       - name: Grant gradlew permission
         run: chmod +x ./gradlew
 
@@ -137,6 +146,7 @@ jobs:
           rm -f ${{ env.KEYSTORE_FILE }}
           rm -f app/${{ env.GOOGLE_PLAY_JSON }}
           rm -f secret.properties
+          rm -f local.properties
 
 # =========================================================
 # UNIT TEST
