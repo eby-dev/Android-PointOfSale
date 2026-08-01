@@ -89,10 +89,10 @@ class DeviceListActivity : BaseActivity() {
         binding.newDevices.onItemClickListener = mDeviceClickListener
 
         var filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        this.registerReceiver(mReceiver, filter)
+        ContextCompat.registerReceiver(this, mReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
 
         filter = IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
-        this.registerReceiver(mReceiver, filter)
+        ContextCompat.registerReceiver(this, mReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter()
         val pairedDevices = mBtAdapter.bondedDevices

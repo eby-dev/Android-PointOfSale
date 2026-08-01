@@ -36,10 +36,10 @@ glide = "4.13.0"
 workRuntimeKtx = "2.10.2"
 
 # Module :app
-buildTools= "34.0.0"
-compileSdk = "35"
+buildTools= "36.1.0"
+compileSdk = "36"
 minSdk = "21"
-targetSdk = "35"
+targetSdk = "36"
 version-code = "13"
 version-name = "1.0.12"
 
