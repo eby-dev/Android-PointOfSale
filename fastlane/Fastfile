@@ -37,12 +37,22 @@ platform :android do
     increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
   end
 
+    desc "Deploy latest version to Google Play Internal Testing"
+    lane :deployInternal do
+      upload_to_play_store(
+        track: "internal",
+        aab: "app/build/outputs/bundle/release/app-release.aab",
+        json_key: "app/#{ENV['GOOGLE_PLAY_JSON']}"
+      )
+    end
+
     desc "Deploy latest version Beta Test to Google Play"
     lane :deployBeta do
       upload_to_play_store(
-            track: 'beta',
-            aab: "app/build/outputs/bundle/release/app-release.aab"
-          )
+        track: 'beta',
+        aab: "app/build/outputs/bundle/release/app-release.aab",
+        json_key: "app/#{ENV['GOOGLE_PLAY_JSON']}"
+      )
     end
 
     desc "Deploy latest version to Google Play"
