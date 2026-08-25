@@ -55,6 +55,14 @@ Build Bundle Release App
 
 
 
+### android deployInternal
+
+```sh
+[bundle exec] fastlane android deployInternal
+```
+
+Deploy latest version to Google Play Internal Testing
+
 ### android deployBeta
 
 ```sh
