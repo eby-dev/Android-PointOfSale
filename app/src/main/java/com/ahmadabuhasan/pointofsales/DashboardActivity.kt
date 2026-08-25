@@ -87,7 +87,21 @@ class DashboardActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding.adView.resume()
         binding.adView.loadAd(AdRequest.Builder().build())
+    }
+
+    // AdMob requires the banner to follow the activity lifecycle: pausing it
+    // stops impressions being counted while the screen is not visible, and
+    // destroying it releases the underlying WebView.
+    override fun onPause() {
+        binding.adView.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        binding.adView.destroy()
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

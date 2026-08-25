@@ -141,4 +141,22 @@ class ProductActivity : BaseActivity() {
             }
         })
     }
+
+    // AdMob requires the banner to follow the activity lifecycle: pausing it
+    // stops impressions being counted while the screen is not visible, and
+    // destroying it releases the underlying WebView.
+    override fun onResume() {
+        super.onResume()
+        binding.adViewProduct.resume()
+    }
+
+    override fun onPause() {
+        binding.adViewProduct.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        binding.adViewProduct.destroy()
+        super.onDestroy()
+    }
 }

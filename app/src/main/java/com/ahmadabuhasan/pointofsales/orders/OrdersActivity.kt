@@ -92,4 +92,22 @@ class OrdersActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    // AdMob requires the banner to follow the activity lifecycle: pausing it
+    // stops impressions being counted while the screen is not visible, and
+    // destroying it releases the underlying WebView.
+    override fun onResume() {
+        super.onResume()
+        binding.adViewOrders.resume()
+    }
+
+    override fun onPause() {
+        binding.adViewOrders.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        binding.adViewOrders.destroy()
+        super.onDestroy()
+    }
 }
