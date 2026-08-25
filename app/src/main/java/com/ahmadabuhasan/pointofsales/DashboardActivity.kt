@@ -73,8 +73,8 @@ class DashboardActivity : BaseActivity() {
 
         appUpdate()
 
-        binding.adView.loadAd(AdRequest.Builder().build())
-
+        // The banner is loaded in onResume(), which always runs after
+        // onCreate() — loading here too would fire two requests per launch.
         binding.cardCustomers.setOnClickListener { startActivity(Intent(this, CustomersActivity::class.java)) }
         binding.cardSuppliers.setOnClickListener { startActivity(Intent(this, SuppliersActivity::class.java)) }
         binding.cardProducts.setOnClickListener { startActivity(Intent(this, ProductActivity::class.java)) }
