@@ -10,7 +10,6 @@ import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -74,11 +73,7 @@ class DashboardActivity : BaseActivity() {
 
         appUpdate()
 
-        // AdMob suspended by Google (invalid traffic, 29-day suspension starting
-        // 2026-07-24). Per Google's own guidance we stop serving ads to avoid
-        // compounding violations. Re-enable once the suspension lifts.
-        binding.adView.visibility = View.GONE
-        // binding.adView.loadAd(AdRequest.Builder().build())
+        binding.adView.loadAd(AdRequest.Builder().build())
 
         binding.cardCustomers.setOnClickListener { startActivity(Intent(this, CustomersActivity::class.java)) }
         binding.cardSuppliers.setOnClickListener { startActivity(Intent(this, SuppliersActivity::class.java)) }
@@ -92,7 +87,7 @@ class DashboardActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        // binding.adView.loadAd(AdRequest.Builder().build())
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

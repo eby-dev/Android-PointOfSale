@@ -29,9 +29,7 @@ class OrdersActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOrdersBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // AdMob suspended (see MultiLanguageApp). Hide banner + skip loadAd.
-        binding.adViewOrders.visibility = View.GONE
-        // binding.adViewOrders.loadAd(AdRequest.Builder().build())
+        binding.adViewOrders.loadAd(AdRequest.Builder().build())
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)

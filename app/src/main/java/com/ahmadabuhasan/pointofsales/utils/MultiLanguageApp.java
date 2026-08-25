@@ -32,9 +32,6 @@ public class MultiLanguageApp extends Application {
         super.onCreate();
 
         initializeCustomValue();
-        // AdMob suspended by Google (invalid traffic, 29-day suspension from
-        // 2026-07-24). Skip SDK init while suspended to avoid contacting ad
-        // servers. Re-enable once the suspension lifts.
-        // MobileAds.initialize(this);
+        MobileAds.initialize(this);
     }
 }

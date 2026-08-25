@@ -44,9 +44,7 @@ class PosActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPosBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // AdMob suspended (see MultiLanguageApp). Hide banner + skip loadAd.
-        binding.adViewPos.visibility = View.GONE
-        // binding.adViewPos.loadAd(AdRequest.Builder().build())
+        binding.adViewPos.loadAd(AdRequest.Builder().build())
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)

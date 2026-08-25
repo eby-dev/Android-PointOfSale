@@ -20,20 +20,19 @@ def testAdMobAppId = 'ca-app-pub-3940256099942544~3347511713'
 def testAdMobBannerId = 'ca-app-pub-3940256099942544/6300978111'
 def testAdMobInterstitialId = 'ca-app-pub-3940256099942544/1033173712'
 
-// Release secrets — fall back to test IDs when missing (with a warning)
-// so CI keeps building while the real AdMob account is suspended.
-// Tighten back to a hard failure once the account is reinstated.
-def releaseAdMobAppId = readAdmobSecret('ADMOB_APPLICATION_ID', 'ADMOB_APPLICATION_ID')
-def releaseAdMobBannerId = readAdmobSecret('ADMOB_BANNER_AD_ID', 'ADMOB_BANNER_AD_ID')
-def releaseAdMobInterstitialId = readAdmobSecret('ADMOB_INTERSTITIAL_AD_ID', 'ADMOB_INTERSTITIAL_AD_ID')
-
-def usingReleaseFallback = []
-if (!releaseAdMobAppId) { releaseAdMobAppId = testAdMobAppId; usingReleaseFallback << 'ADMOB_APPLICATION_ID' }
-if (!releaseAdMobBannerId) { releaseAdMobBannerId = testAdMobBannerId; usingReleaseFallback << 'ADMOB_BANNER_AD_ID' }
-if (!releaseAdMobInterstitialId) { releaseAdMobInterstitialId = testAdMobInterstitialId; usingReleaseFallback << 'ADMOB_INTERSTITIAL_AD_ID' }
-if (!usingReleaseFallback.isEmpty()) {
-    logger.warn("[AdMob] Using Google test IDs for release secret(s) ${usingReleaseFallback.join(', ')} — do NOT ship this to production users")
+// Release secrets are mandatory: a release build must never silently ship
+// with Google's test IDs (no revenue, and it looks like broken inventory).
+def requireAdmobSecret = { String key ->
+    def value = readAdmobSecret(key, key)
+    if (value == null) {
+        throw new GradleException("[AdMob] Missing ${key}. Set it in local.properties or as an environment variable before building a release.")
+    }
+    return value
 }
+
+def releaseAdMobAppId = requireAdmobSecret('ADMOB_APPLICATION_ID')
+def releaseAdMobBannerId = requireAdmobSecret('ADMOB_BANNER_AD_ID')
+def releaseAdMobInterstitialId = requireAdmobSecret('ADMOB_INTERSTITIAL_AD_ID')
 
 android {
     buildTypes {

@@ -20,8 +20,7 @@ class ReportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // AdMob suspended (see MultiLanguageApp). Skip interstitial.
-        // Utils().interstitialAdsShow(this)
+        Utils().interstitialAdsShow(this)
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)
