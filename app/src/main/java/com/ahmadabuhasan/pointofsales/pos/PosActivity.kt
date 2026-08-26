@@ -19,7 +19,6 @@ import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.ActivityPosBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
-import com.google.android.gms.ads.AdRequest
 import es.dmoral.toasty.Toasty
 
 /*
@@ -44,9 +43,6 @@ class PosActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPosBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // AdMob suspended (see MultiLanguageApp). Hide banner + skip loadAd.
-        binding.adViewPos.visibility = View.GONE
-        // binding.adViewPos.loadAd(AdRequest.Builder().build())
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)

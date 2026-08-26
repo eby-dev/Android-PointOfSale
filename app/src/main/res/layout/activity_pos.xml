@@ -108,12 +108,10 @@
 
             </LinearLayout>
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adViewPos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:adSize="BANNER"
-                app:adUnitId="@string/admob_banner_ads_id" />
+            <!-- No ad banner on this screen: the POS grid is tapped rapidly
+                 while a customer waits, so any ad here collects accidental
+                 clicks from cashiers. That is invalid traffic coming from real
+                 users, which per-variant test IDs cannot protect against. -->
 
             <LinearLayout
                 android:layout_width="match_parent"

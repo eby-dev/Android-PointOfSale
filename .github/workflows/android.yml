@@ -6,6 +6,7 @@ on:
       - development
       - master
       - internal-testing/**
+      - play-internal/**
   workflow_dispatch:
 
 env:
@@ -182,9 +183,19 @@ jobs:
           bundle config set path 'vendor/bundle'
           bundle install
 
+      - name: Write AdMob IDs to local.properties
+        run: |
+          echo "ADMOB_APPLICATION_ID=${{ secrets.ADMOB_APPLICATION_ID }}" >> local.properties
+          echo "ADMOB_BANNER_AD_ID=${{ secrets.ADMOB_BANNER_AD_ID }}" >> local.properties
+          echo "ADMOB_INTERSTITIAL_AD_ID=${{ secrets.ADMOB_INTERSTITIAL_AD_ID }}" >> local.properties
+
       - run: chmod +x ./gradlew
 
       - run: bundle exec fastlane test
+
+      - name: Cleanup secrets
+        if: always()
+        run: rm -f local.properties
 
 # =========================================================
 # LINT / CHECK
@@ -204,6 +215,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Write AdMob IDs to local.properties
+        run: |
+          echo "ADMOB_APPLICATION_ID=${{ secrets.ADMOB_APPLICATION_ID }}" >> local.properties
+          echo "ADMOB_BANNER_AD_ID=${{ secrets.ADMOB_BANNER_AD_ID }}" >> local.properties
+          echo "ADMOB_INTERSTITIAL_AD_ID=${{ secrets.ADMOB_INTERSTITIAL_AD_ID }}" >> local.properties
+
       - run: chmod +x ./gradlew
       - run: ./gradlew clean check
 
@@ -214,6 +234,10 @@ jobs:
             app/build/reports/**/*.html
             app/build/intermediates/lint_intermediate_text_report/**/*.txt
             app/build/reports/lint-baseline.xml
+
+      - name: Cleanup secrets
+        if: always()
+        run: rm -f local.properties
 
 # =========================================================
 # DEPLOY – PRODUCTION
@@ -292,6 +316,9 @@ jobs:
           bundle config set path 'vendor/bundle'
           bundle install
 
+      - name: Create Google Service Account JSON
+        run: echo "${{ secrets.GOOGLE_PLAY_JSON }}" | base64 -d > app/${{ env.GOOGLE_PLAY_JSON }}
+
       - name: Download built AAB
         uses: actions/download-artifact@v4
         with:
@@ -299,6 +326,50 @@ jobs:
           path: app/build/outputs/bundle/release
 
       - run: bundle exec fastlane deployBeta
+
+# =========================================================
+# DEPLOY – PLAY STORE INTERNAL
+# =========================================================
+  deploy-internal:
+    name: Deploy to Play Store (Internal Testing)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/play-internal/')
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Create Google Service Account JSON
+        run: echo "${{ secrets.GOOGLE_PLAY_JSON }}" | base64 -d > app/${{ env.GOOGLE_PLAY_JSON }}
+
+      - name: Download built AAB
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release
+
+      - run: bundle exec fastlane deployInternal
 
 # =========================================================
 # DEPLOY – FIREBASE INTERNAL

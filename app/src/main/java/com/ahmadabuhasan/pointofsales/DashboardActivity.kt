@@ -10,7 +10,6 @@ import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -74,12 +73,8 @@ class DashboardActivity : BaseActivity() {
 
         appUpdate()
 
-        // AdMob suspended by Google (invalid traffic, 29-day suspension starting
-        // 2026-07-24). Per Google's own guidance we stop serving ads to avoid
-        // compounding violations. Re-enable once the suspension lifts.
-        binding.adView.visibility = View.GONE
-        // binding.adView.loadAd(AdRequest.Builder().build())
-
+        // The banner is loaded in onResume(), which always runs after
+        // onCreate() — loading here too would fire two requests per launch.
         binding.cardCustomers.setOnClickListener { startActivity(Intent(this, CustomersActivity::class.java)) }
         binding.cardSuppliers.setOnClickListener { startActivity(Intent(this, SuppliersActivity::class.java)) }
         binding.cardProducts.setOnClickListener { startActivity(Intent(this, ProductActivity::class.java)) }
@@ -92,7 +87,21 @@ class DashboardActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        // binding.adView.loadAd(AdRequest.Builder().build())
+        binding.adView.resume()
+        binding.adView.loadAd(AdRequest.Builder().build())
+    }
+
+    // AdMob requires the banner to follow the activity lifecycle: pausing it
+    // stops impressions being counted while the screen is not visible, and
+    // destroying it releases the underlying WebView.
+    override fun onPause() {
+        binding.adView.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        binding.adView.destroy()
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

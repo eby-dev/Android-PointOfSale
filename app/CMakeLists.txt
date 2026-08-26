@@ -35,3 +35,5 @@ add_library( # Sets the name of the library.
         # Associated headers in the same location as their source
         # file are automatically included.
         src/main/cpp/native-lib.cpp)
+
+target_link_options(native-lib PRIVATE "-Wl,-z,max-page-size=16384")

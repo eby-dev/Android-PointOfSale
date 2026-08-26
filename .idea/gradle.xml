@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/barcodeScannerCore" />
-            <option value="$PROJECT_DIR$/imagePicker" />
             <option value="$PROJECT_DIR$/monthAndYearPicker" />
             <option value="$PROJECT_DIR$/pdfViewer" />
             <option value="$PROJECT_DIR$/pdfiumAndroid" />

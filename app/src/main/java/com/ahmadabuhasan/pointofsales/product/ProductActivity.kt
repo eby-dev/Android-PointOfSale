@@ -36,9 +36,7 @@ class ProductActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // AdMob suspended (see MultiLanguageApp). Hide banner + skip loadAd.
-        binding.adViewProduct.visibility = View.GONE
-        // binding.adViewProduct.loadAd(AdRequest.Builder().build())
+        binding.adViewProduct.loadAd(AdRequest.Builder().build())
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)
@@ -142,5 +140,23 @@ class ProductActivity : BaseActivity() {
                 Toasty.error(this@ProductActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
             }
         })
+    }
+
+    // AdMob requires the banner to follow the activity lifecycle: pausing it
+    // stops impressions being counted while the screen is not visible, and
+    // destroying it releases the underlying WebView.
+    override fun onResume() {
+        super.onResume()
+        binding.adViewProduct.resume()
+    }
+
+    override fun onPause() {
+        binding.adViewProduct.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        binding.adViewProduct.destroy()
+        super.onDestroy()
     }
 }

@@ -20,8 +20,7 @@ class ReportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // AdMob suspended (see MultiLanguageApp). Skip interstitial.
-        // Utils().interstitialAdsShow(this)
+        Utils.preloadInterstitial(this)
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)
@@ -37,9 +36,25 @@ class ReportActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            finish()
+            leaveScreen()
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (!Utils.showInterstitialOnExit(this) { finish() }) {
+            @Suppress("DEPRECATION")
+            super.onBackPressed()
+        }
+    }
+
+    // Show the preloaded interstitial as the user leaves, then close. Never
+    // while the report screen is still being used.
+    private fun leaveScreen() {
+        if (!Utils.showInterstitialOnExit(this) { finish() }) {
+            finish()
+        }
     }
 }
