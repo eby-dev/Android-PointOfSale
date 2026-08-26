@@ -16,7 +16,7 @@ env:
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
   FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  FIREBASE_SERVICE_ACCOUNT_FILE: firebase-sa.json
 
 jobs:
 # =========================================================
@@ -342,4 +342,14 @@ jobs:
           name: release-aab
           path: app/build/outputs/bundle/release
 
+      - name: Decode Firebase service account
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 -d > ${{ env.FIREBASE_SERVICE_ACCOUNT_FILE }}
+
+      - name: Point ADC at service account
+        run: echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/${{ env.FIREBASE_SERVICE_ACCOUNT_FILE }}" >> $GITHUB_ENV
+
       - run: bundle exec fastlane deployFirebase --verbose
+
+      - name: Cleanup service account
+        if: always()
+        run: rm -f ${{ env.FIREBASE_SERVICE_ACCOUNT_FILE }}
