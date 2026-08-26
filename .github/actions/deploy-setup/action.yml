@@ -1,11 +1,9 @@
 name: Deploy setup
-description: Checkout, Ruby, caches and the AAB produced by the build job.
+description: Ruby, caches and the AAB produced by the build job.
 
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
-
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.3'

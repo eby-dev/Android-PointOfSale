@@ -181,6 +181,8 @@ jobs:
     needs: [build, unit-test, code-analysis]
 
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/deploy-setup
 
       - name: Create Google Service Account JSON
@@ -198,6 +200,8 @@ jobs:
     needs: [build, unit-test, code-analysis]
 
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/deploy-setup
 
       - name: Create Google Service Account JSON
@@ -215,6 +219,8 @@ jobs:
     needs: [build, unit-test, code-analysis]
 
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/deploy-setup
 
       - name: Create Google Service Account JSON
@@ -232,6 +238,8 @@ jobs:
     needs: [build, unit-test, code-analysis]
 
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/deploy-setup
 
       - name: Decode Firebase service account
