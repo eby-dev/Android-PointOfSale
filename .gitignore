@@ -25,3 +25,7 @@ local.properties
 
 # GOOGLE_PLAY_JSON
 /app/point-of-sale-pos-f219d5611b9d.json
+
+# FIREBASE_SERVICE_ACCOUNT
+*firebase-adminsdk*.json
+firebase-sa.json
