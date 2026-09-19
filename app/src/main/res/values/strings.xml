@@ -113,8 +113,13 @@
     <string name="expense_note_if_any">Expense Note (if any)</string>
     <string name="expense_successfully_added">Expense Successfully Added</string>
     <string name="expense_time">Expense Time</string>
+    <string name="export">Export</string>
+    <string name="export_excel_title">Export to Excel</string>
+    <string name="export_excel_message">Product images are not included in the Excel file. For a complete backup, use Backup Database.</string>
     <string name="export_all_data_to_excel">Export All Data to Excel</string>
     <string name="export_data_to_excel">Export Data to Excel</string>
+    <string name="export_product_title">Export Product</string>
+    <string name="export_product_message">Product images are not included in the Excel file.</string>
     <string name="failed">Failed</string>
     <string name="failed_to_create_new_contents">Failed to create new contents.</string>
     <string name="generate_pdf_receipt">PDF Receipt</string>

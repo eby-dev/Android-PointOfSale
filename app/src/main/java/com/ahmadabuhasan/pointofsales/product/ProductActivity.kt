@@ -1,5 +1,6 @@
 package com.ahmadabuhasan.pointofsales.product
 
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -97,7 +98,7 @@ class ProductActivity : BaseActivity() {
             finish()
             true
         } else if (item.itemId == R.id.menu_export) {
-            folderChooser()
+            confirmExport()
             true
         } else {
             super.onOptionsItemSelected(item)
@@ -110,6 +111,15 @@ class ProductActivity : BaseActivity() {
         }
     }
 
+    private fun confirmExport() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.export_product_title)
+            .setMessage(R.string.export_product_message)
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(R.string.export) { _, _ -> folderChooser() }
+            .show()
+    }
+
     fun folderChooser() {
         createFileLauncher.launch(FILE_NAME)
     }
@@ -120,6 +130,8 @@ class ProductActivity : BaseActivity() {
             tempDir.mkdirs()
         }
         val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, tempDir.absolutePath)
+        // Base64 images exceed the BIFF8 record limit and break re-import.
+        sqLiteToExcel.setExcludeColumns(listOf(Constant.PRODUCT_IMAGE))
         sqLiteToExcel.exportSingleTable(Constant.products, FILE_NAME, object : SQLiteToExcel.ExportListener {
             override fun onStart() {
                 dialog = LoadingDialog(this@ProductActivity)

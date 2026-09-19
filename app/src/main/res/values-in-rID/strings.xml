@@ -105,8 +105,13 @@
     <string name="expense_note_if_any">Catatan Biaya (jika ada)</string>
     <string name="expense_successfully_added">Pengeluaran Berhasil Ditambahkan</string>
     <string name="expense_time">Waktu Pengeluaran</string>
+    <string name="export">Ekspor</string>
+    <string name="export_excel_title">Ekspor ke Excel</string>
+    <string name="export_excel_message">Gambar produk tidak disertakan dalam file Excel. Untuk cadangan lengkap, gunakan Backup Database.</string>
     <string name="export_all_data_to_excel">Ekspor Semua Data ke Excel</string>
     <string name="export_data_to_excel">Ekspor Data ke Excel</string>
+    <string name="export_product_title">Ekspor Produk</string>
+    <string name="export_product_message">Gambar produk tidak disertakan dalam file Excel.</string>
     <string name="failed">Gagal</string>
     <string name="failed_to_create_new_contents">Gagal membuat konten baru.</string>
     <string name="generate_pdf_receipt">Tanda Terima PDF</string>
