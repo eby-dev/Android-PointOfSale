@@ -40,8 +40,8 @@ class DeliveryAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteOrderType(deliveryId)) {
                         Toasty.success(context, R.string.delivery_deleted, Toasty.LENGTH_SHORT).show()
-                        deliveryData.removeAt(holder.adapterPosition)
-                        notifyItemRemoved(holder.adapterPosition)
+                        deliveryData.removeAt(holder.bindingAdapterPosition)
+                        notifyItemRemoved(holder.bindingAdapterPosition)
                     } else {
                         Toasty.error(context, R.string.failed, Toasty.LENGTH_SHORT).show()
                     }
@@ -57,8 +57,8 @@ class DeliveryAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditDeliveryActivity::class.java)
-            i.putExtra(Constant.ORDER_TYPE_ID, deliveryData[adapterPosition][Constant.ORDER_TYPE_ID])
-            i.putExtra(Constant.ORDER_TYPE_NAME, deliveryData[adapterPosition][Constant.ORDER_TYPE_NAME])
+            i.putExtra(Constant.ORDER_TYPE_ID, deliveryData[bindingAdapterPosition][Constant.ORDER_TYPE_ID])
+            i.putExtra(Constant.ORDER_TYPE_NAME, deliveryData[bindingAdapterPosition][Constant.ORDER_TYPE_NAME])
             context.startActivity(i)
         }
     }

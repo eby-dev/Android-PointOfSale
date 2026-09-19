@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep public class com.ahmadabuhasan.pointofsale.**
+-keep public class com.ahmadabuhasan.pointofsales.**
 # https://github.com/airbnb/lottie-android/blob/master/sample/proguard-multidex-rules.pro
 -keep class com.airbnb.lottie.samples.** { *; }
 # https://github.com/androidmads/SQLite2XL
@@ -30,6 +30,14 @@
 -keep class com.shockwave.**
 # https://github.com/PhilJay/MPAndroidChart
 # https://github.com/sd6352051/NiftyDialogEffects
+# Effectstype.getAnimator() instantiates the effect classes reflectively via
+# Class.newInstance(), so R8 cannot see those uses and would otherwise strip
+# the classes or their no-arg constructors -> java.lang.Error at dialog show.
+-keep class com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype { *; }
+-keep class com.gitonway.lee.niftymodaldialogeffects.lib.effects.** { *; }
+-keepclassmembers class com.gitonway.lee.niftymodaldialogeffects.lib.effects.** {
+    <init>();
+}
 # iText
 #-keep class com.itextpdf.text.** { *; }
 -dontwarn com.itextpdf.text.**
@@ -40,7 +48,6 @@
 -keep interface com.karumi.dexter.** { *; }
 -keepclasseswithmembernames class com.karumi.dexter.** { *; }
 -keepclasseswithmembernames interface com.karumi.dexter.** { *; }
-# https://github.com/hedzr/android-file-chooser
 # https://github.com/jgilfelt/android-sqlite-asset-helper
 # https://github.com/barteksc/PdfiumAndroid
 # https://github.com/premkumarroyal/MonthAndYearPicker

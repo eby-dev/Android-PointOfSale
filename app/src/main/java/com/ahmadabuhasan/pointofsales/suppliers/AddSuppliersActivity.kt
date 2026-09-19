@@ -1,7 +1,7 @@
 package com.ahmadabuhasan.pointofsales.suppliers
 
-import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,15 +10,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.ahmadabuhasan.pointofsales.DashboardActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivityAddSuppliersBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.ExcelToSQLite
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
-import java.io.File
+import java.io.ByteArrayInputStream
 
 /*
  * Created by Ahmad Abu Hasan (C) 2022
@@ -27,7 +28,7 @@ import java.io.File
 class AddSuppliersActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAddSuppliersBinding
-    private var loading: ProgressDialog? = null
+    private var loading: LoadingDialog? = null
     private lateinit var databaseAccess: DatabaseAccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,34 +100,33 @@ class AddSuppliersActivity : BaseActivity() {
         }
     }
 
-    fun fileChooser() {
-        ChooserDialog(this)
-            .displayPath(true)
-            .withFilter(false, false, "xls")
-            .withChosenListener { dir, _ -> onImport(dir) }
-            .withOnCancelListener { dialog ->
-                Log.d("CANCEL", "CANCEL")
-                dialog.cancel()
-            }
-            .build()
-            .show()
+    private val openFileLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            onImport(uri)
+        }
     }
 
-    fun onImport(path: String) {
+    fun fileChooser() {
+        openFileLauncher.launch(arrayOf(MIME_TYPE))
+    }
+
+    fun onImport(uri: Uri) {
         databaseAccess.open()
-        val file = File(path)
-        if (!file.exists()) {
+        val bytes = try {
+            contentResolver.openInputStream(uri)?.use { it.readBytes() }
+        } catch (e: Exception) {
+            null
+        }
+        if (bytes == null || bytes.isEmpty()) {
             Toast.makeText(this, R.string.no_file_found, Toast.LENGTH_SHORT).show()
             return
         }
+        val stream = ByteArrayInputStream(bytes)
         val excelToSQLite = ExcelToSQLite(applicationContext, DatabaseOpenHelper.DATABASE_NAME, false)
-        excelToSQLite.importFromFile(path, object : ExcelToSQLite.ImportListener {
+        excelToSQLite.importFromStream(stream, object : ExcelToSQLite.ImportListener {
             override fun onStart() {
-                loading = ProgressDialog(this@AddSuppliersActivity).apply {
-                    setMessage(getString(R.string.data_importing_please_wait))
-                    setCancelable(false)
-                    show()
-                }
+                loading = LoadingDialog(this@AddSuppliersActivity)
+                loading?.show(getString(R.string.data_importing_please_wait))
             }
 
             override fun onCompleted(dbName: String) {
@@ -144,5 +144,9 @@ class AddSuppliersActivity : BaseActivity() {
                 Log.d("Error : ", "${e.message}")
             }
         })
+    }
+
+    private companion object {
+        const val MIME_TYPE = "application/vnd.ms-excel"
     }
 }

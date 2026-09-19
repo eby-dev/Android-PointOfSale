@@ -3,12 +3,13 @@ package com.ahmadabuhasan.pointofsales.product
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
@@ -21,6 +22,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.DashboardActivity
 import com.ahmadabuhasan.pointofsales.R
@@ -28,10 +30,11 @@ import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivityAddProductBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.ExcelToSQLite
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
 import `in`.mayanknagwanshi.imagepicker.ImageSelectActivity
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -44,6 +47,8 @@ class AddProductActivity : BaseActivity() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var etProductCode: EditText
+
+        private const val MIME_TYPE = "application/vnd.ms-excel"
     }
 
     private lateinit var binding: ActivityAddProductBinding
@@ -60,7 +65,7 @@ class AddProductActivity : BaseActivity() {
     lateinit var supplierNames: MutableList<String>
     var selectedSupplierID: String? = null
 
-    var loading: ProgressDialog? = null
+    var loading: LoadingDialog? = null
     var mediaPath: String? = null
     var encodedImage: String = "N/A"
     lateinit var databaseAccess: DatabaseAccess
@@ -87,7 +92,7 @@ class AddProductActivity : BaseActivity() {
             i.putExtra(ImageSelectActivity.FLAG_COMPRESS, true)
             i.putExtra(ImageSelectActivity.FLAG_CAMERA, true)
             i.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
-            startActivityForResult(i, 1213)
+            imagePickerLauncher.launch(i)
         }
 
         binding.ivProduct.setOnClickListener {
@@ -95,7 +100,7 @@ class AddProductActivity : BaseActivity() {
             i.putExtra(ImageSelectActivity.FLAG_COMPRESS, true)
             i.putExtra(ImageSelectActivity.FLAG_CAMERA, true)
             i.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
-            startActivityForResult(i, 1213)
+            imagePickerLauncher.launch(i)
         }
 
         categoryNames = ArrayList()
@@ -295,9 +300,9 @@ class AddProductActivity : BaseActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1213 && resultCode == Activity.RESULT_OK && data != null) {
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data = result.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) {
             try {
                 mediaPath = data.getStringExtra(ImageSelectActivity.RESULT_FILE_PATH)
                 val selectedImage = BitmapFactory.decodeFile(mediaPath)
@@ -333,36 +338,37 @@ class AddProductActivity : BaseActivity() {
         }
     }
 
-    fun fileChooser() {
-        ChooserDialog(this as Activity)
-            .displayPath(true)
-            .withFilter(false, false, "xls")
-            .withChosenListener { dir, _ ->
-                onImport(dir)
-            }.withOnCancelListener { dialogInterface ->
-                dialogInterface.cancel()
-                Log.d("CANCEL", "CANCEL")
-            }.build().show()
+    private val openFileLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            onImport(uri)
+        }
     }
 
-    fun onImport(path: String) {
+    fun fileChooser() {
+        openFileLauncher.launch(arrayOf(MIME_TYPE))
+    }
+
+    fun onImport(uri: Uri) {
         databaseAccess.open()
-        val file = File(path)
-        if (!file.exists()) {
+        val bytes = try {
+            contentResolver.openInputStream(uri)?.use { it.readBytes() }
+        } catch (e: Exception) {
+            null
+        }
+        if (bytes == null || bytes.isEmpty()) {
             Toast.makeText(this, R.string.no_file_found, Toast.LENGTH_SHORT).show()
             return
         }
+        val stream = ByteArrayInputStream(bytes)
         val excelToSQLite = ExcelToSQLite(applicationContext, DatabaseOpenHelper.DATABASE_NAME, false)
-        excelToSQLite.importFromFile(path, object : ExcelToSQLite.ImportListener {
+        excelToSQLite.importFromStream(stream, object : ExcelToSQLite.ImportListener {
             override fun onStart() {
-                loading = ProgressDialog(this@AddProductActivity)
-                loading?.setMessage(getString(R.string.data_importing_please_wait))
-                loading?.setCancelable(false)
-                loading?.show()
+                loading = LoadingDialog(this@AddProductActivity)
+                loading?.show(getString(R.string.data_importing_please_wait))
             }
 
             override fun onCompleted(dbName: String) {
-                val mHand = Handler()
+                val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     loading?.dismiss()
                     Toasty.success(this@AddProductActivity, R.string.data_successfully_imported, Toasty.LENGTH_SHORT).show()

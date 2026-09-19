@@ -1,23 +1,24 @@
 package com.ahmadabuhasan.pointofsales.report
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.ProgressDialog
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivitySalesReportBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.SQLiteToExcel
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
 import java.io.File
 import java.text.DecimalFormat
@@ -30,7 +31,7 @@ class SalesReportActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySalesReportBinding
 
-    var loading: ProgressDialog? = null
+    var loading: LoadingDialog? = null
     val decimalFormat = DecimalFormat("#0.00")
     lateinit var databaseAccess: DatabaseAccess
 
@@ -154,35 +155,37 @@ class SalesReportActivity : BaseActivity() {
         binding.tvNetSales.text = String.format("%s: %s%s", getString(R.string.net_sales), currency, decimalFormat.format(netSale))
     }
 
-    fun folderChooser() {
-        ChooserDialog(this as Activity)
-            .displayPath(true)
-            .withFilter(true, false)
-            .withChosenListener { dir, _ ->
-                onExport(dir)
-                Log.d("PATH", dir)
-            }.build().show()
+    private val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
+        if (uri != null) {
+            onExport(uri)
+        }
     }
 
-    fun onExport(path: String) {
-        val file = File(path)
-        if (!file.exists()) {
-            file.mkdirs()
+    fun folderChooser() {
+        createFileLauncher.launch(FILE_NAME)
+    }
+
+    fun onExport(targetUri: Uri) {
+        val tempDir = File(getExternalFilesDir(null), getString(R.string.app_name))
+        if (!tempDir.exists()) {
+            tempDir.mkdirs()
         }
-        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, path)
-        sqLiteToExcel.exportSingleTable(Constant.orderDetails, "order_details.xls", object : SQLiteToExcel.ExportListener {
+        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, tempDir.absolutePath)
+        sqLiteToExcel.exportSingleTable(Constant.orderDetails, FILE_NAME, object : SQLiteToExcel.ExportListener {
             override fun onStart() {
-                loading = ProgressDialog(this@SalesReportActivity)
-                loading?.setMessage(getString(R.string.data_exporting_please_wait))
-                loading?.setCancelable(false)
-                loading?.show()
+                loading = LoadingDialog(this@SalesReportActivity)
+                loading?.show(getString(R.string.data_exporting_please_wait))
             }
 
             override fun onCompleted(filePath: String) {
-                val mHand = Handler()
+                val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     loading?.dismiss()
-                    Toasty.success(this@SalesReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    if (copyExportToChosenFile(tempDir, targetUri)) {
+                        Toasty.success(this@SalesReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    } else {
+                        Toasty.error(this@SalesReportActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
+                    }
                 }, 5000L)
             }
 
@@ -191,5 +194,28 @@ class SalesReportActivity : BaseActivity() {
                 Toasty.error(this@SalesReportActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun copyExportToChosenFile(tempDir: File, targetUri: Uri): Boolean {
+        return try {
+            val sourceFile = File(tempDir, FILE_NAME)
+            if (!sourceFile.exists()) return false
+
+            sourceFile.inputStream().use { input ->
+                contentResolver.openOutputStream(targetUri)?.use { output ->
+                    input.copyTo(output)
+                } ?: return false
+            }
+            sourceFile.delete()
+            true
+        } catch (e: Exception) {
+            Log.e("EXPORT", "${e.message}", e)
+            false
+        }
+    }
+
+    private companion object {
+        const val FILE_NAME = "order_details.xls"
+        const val MIME_TYPE = "application/vnd.ms-excel"
     }
 }

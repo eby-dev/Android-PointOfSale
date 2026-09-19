@@ -16,8 +16,6 @@ mpandroidchart = "v3.1.0"
 niftyDialog = "v1.0.3"
 itextpdf = "5.5.10"
 dexter = "6.2.3"
-fileChooser = "v1.2.0-final"
-fileChooserSnapshot = "devel-SNAPSHOT"
 sqliteAssetHelper = "2.0.1"
 pdfium = "1.9.0"
 toasty = "1.5.2"
@@ -41,8 +39,8 @@ buildTools= "36.1.0"
 compileSdk = "36"
 minSdk = "21"
 targetSdk = "36"
-version-code = "15"
-version-name = "1.0.14"
+version-code = "17"
+version-name = "1.0.16"
 
 jvmTarget = "17"
 
@@ -81,8 +79,6 @@ poi = { module = "org.apache.poi:poi", version.ref = "poi" }
 dexter = { module = "com.karumi:dexter", version.ref = "dexter" }
 
 # file
-fileChooser = { module = "com.github.hedzr:android-file-chooser", version.ref = "fileChooser" }
-fileChooserSnapshot = { module = "com.github.hedzr:android-file-chooser", version.ref = "fileChooserSnapshot" }
 sqliteassethelper = { module = "com.readystatesoftware.sqliteasset:sqliteassethelper", version.ref = "sqliteAssetHelper" }
 
 # barcode & zxing

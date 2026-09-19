@@ -40,8 +40,8 @@ class CategoryAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteCategory(categoryId)) {
                         Toasty.success(context, R.string.category_deleted, Toasty.LENGTH_SHORT).show()
-                        categoryData.removeAt(holder.adapterPosition)
-                        notifyItemRemoved(holder.adapterPosition)
+                        categoryData.removeAt(holder.bindingAdapterPosition)
+                        notifyItemRemoved(holder.bindingAdapterPosition)
                     } else {
                         Toasty.error(context, R.string.failed, Toasty.LENGTH_SHORT).show()
                     }
@@ -57,8 +57,8 @@ class CategoryAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditCategoryActivity::class.java)
-            i.putExtra(Constant.CATEGORY_ID, categoryData[adapterPosition][Constant.CATEGORY_ID].orEmpty())
-            i.putExtra(Constant.CATEGORY_NAME, categoryData[adapterPosition][Constant.CATEGORY_NAME].orEmpty())
+            i.putExtra(Constant.CATEGORY_ID, categoryData[bindingAdapterPosition][Constant.CATEGORY_ID].orEmpty())
+            i.putExtra(Constant.CATEGORY_NAME, categoryData[bindingAdapterPosition][Constant.CATEGORY_NAME].orEmpty())
             context.startActivity(i)
         }
     }

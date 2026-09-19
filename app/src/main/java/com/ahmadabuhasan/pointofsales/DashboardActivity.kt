@@ -6,13 +6,13 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.ahmadabuhasan.pointofsales.customers.CustomersActivity
 import com.ahmadabuhasan.pointofsales.databinding.ActivityDashboardBinding
 import com.ahmadabuhasan.pointofsales.expense.ExpenseActivity
@@ -62,7 +62,7 @@ class DashboardActivity : BaseActivity() {
         setContentView(binding.root)
 
         supportActionBar?.apply {
-            title = Html.fromHtml("<font color='#000000'>${getString(R.string.app_name)}</font>")
+            title = HtmlCompat.fromHtml("<font color='#000000'>${getString(R.string.app_name)}</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
             setBackgroundDrawable(ContextCompat.getDrawable(this@DashboardActivity, R.drawable.actionbar_gradient))
             elevation = 0f
         }
@@ -73,8 +73,8 @@ class DashboardActivity : BaseActivity() {
 
         appUpdate()
 
-        // The banner is loaded in onResume(), which always runs after
-        // onCreate() — loading here too would fire two requests per launch.
+        binding.adView.loadAd(AdRequest.Builder().build())
+
         binding.cardCustomers.setOnClickListener { startActivity(Intent(this, CustomersActivity::class.java)) }
         binding.cardSuppliers.setOnClickListener { startActivity(Intent(this, SuppliersActivity::class.java)) }
         binding.cardProducts.setOnClickListener { startActivity(Intent(this, ProductActivity::class.java)) }
@@ -88,7 +88,6 @@ class DashboardActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         binding.adView.resume()
-        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     // AdMob requires the banner to follow the activity lifecycle: pausing it

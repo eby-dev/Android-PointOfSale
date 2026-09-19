@@ -85,6 +85,40 @@ public class ExcelToSQLite {
         }).start();
     }
 
+    public void importFromStream(final InputStream stream, final ImportListener listener) {
+        if (listener != null) {
+            listener.onStart();
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    working(stream);
+                    if (listener != null) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onCompleted(mDbName);
+                            }
+                        });
+                    }
+                } catch (final Exception e) {
+                    if (database != null && database.isOpen()) {
+                        database.close();
+                    }
+                    if (listener != null) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onError(e);
+                            }
+                        });
+                    }
+                }
+            }
+        }).start();
+    }
+
     public void importFromFile(String filePath, ImportListener listener) {
         importFromFile(new File(filePath), listener);
     }
@@ -180,11 +214,11 @@ public class ExcelToSQLite {
                         values.put(columns.get(n), row.getCell(n).getStringCellValue());
                     }
                 }
-                long result = database.insertWithOnConflict(sheet.getSheetName(),
+                // CONFLICT_IGNORE returns -1 for rows skipped because they clash
+                // with an existing primary key. That is the requested behaviour,
+                // not a failure, so only genuine SQL errors are reported.
+                database.insertWithOnConflict(sheet.getSheetName(),
                         null, values, SQLiteDatabase.CONFLICT_IGNORE);
-                if (result < 0) {
-                    throw new RuntimeException("Insert value failed!");
-                }
             }
         } finally {
             if (cursor != null)

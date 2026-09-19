@@ -19,6 +19,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -126,7 +127,7 @@ class EditProductActivity : BaseActivity() {
             i.putExtra(ImageSelectActivity.FLAG_COMPRESS, true)
             i.putExtra(ImageSelectActivity.FLAG_CAMERA, true)
             i.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
-            startActivityForResult(i, 1213)
+            imagePickerLauncher.launch(i)
         }
 
         binding.ivProduct.setOnClickListener {
@@ -134,7 +135,7 @@ class EditProductActivity : BaseActivity() {
             i.putExtra(ImageSelectActivity.FLAG_COMPRESS, true)
             i.putExtra(ImageSelectActivity.FLAG_CAMERA, true)
             i.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
-            startActivityForResult(i, 1213)
+            imagePickerLauncher.launch(i)
         }
 
         categoryNames = ArrayList()
@@ -324,19 +325,19 @@ class EditProductActivity : BaseActivity() {
         binding.tvUpdateProduct.setOnClickListener {
             val productName = binding.etProductName.text.toString()
             val productCode = binding.etProductCode.text.toString()
-            val productCategory = selectedCategoryID
+            val selectedCategory = selectedCategoryID
             val productDescription = binding.etProductDescription.text.toString()
             val productBuyPrice = binding.etProductBuyPrice.text.toString()
             val productSellPrice = binding.etProductSellPrice.text.toString()
             val productStock = binding.etProductStock.text.toString()
             val productWeight = binding.etProductWeight.text.toString()
             val productWeightUnit = selectedWeightUnitID
-            val productSupplier = selectedSupplierID
+            val selectedSupplier = selectedSupplierID
 
             if (productName.isEmpty()) {
                 binding.etProductName.error = getString(R.string.product_name_cannot_be_empty)
                 binding.etProductName.requestFocus()
-            } else if (productCategory.isNullOrEmpty()) {
+            } else if (selectedCategory.isNullOrEmpty()) {
                 binding.etProductCategory.error = getString(R.string.product_category_cannot_be_empty)
                 binding.etProductCategory.requestFocus()
             } else if (productSellPrice.isEmpty()) {
@@ -348,12 +349,12 @@ class EditProductActivity : BaseActivity() {
             } else if (productWeight.isEmpty()) {
                 binding.etProductWeight.error = getString(R.string.product_weight_cannot_be_empty)
                 binding.etProductWeight.requestFocus()
-            } else if (productSupplier.isNullOrEmpty()) {
+            } else if (selectedSupplier.isNullOrEmpty()) {
                 binding.etSupplier.error = getString(R.string.product_supplier_cannot_be_empty)
                 binding.etSupplier.requestFocus()
             } else {
                 databaseAccess.open()
-                val check = databaseAccess.updateProduct(productName, productCode, productCategory, productDescription, productBuyPrice, productSellPrice, productStock, productSupplier, encodedImage, productWeightUnit, productWeight, productID)
+                val check = databaseAccess.updateProduct(productName, productCode, selectedCategory, productDescription, productBuyPrice, productSellPrice, productStock, selectedSupplier, encodedImage, productWeightUnit, productWeight, productID)
                 if (check) {
                     Toasty.success(this, R.string.update_successfully, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@EditProductActivity, ProductActivity::class.java)
@@ -366,9 +367,9 @@ class EditProductActivity : BaseActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1213 && resultCode == Activity.RESULT_OK && data != null) {
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data = result.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) {
             try {
                 mediaPath = data.getStringExtra(ImageSelectActivity.RESULT_FILE_PATH)
                 val selectedImage = BitmapFactory.decodeFile(mediaPath)

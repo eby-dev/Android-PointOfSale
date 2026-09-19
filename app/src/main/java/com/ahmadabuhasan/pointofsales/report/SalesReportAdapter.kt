@@ -10,8 +10,6 @@ import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.SalesReportItemBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 /*
  * Created by Ahmad Abu Hasan (C) 2022
@@ -46,10 +44,7 @@ class SalesReportAdapter(
 
         val base64Image = orderData[position][Constant.PRODUCT_IMAGE] ?: return
         if (base64Image.isEmpty() || base64Image.length < 6) {
-            Glide.with(holder.itemView.context)
-                .load(base64Image)
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.expense))
-                .into(holder.binding.ivSalesReport)
+            holder.binding.ivSalesReport.setImageResource(R.drawable.expense)
             return
         }
         val bytes = Base64.decode(base64Image, 0)

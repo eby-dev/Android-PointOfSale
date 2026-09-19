@@ -1,7 +1,7 @@
 package com.ahmadabuhasan.pointofsales.settings.backup;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.documentfile.provider.DocumentFile;
 
+import com.ahmadabuhasan.pointofsales.Constant;
 import com.ahmadabuhasan.pointofsales.R;
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper;
 import com.ahmadabuhasan.pointofsales.databinding.ActivityBackupBinding;
@@ -30,12 +31,12 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,7 +96,7 @@ public class BackupActivity extends BaseActivity {
 
         this.binding.cvLocalDbImport.setOnClickListener(view -> BackupActivity.this.localBackup.performRestore(db));
 
-        this.binding.cvExportToExcel.setOnClickListener(view -> BackupActivity.this.folderChooser());
+        this.binding.cvExportToExcel.setOnClickListener(view -> BackupActivity.this.confirmExport());
 
         this.binding.cvBackupToDrive.setOnClickListener(view -> {
             isBackup = true;
@@ -129,17 +130,13 @@ public class BackupActivity extends BaseActivity {
                 }).withErrorListener(dexterError -> Toast.makeText(BackupActivity.this.getApplicationContext(), "Error Occurred! ", Toast.LENGTH_SHORT).show()).onSameThread();
     }
 
-    public void folderChooserOld() {
-        new ChooserDialog((Activity) this)
-                .displayPath(true)
-                .withFilter(true, false, new String[0])
-                .withChosenListener(new ChooserDialog.Result() {
-                    @Override
-                    public void onChoosePath(String dir, File dirFile) {
-                        BackupActivity.this.onExport(dir, null);
-                        Log.d("path", dir);
-                    }
-                }).build().show();
+    private void confirmExport() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.export_excel_title)
+                .setMessage(R.string.export_excel_message)
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(R.string.export, (dialog, which) -> folderChooser())
+                .show();
     }
 
     public void folderChooser() {
@@ -154,6 +151,8 @@ public class BackupActivity extends BaseActivity {
         }
 
         SQLiteToExcel sqLiteToExcel = new SQLiteToExcel(getApplicationContext(), DatabaseOpenHelper.DATABASE_NAME, path);
+        // Base64 images exceed the BIFF8 record limit and break re-import.
+        sqLiteToExcel.setExcludeColumns(Collections.singletonList(Constant.PRODUCT_IMAGE));
         sqLiteToExcel.exportAllTables("POS_AllData.xls", new SQLiteToExcel.ExportListener() {
             @Override
             public void onStart() {

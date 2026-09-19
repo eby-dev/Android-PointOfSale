@@ -1,24 +1,26 @@
 package com.ahmadabuhasan.pointofsales.product
 
-import android.app.Activity
-import android.app.ProgressDialog
+import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivityProductBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.google.android.gms.ads.AdRequest
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
 import java.io.File
 
@@ -29,7 +31,7 @@ import java.io.File
 class ProductActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProductBinding
-    var dialog: ProgressDialog? = null
+    var dialog: LoadingDialog? = null
     lateinit var databaseAccess: DatabaseAccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,42 +98,55 @@ class ProductActivity : BaseActivity() {
             finish()
             true
         } else if (item.itemId == R.id.menu_export) {
-            folderChooser()
+            confirmExport()
             true
         } else {
             super.onOptionsItemSelected(item)
         }
     }
 
-    fun folderChooser() {
-        ChooserDialog(this as Activity)
-            .displayPath(true)
-            .withFilter(true, false)
-            .withChosenListener { dir, _ ->
-                onExport(dir)
-                Log.d("path", dir)
-            }.build().show()
+    private val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
+        if (uri != null) {
+            onExport(uri)
+        }
     }
 
-    fun onExport(path: String) {
-        val file = File(path)
-        if (!file.exists()) {
-            file.mkdirs()
+    private fun confirmExport() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.export_product_title)
+            .setMessage(R.string.export_product_message)
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(R.string.export) { _, _ -> folderChooser() }
+            .show()
+    }
+
+    fun folderChooser() {
+        createFileLauncher.launch(FILE_NAME)
+    }
+
+    fun onExport(targetUri: Uri) {
+        val tempDir = File(getExternalFilesDir(null), getString(R.string.app_name))
+        if (!tempDir.exists()) {
+            tempDir.mkdirs()
         }
-        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, path)
-        sqLiteToExcel.exportSingleTable(Constant.products, "products.xls", object : SQLiteToExcel.ExportListener {
+        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, tempDir.absolutePath)
+        // Base64 images exceed the BIFF8 record limit and break re-import.
+        sqLiteToExcel.setExcludeColumns(listOf(Constant.PRODUCT_IMAGE))
+        sqLiteToExcel.exportSingleTable(Constant.products, FILE_NAME, object : SQLiteToExcel.ExportListener {
             override fun onStart() {
-                dialog = ProgressDialog(this@ProductActivity)
-                dialog?.setMessage(getString(R.string.data_exporting_please_wait))
-                dialog?.setCancelable(false)
-                dialog?.show()
+                dialog = LoadingDialog(this@ProductActivity)
+                dialog?.show(getString(R.string.data_exporting_please_wait))
             }
 
             override fun onCompleted(filePath: String) {
-                val mHand = Handler()
+                val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     dialog?.dismiss()
-                    Toasty.success(this@ProductActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    if (copyExportToChosenFile(tempDir, targetUri)) {
+                        Toasty.success(this@ProductActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    } else {
+                        Toasty.error(this@ProductActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
+                    }
                 }, 5000L)
             }
 
@@ -158,5 +173,28 @@ class ProductActivity : BaseActivity() {
     override fun onDestroy() {
         binding.adViewProduct.destroy()
         super.onDestroy()
+    }
+
+    private fun copyExportToChosenFile(tempDir: File, targetUri: Uri): Boolean {
+        return try {
+            val sourceFile = File(tempDir, FILE_NAME)
+            if (!sourceFile.exists()) return false
+
+            sourceFile.inputStream().use { input ->
+                contentResolver.openOutputStream(targetUri)?.use { output ->
+                    input.copyTo(output)
+                } ?: return false
+            }
+            sourceFile.delete()
+            true
+        } catch (e: Exception) {
+            Log.e("EXPORT", "${e.message}", e)
+            false
+        }
+    }
+
+    private companion object {
+        const val FILE_NAME = "products.xls"
+        const val MIME_TYPE = "application/vnd.ms-excel"
     }
 }

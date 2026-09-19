@@ -42,9 +42,16 @@ public class DatabaseAccess {
         this.database = this.openHelper.getWritableDatabase();
     }
 
+    // SQLiteOpenHelper keeps one shared connection, so closing it after every
+    // query only forces a costly reopen on the next one. Use closeConnection()
+    // when the database file itself is replaced.
     public void close() {
+    }
+
+    public void closeConnection() {
         if (database != null) {
             this.database.close();
+            this.database = null;
         }
     }
 

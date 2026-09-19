@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ahmadabuhasan.pointofsales.R;
+import com.ahmadabuhasan.pointofsales.database.DatabaseAccess;
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper;
 
 import java.io.File;
@@ -147,6 +148,9 @@ public class LocalBackup {
         builderSingle.setAdapter(arrayAdapter,
                 (dialogInterface, which) -> {
                     try {
+                        // The database file is overwritten here, so the shared
+                        // connection must be released first.
+                        DatabaseAccess.getInstance(this.activity).closeConnection();
                         db.importDB(files[which].getAbsolutePath());
                     } catch (Exception e) {
                         Toast.makeText(this.activity,
