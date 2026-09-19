@@ -19,6 +19,7 @@ import com.ahmadabuhasan.pointofsales.utils.BaseActivity
 import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.ExcelToSQLite
 import es.dmoral.toasty.Toasty
+import java.io.ByteArrayInputStream
 
 /*
  * Created by Ahmad Abu Hasan (C) 2022
@@ -106,11 +107,16 @@ class AddCustomersActivity : BaseActivity() {
     fun onImport(uri: Uri) {
         val databaseAccess = DatabaseAccess.getInstance(this)
         databaseAccess.open()
-        val stream = contentResolver.openInputStream(uri)
-        if (stream == null) {
+        val bytes = try {
+            contentResolver.openInputStream(uri)?.use { it.readBytes() }
+        } catch (e: Exception) {
+            null
+        }
+        if (bytes == null || bytes.isEmpty()) {
             Toast.makeText(this, R.string.no_file_found, Toast.LENGTH_SHORT).show()
             return
         }
+        val stream = ByteArrayInputStream(bytes)
         val excelToSQLite = ExcelToSQLite(applicationContext, DatabaseOpenHelper.DATABASE_NAME, false)
         excelToSQLite.importFromStream(stream, object : ExcelToSQLite.ImportListener {
             override fun onStart() {
