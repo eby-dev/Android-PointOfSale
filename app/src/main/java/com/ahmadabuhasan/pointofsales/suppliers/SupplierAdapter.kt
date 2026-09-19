@@ -56,9 +56,9 @@ class SupplierAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteSupplier(supplierId)) {
                         Toasty.success(context, R.string.supplier_deleted, Toasty.LENGTH_SHORT).show()
-                        val adapterPosition = holder.bindingAdapterPosition
-                        supplierData.removeAt(adapterPosition)
-                        notifyItemRemoved(adapterPosition)
+                        val bindingAdapterPosition = holder.bindingAdapterPosition
+                        supplierData.removeAt(bindingAdapterPosition)
+                        notifyItemRemoved(bindingAdapterPosition)
                     } else {
                         Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show()
                     }

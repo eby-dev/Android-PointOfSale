@@ -40,8 +40,8 @@ class WeightAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteWeight(weightId)) {
                         Toasty.success(context, R.string.weight_unit_deleted, Toasty.LENGTH_SHORT).show()
-                        weightData.removeAt(holder.adapterPosition)
-                        notifyItemRemoved(holder.adapterPosition)
+                        weightData.removeAt(holder.bindingAdapterPosition)
+                        notifyItemRemoved(holder.bindingAdapterPosition)
                     } else {
                         Toasty.error(context, R.string.failed, Toasty.LENGTH_SHORT).show()
                     }
@@ -57,8 +57,8 @@ class WeightAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditWeightActivity::class.java)
-            i.putExtra(Constant.WEIGHT_ID, weightData[adapterPosition][Constant.WEIGHT_ID].orEmpty())
-            i.putExtra(Constant.WEIGHT_UNIT, weightData[adapterPosition][Constant.WEIGHT_UNIT].orEmpty())
+            i.putExtra(Constant.WEIGHT_ID, weightData[bindingAdapterPosition][Constant.WEIGHT_ID].orEmpty())
+            i.putExtra(Constant.WEIGHT_UNIT, weightData[bindingAdapterPosition][Constant.WEIGHT_UNIT].orEmpty())
             context.startActivity(i)
         }
     }

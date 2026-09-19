@@ -53,9 +53,9 @@ class ExpenseAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteExpense(expenseId)) {
                         Toasty.error(context, R.string.expense_deleted, Toasty.LENGTH_SHORT).show()
-                        val adapterPosition = holder.bindingAdapterPosition
-                        expenseData.removeAt(adapterPosition)
-                        notifyItemRemoved(adapterPosition)
+                        val bindingAdapterPosition = holder.bindingAdapterPosition
+                        expenseData.removeAt(bindingAdapterPosition)
+                        notifyItemRemoved(bindingAdapterPosition)
                     } else {
                         Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show()
                     }

@@ -54,9 +54,9 @@ class CustomerAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteCustomer(customerId)) {
                         Toasty.error(context, R.string.customer_deleted, Toasty.LENGTH_SHORT).show()
-                        val adapterPosition = holder.bindingAdapterPosition
-                        customerData.removeAt(adapterPosition)
-                        notifyItemRemoved(adapterPosition)
+                        val bindingAdapterPosition = holder.bindingAdapterPosition
+                        customerData.removeAt(bindingAdapterPosition)
+                        notifyItemRemoved(bindingAdapterPosition)
                     } else {
                         Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show()
                     }

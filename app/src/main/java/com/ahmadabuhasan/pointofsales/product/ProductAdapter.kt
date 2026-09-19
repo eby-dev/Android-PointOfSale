@@ -62,8 +62,8 @@ class ProductAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deleteProduct(productId)) {
                         Toasty.error(context, R.string.product_deleted, Toasty.LENGTH_SHORT).show()
-                        productData.removeAt(holder.adapterPosition)
-                        notifyItemRemoved(holder.adapterPosition)
+                        productData.removeAt(holder.bindingAdapterPosition)
+                        notifyItemRemoved(holder.bindingAdapterPosition)
                     } else {
                         Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show()
                     }
@@ -83,7 +83,7 @@ class ProductAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(this@ProductAdapter.context, EditProductActivity::class.java)
-            i.putExtra(Constant.PRODUCT_ID, productData[adapterPosition][Constant.PRODUCT_ID].orEmpty())
+            i.putExtra(Constant.PRODUCT_ID, productData[bindingAdapterPosition][Constant.PRODUCT_ID].orEmpty())
             context.startActivity(i)
         }
     }

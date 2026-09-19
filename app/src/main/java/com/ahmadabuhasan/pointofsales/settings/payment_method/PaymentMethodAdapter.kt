@@ -40,8 +40,8 @@ class PaymentMethodAdapter(
                     databaseAccess.open()
                     if (databaseAccess.deletePaymentMethod(paymentMethodId)) {
                         Toasty.success(context, R.string.payment_method_deleted, Toasty.LENGTH_SHORT).show()
-                        paymentMethodData.removeAt(holder.adapterPosition)
-                        notifyItemRemoved(holder.adapterPosition)
+                        paymentMethodData.removeAt(holder.bindingAdapterPosition)
+                        notifyItemRemoved(holder.bindingAdapterPosition)
                     } else {
                         Toasty.error(context, R.string.failed, Toasty.LENGTH_SHORT).show()
                     }
@@ -57,8 +57,8 @@ class PaymentMethodAdapter(
 
         override fun onClick(view: View) {
             val i = Intent(context, EditPaymentMethodActivity::class.java)
-            i.putExtra(Constant.PAYMENT_METHOD_ID, paymentMethodData[adapterPosition][Constant.PAYMENT_METHOD_ID].orEmpty())
-            i.putExtra(Constant.PAYMENT_METHOD_NAME, paymentMethodData[adapterPosition][Constant.PAYMENT_METHOD_NAME].orEmpty())
+            i.putExtra(Constant.PAYMENT_METHOD_ID, paymentMethodData[bindingAdapterPosition][Constant.PAYMENT_METHOD_ID].orEmpty())
+            i.putExtra(Constant.PAYMENT_METHOD_NAME, paymentMethodData[bindingAdapterPosition][Constant.PAYMENT_METHOD_NAME].orEmpty())
             context.startActivity(i)
         }
     }
