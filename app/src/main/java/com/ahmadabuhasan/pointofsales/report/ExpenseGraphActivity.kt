@@ -30,12 +30,13 @@ class ExpenseGraphActivity : BaseActivity() {
 
     var mYear: Int = 0
     val decimalFormat = DecimalFormat("#0.00")
-    val databaseAccess: DatabaseAccess = DatabaseAccess.getInstance(this)
+    lateinit var databaseAccess: DatabaseAccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExpenseGraphBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        databaseAccess = DatabaseAccess.getInstance(this)
 
         supportActionBar?.apply {
             setHomeButtonEnabled(true)
