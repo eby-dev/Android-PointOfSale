@@ -1,6 +1,5 @@
 package com.ahmadabuhasan.pointofsales.customers
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -17,6 +16,7 @@ import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivityCustomersBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
@@ -29,7 +29,7 @@ import java.io.File
 class CustomersActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCustomersBinding
-    private var loading: ProgressDialog? = null
+    private var loading: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,11 +117,8 @@ class CustomersActivity : BaseActivity() {
         val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, path)
         sqLiteToExcel.exportSingleTable(Constant.customers, "customers.xls", object : SQLiteToExcel.ExportListener {
             override fun onStart() {
-                loading = ProgressDialog(this@CustomersActivity).apply {
-                    setMessage(getString(R.string.data_exporting_please_wait))
-                    setCancelable(false)
-                    show()
-                }
+                loading = LoadingDialog(this@CustomersActivity)
+                loading?.show(getString(R.string.data_exporting_please_wait))
             }
 
             override fun onCompleted(filePath: String) {

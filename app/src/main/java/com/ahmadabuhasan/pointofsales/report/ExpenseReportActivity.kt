@@ -2,7 +2,6 @@ package com.ahmadabuhasan.pointofsales.report
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,6 +17,7 @@ import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivityExpenseReportBinding
 import com.ahmadabuhasan.pointofsales.expense.ExpenseAdapter
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
@@ -32,7 +32,7 @@ class ExpenseReportActivity : BaseActivity() {
 
     private lateinit var binding: ActivityExpenseReportBinding
 
-    var loading: ProgressDialog? = null
+    var loading: LoadingDialog? = null
     val decimalFormat = DecimalFormat("#0.00")
     lateinit var databaseAccess: DatabaseAccess
 
@@ -152,10 +152,8 @@ class ExpenseReportActivity : BaseActivity() {
         val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, path)
         sqLiteToExcel.exportSingleTable(Constant.expense, "expense.xls", object : SQLiteToExcel.ExportListener {
             override fun onStart() {
-                loading = ProgressDialog(this@ExpenseReportActivity)
-                loading?.setMessage(getString(R.string.data_exporting_please_wait))
-                loading?.setCancelable(false)
-                loading?.show()
+                loading = LoadingDialog(this@ExpenseReportActivity)
+                loading?.show(getString(R.string.data_exporting_please_wait))
             }
 
             override fun onCompleted(filePath: String) {

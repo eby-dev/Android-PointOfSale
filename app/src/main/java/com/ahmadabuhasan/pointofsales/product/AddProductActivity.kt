@@ -3,7 +3,6 @@ package com.ahmadabuhasan.pointofsales.product
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -30,6 +29,7 @@ import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.database.DatabaseOpenHelper
 import com.ahmadabuhasan.pointofsales.databinding.ActivityAddProductBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
+import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.ExcelToSQLite
 import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
@@ -62,7 +62,7 @@ class AddProductActivity : BaseActivity() {
     lateinit var supplierNames: MutableList<String>
     var selectedSupplierID: String? = null
 
-    var loading: ProgressDialog? = null
+    var loading: LoadingDialog? = null
     var mediaPath: String? = null
     var encodedImage: String = "N/A"
     lateinit var databaseAccess: DatabaseAccess
@@ -357,10 +357,8 @@ class AddProductActivity : BaseActivity() {
         val excelToSQLite = ExcelToSQLite(applicationContext, DatabaseOpenHelper.DATABASE_NAME, false)
         excelToSQLite.importFromFile(path, object : ExcelToSQLite.ImportListener {
             override fun onStart() {
-                loading = ProgressDialog(this@AddProductActivity)
-                loading?.setMessage(getString(R.string.data_importing_please_wait))
-                loading?.setCancelable(false)
-                loading?.show()
+                loading = LoadingDialog(this@AddProductActivity)
+                loading?.show(getString(R.string.data_importing_please_wait))
             }
 
             override fun onCompleted(dbName: String) {
