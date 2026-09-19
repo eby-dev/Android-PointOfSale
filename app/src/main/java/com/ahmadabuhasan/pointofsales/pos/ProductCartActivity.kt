@@ -38,7 +38,7 @@ import java.util.Locale
 class ProductCartActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProductCartBinding
-    private val locale = Locale("in", "ID")
+    private val locale = Locale.Builder().setLanguage("in").setRegion("ID").build()
     private val formatIDR = NumberFormat.getInstance(locale)
 
     lateinit var customerAdapter: ArrayAdapter<String>
