@@ -16,8 +16,6 @@ import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.CartProductItemsBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import es.dmoral.toasty.Toasty
 import java.text.MessageFormat
 import java.text.NumberFormat
@@ -79,10 +77,7 @@ class CartAdapter(
 
         if (base64Image != null) {
             if (base64Image.isEmpty() || base64Image.length < 6) {
-                Glide.with(holder.itemView.context)
-                    .load(base64Image)
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.image_placeholder))
-                    .into(holder.binding.ivCartProduct)
+                holder.binding.ivCartProduct.setImageResource(R.drawable.image_placeholder)
             } else {
                 val bytes = Base64.decode(base64Image, Base64.DEFAULT)
                 holder.binding.ivCartProduct.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))

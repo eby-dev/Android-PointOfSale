@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,6 @@ import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
 import com.ahmadabuhasan.pointofsales.databinding.ProductItemBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import es.dmoral.toasty.Toasty
 
 /*
@@ -50,17 +47,11 @@ class ProductAdapter(
         holder.binding.tvProductBuyPrice.text = context.getString(R.string.buy_price) + currency + productData[position][Constant.PRODUCT_BUY_PRICE]
         holder.binding.tvProductSellPrice.text = context.getString(R.string.sell_price) + currency + productData[position][Constant.PRODUCT_SELL_PRICE]
 
-        if (base64Image != null) {
-            if (base64Image.length < 6) {
-                Log.d("64base", base64Image)
-                Glide.with(holder.itemView.context)
-                    .load(base64Image)
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.image_placeholder))
-                    .into(holder.binding.ivProductImage)
-            } else {
-                val bytes = Base64.decode(base64Image, Base64.DEFAULT)
-                holder.binding.ivProductImage.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
-            }
+        if (base64Image.isNullOrBlank() || base64Image.length < 6) {
+            holder.binding.ivProductImage.setImageResource(R.drawable.image_placeholder)
+        } else {
+            val bytes = Base64.decode(base64Image, Base64.DEFAULT)
+            holder.binding.ivProductImage.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
         }
 
         holder.binding.ivDelete.setOnClickListener {
