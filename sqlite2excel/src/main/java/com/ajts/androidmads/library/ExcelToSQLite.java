@@ -214,11 +214,11 @@ public class ExcelToSQLite {
                         values.put(columns.get(n), row.getCell(n).getStringCellValue());
                     }
                 }
-                long result = database.insertWithOnConflict(sheet.getSheetName(),
+                // CONFLICT_IGNORE returns -1 for rows skipped because they clash
+                // with an existing primary key. That is the requested behaviour,
+                // not a failure, so only genuine SQL errors are reported.
+                database.insertWithOnConflict(sheet.getSheetName(),
                         null, values, SQLiteDatabase.CONFLICT_IGNORE);
-                if (result < 0) {
-                    throw new RuntimeException("Insert value failed!");
-                }
             }
         } finally {
             if (cursor != null)
