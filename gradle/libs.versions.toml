@@ -39,8 +39,8 @@ buildTools= "36.1.0"
 compileSdk = "36"
 minSdk = "21"
 targetSdk = "36"
-version-code = "17"
-version-name = "1.0.16"
+version-code = "18"
+version-name = "1.0.17"
 
 jvmTarget = "17"
 
