@@ -1,7 +1,7 @@
 package com.ahmadabuhasan.pointofsales.report
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -19,7 +20,6 @@ import com.ahmadabuhasan.pointofsales.expense.ExpenseAdapter
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
 import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.SQLiteToExcel
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
 import java.io.File
 import java.text.DecimalFormat
@@ -134,23 +134,23 @@ class ExpenseReportActivity : BaseActivity() {
         binding.tvTotalPrice.text = String.format("%s%s%s", getString(R.string.total_expense), currency, decimalFormat.format(totalPrice))
     }
 
-    fun folderChooser() {
-        ChooserDialog(this as Activity)
-            .displayPath(true)
-            .withFilter(true, false)
-            .withChosenListener { dir, _ ->
-                onExport(dir)
-                Log.d("path", dir)
-            }.build().show()
+    private val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
+        if (uri != null) {
+            onExport(uri)
+        }
     }
 
-    fun onExport(path: String) {
-        val file = File(path)
-        if (!file.exists()) {
-            file.mkdirs()
+    fun folderChooser() {
+        createFileLauncher.launch(FILE_NAME)
+    }
+
+    fun onExport(targetUri: Uri) {
+        val tempDir = File(getExternalFilesDir(null), getString(R.string.app_name))
+        if (!tempDir.exists()) {
+            tempDir.mkdirs()
         }
-        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, path)
-        sqLiteToExcel.exportSingleTable(Constant.expense, "expense.xls", object : SQLiteToExcel.ExportListener {
+        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, tempDir.absolutePath)
+        sqLiteToExcel.exportSingleTable(Constant.expense, FILE_NAME, object : SQLiteToExcel.ExportListener {
             override fun onStart() {
                 loading = LoadingDialog(this@ExpenseReportActivity)
                 loading?.show(getString(R.string.data_exporting_please_wait))
@@ -160,7 +160,11 @@ class ExpenseReportActivity : BaseActivity() {
                 val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     loading?.dismiss()
-                    Toasty.success(this@ExpenseReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    if (copyExportToChosenFile(tempDir, targetUri)) {
+                        Toasty.success(this@ExpenseReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    } else {
+                        Toasty.error(this@ExpenseReportActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
+                    }
                 }, 5000L)
             }
 
@@ -169,5 +173,28 @@ class ExpenseReportActivity : BaseActivity() {
                 Toasty.error(this@ExpenseReportActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun copyExportToChosenFile(tempDir: File, targetUri: Uri): Boolean {
+        return try {
+            val sourceFile = File(tempDir, FILE_NAME)
+            if (!sourceFile.exists()) return false
+
+            sourceFile.inputStream().use { input ->
+                contentResolver.openOutputStream(targetUri)?.use { output ->
+                    input.copyTo(output)
+                } ?: return false
+            }
+            sourceFile.delete()
+            true
+        } catch (e: Exception) {
+            Log.e("EXPORT", "${e.message}", e)
+            false
+        }
+    }
+
+    private companion object {
+        const val FILE_NAME = "expense.xls"
+        const val MIME_TYPE = "application/vnd.ms-excel"
     }
 }

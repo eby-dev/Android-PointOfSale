@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,7 +32,6 @@ import com.ahmadabuhasan.pointofsales.databinding.ActivityAddProductBinding
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
 import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.ExcelToSQLite
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
 import `in`.mayanknagwanshi.imagepicker.ImageSelectActivity
 import java.io.ByteArrayOutputStream
@@ -46,6 +46,8 @@ class AddProductActivity : BaseActivity() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var etProductCode: EditText
+
+        private const val MIME_TYPE = "application/vnd.ms-excel"
     }
 
     private lateinit var binding: ActivityAddProductBinding
@@ -335,27 +337,25 @@ class AddProductActivity : BaseActivity() {
         }
     }
 
-    fun fileChooser() {
-        ChooserDialog(this as Activity)
-            .displayPath(true)
-            .withFilter(false, false, "xls")
-            .withChosenListener { dir, _ ->
-                onImport(dir)
-            }.withOnCancelListener { dialogInterface ->
-                dialogInterface.cancel()
-                Log.d("CANCEL", "CANCEL")
-            }.build().show()
+    private val openFileLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            onImport(uri)
+        }
     }
 
-    fun onImport(path: String) {
+    fun fileChooser() {
+        openFileLauncher.launch(arrayOf(MIME_TYPE))
+    }
+
+    fun onImport(uri: Uri) {
         databaseAccess.open()
-        val file = File(path)
-        if (!file.exists()) {
+        val stream = contentResolver.openInputStream(uri)
+        if (stream == null) {
             Toast.makeText(this, R.string.no_file_found, Toast.LENGTH_SHORT).show()
             return
         }
         val excelToSQLite = ExcelToSQLite(applicationContext, DatabaseOpenHelper.DATABASE_NAME, false)
-        excelToSQLite.importFromFile(path, object : ExcelToSQLite.ImportListener {
+        excelToSQLite.importFromStream(stream, object : ExcelToSQLite.ImportListener {
             override fun onStart() {
                 loading = LoadingDialog(this@AddProductActivity)
                 loading?.show(getString(R.string.data_importing_please_wait))

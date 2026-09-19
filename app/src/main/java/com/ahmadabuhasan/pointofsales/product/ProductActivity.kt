@@ -1,6 +1,6 @@
 package com.ahmadabuhasan.pointofsales.product
 
-import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -19,7 +20,6 @@ import com.ahmadabuhasan.pointofsales.utils.BaseActivity
 import com.ahmadabuhasan.pointofsales.utils.LoadingDialog
 import com.ajts.androidmads.library.SQLiteToExcel
 import com.google.android.gms.ads.AdRequest
-import com.obsez.android.lib.filechooser.ChooserDialog
 import es.dmoral.toasty.Toasty
 import java.io.File
 
@@ -104,23 +104,23 @@ class ProductActivity : BaseActivity() {
         }
     }
 
-    fun folderChooser() {
-        ChooserDialog(this as Activity)
-            .displayPath(true)
-            .withFilter(true, false)
-            .withChosenListener { dir, _ ->
-                onExport(dir)
-                Log.d("path", dir)
-            }.build().show()
+    private val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
+        if (uri != null) {
+            onExport(uri)
+        }
     }
 
-    fun onExport(path: String) {
-        val file = File(path)
-        if (!file.exists()) {
-            file.mkdirs()
+    fun folderChooser() {
+        createFileLauncher.launch(FILE_NAME)
+    }
+
+    fun onExport(targetUri: Uri) {
+        val tempDir = File(getExternalFilesDir(null), getString(R.string.app_name))
+        if (!tempDir.exists()) {
+            tempDir.mkdirs()
         }
-        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, path)
-        sqLiteToExcel.exportSingleTable(Constant.products, "products.xls", object : SQLiteToExcel.ExportListener {
+        val sqLiteToExcel = SQLiteToExcel(applicationContext, DatabaseOpenHelper.DATABASE_NAME, tempDir.absolutePath)
+        sqLiteToExcel.exportSingleTable(Constant.products, FILE_NAME, object : SQLiteToExcel.ExportListener {
             override fun onStart() {
                 dialog = LoadingDialog(this@ProductActivity)
                 dialog?.show(getString(R.string.data_exporting_please_wait))
@@ -130,7 +130,11 @@ class ProductActivity : BaseActivity() {
                 val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     dialog?.dismiss()
-                    Toasty.success(this@ProductActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    if (copyExportToChosenFile(tempDir, targetUri)) {
+                        Toasty.success(this@ProductActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
+                    } else {
+                        Toasty.error(this@ProductActivity, R.string.data_export_fail, Toasty.LENGTH_SHORT).show()
+                    }
                 }, 5000L)
             }
 
@@ -157,5 +161,28 @@ class ProductActivity : BaseActivity() {
     override fun onDestroy() {
         binding.adViewProduct.destroy()
         super.onDestroy()
+    }
+
+    private fun copyExportToChosenFile(tempDir: File, targetUri: Uri): Boolean {
+        return try {
+            val sourceFile = File(tempDir, FILE_NAME)
+            if (!sourceFile.exists()) return false
+
+            sourceFile.inputStream().use { input ->
+                contentResolver.openOutputStream(targetUri)?.use { output ->
+                    input.copyTo(output)
+                } ?: return false
+            }
+            sourceFile.delete()
+            true
+        } catch (e: Exception) {
+            Log.e("EXPORT", "${e.message}", e)
+            false
+        }
+    }
+
+    private companion object {
+        const val FILE_NAME = "products.xls"
+        const val MIME_TYPE = "application/vnd.ms-excel"
     }
 }
