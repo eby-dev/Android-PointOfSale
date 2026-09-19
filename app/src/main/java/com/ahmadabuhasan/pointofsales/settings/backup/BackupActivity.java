@@ -1,7 +1,6 @@
 package com.ahmadabuhasan.pointofsales.settings.backup;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -130,19 +128,6 @@ public class BackupActivity extends BaseActivity {
                         permissionToken.continuePermissionRequest();
                     }
                 }).withErrorListener(dexterError -> Toast.makeText(BackupActivity.this.getApplicationContext(), "Error Occurred! ", Toast.LENGTH_SHORT).show()).onSameThread();
-    }
-
-    public void folderChooserOld() {
-        new ChooserDialog((Activity) this)
-                .displayPath(true)
-                .withFilter(true, false, new String[0])
-                .withChosenListener(new ChooserDialog.Result() {
-                    @Override
-                    public void onChoosePath(String dir, File dirFile) {
-                        BackupActivity.this.onExport(dir, null);
-                        Log.d("path", dir);
-                    }
-                }).build().show();
     }
 
     private void confirmExport() {

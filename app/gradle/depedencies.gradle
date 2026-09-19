@@ -36,8 +36,6 @@ dependencies {
 
     // permissions & file
     implementation libs.dexter
-    implementation libs.fileChooser
-    implementation libs.fileChooserSnapshot
     implementation libs.sqliteassethelper
 
     // barcode

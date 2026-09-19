@@ -48,7 +48,6 @@
 -keep interface com.karumi.dexter.** { *; }
 -keepclasseswithmembernames class com.karumi.dexter.** { *; }
 -keepclasseswithmembernames interface com.karumi.dexter.** { *; }
-# https://github.com/hedzr/android-file-chooser
 # https://github.com/jgilfelt/android-sqlite-asset-helper
 # https://github.com/barteksc/PdfiumAndroid
 # https://github.com/premkumarroyal/MonthAndYearPicker
