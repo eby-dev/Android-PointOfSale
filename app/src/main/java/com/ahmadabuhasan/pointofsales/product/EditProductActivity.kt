@@ -19,6 +19,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmadabuhasan.pointofsales.Constant
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -126,7 +127,7 @@ class EditProductActivity : BaseActivity() {
             i.putExtra(ImageSelectActivity.FLAG_COMPRESS, true)
             i.putExtra(ImageSelectActivity.FLAG_CAMERA, true)
             i.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
-            startActivityForResult(i, 1213)
+            imagePickerLauncher.launch(i)
         }
 
         binding.ivProduct.setOnClickListener {
@@ -134,7 +135,7 @@ class EditProductActivity : BaseActivity() {
             i.putExtra(ImageSelectActivity.FLAG_COMPRESS, true)
             i.putExtra(ImageSelectActivity.FLAG_CAMERA, true)
             i.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
-            startActivityForResult(i, 1213)
+            imagePickerLauncher.launch(i)
         }
 
         categoryNames = ArrayList()
@@ -366,9 +367,9 @@ class EditProductActivity : BaseActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1213 && resultCode == Activity.RESULT_OK && data != null) {
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data = result.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) {
             try {
                 mediaPath = data.getStringExtra(ImageSelectActivity.RESULT_FILE_PATH)
                 val selectedImage = BitmapFactory.decodeFile(mediaPath)
