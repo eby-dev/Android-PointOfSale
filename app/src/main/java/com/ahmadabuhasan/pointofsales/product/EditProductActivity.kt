@@ -324,19 +324,19 @@ class EditProductActivity : BaseActivity() {
         binding.tvUpdateProduct.setOnClickListener {
             val productName = binding.etProductName.text.toString()
             val productCode = binding.etProductCode.text.toString()
-            val productCategory = selectedCategoryID
+            val selectedCategory = selectedCategoryID
             val productDescription = binding.etProductDescription.text.toString()
             val productBuyPrice = binding.etProductBuyPrice.text.toString()
             val productSellPrice = binding.etProductSellPrice.text.toString()
             val productStock = binding.etProductStock.text.toString()
             val productWeight = binding.etProductWeight.text.toString()
             val productWeightUnit = selectedWeightUnitID
-            val productSupplier = selectedSupplierID
+            val selectedSupplier = selectedSupplierID
 
             if (productName.isEmpty()) {
                 binding.etProductName.error = getString(R.string.product_name_cannot_be_empty)
                 binding.etProductName.requestFocus()
-            } else if (productCategory.isNullOrEmpty()) {
+            } else if (selectedCategory.isNullOrEmpty()) {
                 binding.etProductCategory.error = getString(R.string.product_category_cannot_be_empty)
                 binding.etProductCategory.requestFocus()
             } else if (productSellPrice.isEmpty()) {
@@ -348,12 +348,12 @@ class EditProductActivity : BaseActivity() {
             } else if (productWeight.isEmpty()) {
                 binding.etProductWeight.error = getString(R.string.product_weight_cannot_be_empty)
                 binding.etProductWeight.requestFocus()
-            } else if (productSupplier.isNullOrEmpty()) {
+            } else if (selectedSupplier.isNullOrEmpty()) {
                 binding.etSupplier.error = getString(R.string.product_supplier_cannot_be_empty)
                 binding.etSupplier.requestFocus()
             } else {
                 databaseAccess.open()
-                val check = databaseAccess.updateProduct(productName, productCode, productCategory, productDescription, productBuyPrice, productSellPrice, productStock, productSupplier, encodedImage, productWeightUnit, productWeight, productID)
+                val check = databaseAccess.updateProduct(productName, productCode, selectedCategory, productDescription, productBuyPrice, productSellPrice, productStock, selectedSupplier, encodedImage, productWeightUnit, productWeight, productID)
                 if (check) {
                     Toasty.success(this, R.string.update_successfully, Toasty.LENGTH_SHORT).show()
                     val i = Intent(this@EditProductActivity, ProductActivity::class.java)
