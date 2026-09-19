@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
@@ -362,7 +363,7 @@ class AddProductActivity : BaseActivity() {
             }
 
             override fun onCompleted(dbName: String) {
-                val mHand = Handler()
+                val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     loading?.dismiss()
                     Toasty.success(this@AddProductActivity, R.string.data_successfully_imported, Toasty.LENGTH_SHORT).show()

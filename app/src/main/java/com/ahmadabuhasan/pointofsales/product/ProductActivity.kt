@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -128,7 +129,7 @@ class ProductActivity : BaseActivity() {
             }
 
             override fun onCompleted(filePath: String) {
-                val mHand = Handler()
+                val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     dialog?.dismiss()
                     Toasty.success(this@ProductActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()

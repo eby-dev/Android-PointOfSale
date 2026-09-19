@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -179,7 +180,7 @@ class SalesReportActivity : BaseActivity() {
             }
 
             override fun onCompleted(filePath: String) {
-                val mHand = Handler()
+                val mHand = Handler(Looper.getMainLooper())
                 mHand.postDelayed({
                     loading?.dismiss()
                     Toasty.success(this@SalesReportActivity, R.string.data_successfully_exported, Toasty.LENGTH_SHORT).show()
