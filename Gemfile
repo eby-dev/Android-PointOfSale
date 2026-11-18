@@ -2,6 +2,9 @@ source "https://rubygems.org"
 
 gem "rexml", ">= 3.3.2"
 
+# Addressable path normalization and URI display fixes.
+gem "addressable", ">= 2.9.1"
+
 # GHSA: Faraday NestedParamsEncoder DoS via unbounded nesting depth.
 # Fixed in 1.10.6 (1.x branch) and 2.14.3 (2.x branch). Since the excon bump
 # below, fastlane requires faraday ~> 2.7, so resolution lands on the patched
@@ -13,9 +16,9 @@ gem "faraday", ">= 1.10.6"
 # supply a custom strip-list, risking leakage of Authorization/Cookie data to
 # the redirect target. Fixed in 1.5.0.
 #
-# excon 1.x requires fastlane >= 2.237.0, which widened its constraint from
-# "excon < 1.0.0" to "excon < 2.0.0". Both pins must move together.
-gem "fastlane", ">= 2.237.0"
+# excon 1.x requires fastlane >= 2.237.0. Fastlane 2.240.0 also allows the
+# patched rubyzip 3.x line, fixing the rubyzip path traversal alert.
+gem "fastlane", ">= 2.240.0"
 gem "excon", ">= 1.5.0"
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')

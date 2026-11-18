@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.activity.OnBackPressedCallback
 import com.ahmadabuhasan.pointofsales.DashboardActivity
 import com.ahmadabuhasan.pointofsales.R
 import com.ahmadabuhasan.pointofsales.database.DatabaseAccess
@@ -29,6 +30,12 @@ class OrdersActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOrdersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActivity(Intent(this@OrdersActivity, DashboardActivity::class.java))
+                finish()
+            }
+        })
         binding.adViewOrders.loadAd(AdRequest.Builder().build())
 
         supportActionBar?.apply {
@@ -76,12 +83,6 @@ class OrdersActivity : BaseActivity() {
             }
             override fun afterTextChanged(editable: Editable) {}
         })
-    }
-
-    override fun onBackPressed() {
-        startActivity(Intent(this, DashboardActivity::class.java))
-        finish()
-        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

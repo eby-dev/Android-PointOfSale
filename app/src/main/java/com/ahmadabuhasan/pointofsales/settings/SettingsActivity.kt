@@ -15,7 +15,6 @@ import com.ahmadabuhasan.pointofsales.settings.payment_method.PaymentMethodActiv
 import com.ahmadabuhasan.pointofsales.settings.shop.ShopInformationActivity
 import com.ahmadabuhasan.pointofsales.settings.weight.WeightActivity
 import com.ahmadabuhasan.pointofsales.utils.BaseActivity
-import com.ahmadabuhasan.pointofsales.utils.Utils
 import es.dmoral.toasty.Toasty
 
 /*
@@ -37,7 +36,7 @@ class SettingsActivity : BaseActivity() {
             setTitle(R.string.action_settings)
         }
 
-        Utils.preloadInterstitial(this)
+        // Interstitial ads disabled; banner ads remain enabled.
 
         binding.cvShopInfo.setOnClickListener { startActivity(Intent(this@SettingsActivity, ShopInformationActivity::class.java)) }
         binding.cvCategory.setOnClickListener { startActivity(Intent(this@SettingsActivity, CategoriesActivity::class.java)) }
@@ -73,20 +72,8 @@ class SettingsActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (!Utils.showInterstitialOnExit(this) { finish() }) {
-            @Suppress("DEPRECATION")
-            super.onBackPressed()
-        }
-    }
-
-    // Show the preloaded interstitial as the user leaves, then close. Never
-    // while they are still changing settings.
     private fun leaveScreen() {
-        if (!Utils.showInterstitialOnExit(this) { finish() }) {
-            finish()
-        }
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

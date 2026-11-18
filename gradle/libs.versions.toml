@@ -28,7 +28,7 @@ playServicesAds = "23.0.0"
 playServicesAuthApiPhone = "17.0.0"
 playServicesAuth = "18.1.0"
 playServicesDrive = "17.0.0"
-firebaseBom = "30.1.0"
+firebaseBom = "33.16.0"
 
 glide = "4.13.0"
 
@@ -45,10 +45,10 @@ version-name = "1.0.17"
 jvmTarget = "17"
 
 # top level gradle
-gradle = "8.7.3"
-google-services = "4.4.2"
-firebase-crashlytics-gradle = "2.9.2"
-kotlin-gradle-plugin = "1.9.25"
+gradle = "8.11.1"
+google-services = "4.6.0"
+firebase-crashlytics-gradle = "3.0.8"
+kotlin-gradle-plugin = "2.2.20"
 
 [libraries]
 # testing
@@ -97,6 +97,7 @@ playServicesDrive = { module = "com.google.android.gms:play-services-drive", ver
 # firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 
 # glide
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
