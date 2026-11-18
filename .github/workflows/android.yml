@@ -37,6 +37,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android NDK
+        run: sdkmanager --install "ndk;28.2.13676358"
+
       - name: Setup Ruby & Dependencies
         uses: ruby/setup-ruby@v1
         with:
@@ -104,6 +110,18 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Setup JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android NDK
+        run: sdkmanager --install "ndk;28.2.13676358"
+
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
@@ -149,6 +167,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
+
+      - name: Install Android NDK
+        run: sdkmanager --install "ndk;28.2.13676358"
 
       - name: Write AdMob IDs to local.properties
         run: |
