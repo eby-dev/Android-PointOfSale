@@ -45,10 +45,10 @@ version-name = "1.0.17"
 jvmTarget = "17"
 
 # top level gradle
-gradle = "8.7.3"
-google-services = "4.4.2"
-firebase-crashlytics-gradle = "2.9.2"
-kotlin-gradle-plugin = "1.9.25"
+gradle = "8.11.1"
+google-services = "4.6.0"
+firebase-crashlytics-gradle = "3.0.8"
+kotlin-gradle-plugin = "2.2.20"
 
 [libraries]
 # testing
