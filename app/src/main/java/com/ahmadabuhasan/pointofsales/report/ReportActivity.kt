@@ -41,12 +41,6 @@ class ReportActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        @Suppress("DEPRECATION")
-        super.onBackPressed()
-    }
-
     private fun leaveScreen() {
         finish()
     }

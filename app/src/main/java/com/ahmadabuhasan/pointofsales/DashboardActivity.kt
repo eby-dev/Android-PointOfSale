@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.ahmadabuhasan.pointofsales.customers.CustomersActivity
@@ -60,6 +61,17 @@ class DashboardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (backPressed + 2000 > System.currentTimeMillis()) {
+                    finishAffinity()
+                } else {
+                    Toasty.info(this@DashboardActivity, R.string.press_once_again_to_exit, Toasty.LENGTH_SHORT).show()
+                }
+                backPressed = System.currentTimeMillis()
+            }
+        })
 
         supportActionBar?.apply {
             title = HtmlCompat.fromHtml("<font color='#000000'>${getString(R.string.app_name)}</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -130,16 +142,6 @@ class DashboardActivity : BaseActivity() {
         LocaleManager.setNewLocale(this, language)
         val intent = appCompatActivity.intent
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onBackPressed() {
-        if (backPressed + 2000 > System.currentTimeMillis()) {
-            finishAffinity()
-        } else {
-            Toasty.info(this, R.string.press_once_again_to_exit, Toasty.LENGTH_SHORT).show()
-        }
-        backPressed = System.currentTimeMillis()
     }
 
     private fun requestPermission() {
